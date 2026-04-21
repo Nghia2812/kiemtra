@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✍️ Luyện Viết B1 – Writing Skills</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #fdfaf5;
+    --teal: #1a7f6e;
+    --teal-light: #2a9d8f;
+    --teal-dark: #134e44;
+    --coral: #e76f51;
+    --amber: #f4a261;
+    --gold: #e9c46a;
+    --text: #2d2d2d;
+    --text-muted: #7a7a7a;
+    --card-bg: #ffffff;
+    --border: #e8e2d5;
+    --shadow: 0 4px 24px rgba(26,127,110,0.10);
+    --shadow-lg: 0 8px 40px rgba(26,127,110,0.15);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: linear-gradient(135deg, var(--teal-dark) 0%, var(--teal) 50%, var(--teal-light) 100%);
+    padding: 56px 24px 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("https://images.unsplash.com/photo-1455390582262-044cdead277a?w=1200&q=80") center/cover no-repeat;
+    opacity: 0.08;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--teal-dark);
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    color: #fff;
+    font-weight: 900;
+    line-height: 1.15;
+    position: relative;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.2);
+  }
+  .hero h1 span { color: var(--gold); }
+  .hero p {
+    color: rgba(255,255,255,0.85);
+    font-size: 1.1rem;
+    max-width: 540px;
+    margin: 16px auto 0;
+    position: relative;
+    line-height: 1.7;
+  }
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 36px;
+    position: relative;
+  }
+  .hero-stat {
+    text-align: center;
+    color: #fff;
+  }
+  .hero-stat strong {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .hero-stat span { font-size: 0.82rem; opacity: 0.8; }
+
+  /* ─── MAIN LAYOUT ─── */
+  .container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+
+  /* ─── SECTION HEADERS ─── */
+  .section-header {
+    text-align: center;
+    padding: 52px 0 24px;
+  }
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 700;
+    color: var(--teal-dark);
+  }
+  .section-header p {
+    color: var(--text-muted);
+    margin-top: 8px;
+    font-size: 1rem;
+  }
+  .divider {
+    width: 60px; height: 4px;
+    background: linear-gradient(90deg, var(--teal), var(--coral));
+    border-radius: 2px;
+    margin: 12px auto 0;
+  }
+
+  /* ─── INSPIRATION IMAGES ─── */
+  .inspiration-strip {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 0 20px 16px;
+    scrollbar-width: none;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .inspiration-strip::-webkit-scrollbar { display: none; }
+  .inspo-card {
+    flex: 0 0 200px;
+    height: 130px;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .inspo-card:hover { transform: translateY(-4px) scale(1.02); box-shadow: var(--shadow-lg); }
+  .inspo-card img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s;
+  }
+  .inspo-card:hover img { transform: scale(1.08); }
+  .inspo-label {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.65));
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 20px 10px 8px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ─── GAME SECTION ─── */
+  .game-section {
+    background: linear-gradient(160deg, #f0faf8 0%, #fdfaf5 100%);
+    border-radius: 28px;
+    padding: 40px 32px;
+    margin: 0 0 32px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    text-align: center;
+  }
+  .game-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: var(--teal-dark);
+    margin-bottom: 6px;
+  }
+  .game-subtitle { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 28px; }
+
+  /* Card deck */
+  .card-deck {
+    position: relative;
+    width: 220px;
+    height: 140px;
+    margin: 0 auto 28px;
+    cursor: pointer;
+  }
+  .deck-card {
+    position: absolute;
+    width: 200px;
+    height: 130px;
+    border-radius: 16px;
+    border: 2px solid rgba(26,127,110,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    font-weight: 900;
+    transition: transform 0.4s cubic-bezier(.34,1.56,.64,1), box-shadow 0.3s;
+    user-select: none;
+  }
+  .deck-card:nth-child(1) { background: #1a7f6e; color: #fff; left: 20px; top: 10px; transform: rotate(6deg); box-shadow: 0 4px 16px rgba(26,127,110,0.25); }
+  .deck-card:nth-child(2) { background: #2a9d8f; color: #fff; left: 10px; top: 5px; transform: rotate(3deg); box-shadow: 0 4px 16px rgba(26,127,110,0.2); }
+  .deck-card:nth-child(3) { background: #fff; color: var(--teal-dark); left: 0; top: 0; box-shadow: var(--shadow); border: 2px solid var(--border); }
+  .deck-card:nth-child(3) .card-inner { font-size: 1rem; font-weight: 800; color: var(--teal-dark); letter-spacing: 0; }
+  .card-deck:hover .deck-card:nth-child(3) { transform: translateY(-6px) scale(1.04); box-shadow: var(--shadow-lg); }
+
+  .game-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .btn {
+    padding: 12px 28px;
+    border: none;
+    border-radius: 50px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
+  .btn:active { transform: translateY(0); }
+  .btn-primary { background: var(--teal); color: #fff; }
+  .btn-primary:hover { background: var(--teal-dark); }
+  .btn-coral { background: var(--coral); color: #fff; }
+  .btn-coral:hover { background: #d45b3e; }
+  .btn-outline { background: transparent; border: 2px solid var(--teal); color: var(--teal); }
+  .btn-outline:hover { background: var(--teal); color: #fff; }
+  .btn-sm { padding: 8px 20px; font-size: 0.88rem; }
+
+  /* ─── TASK DISPLAY ─── */
+  .task-display {
+    background: var(--card-bg);
+    border-radius: 24px;
+    padding: 24px 28px 20px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow);
+    display: none;
+    animation: fadeSlideUp 0.4s ease;
+    border-top: 4px solid var(--teal);
+  }
+  .task-display.visible { display: block; }
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .task-number {
+    display: inline-block;
+    background: var(--teal);
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.78rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+
+  /* Bilingual 2-column layout */
+  .bilingual-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 4px;
+  }
+  @media (max-width: 680px) {
+    .bilingual-grid { grid-template-columns: 1fr; }
+  }
+
+  .lang-col {
+    border-radius: 16px;
+    padding: 18px 20px;
+    font-size: 0.97rem;
+    line-height: 1.8;
+  }
+  .lang-col-en {
+    background: #f4fbf9;
+    border-left: 4px solid var(--teal);
+    color: var(--text);
+  }
+  .lang-col-vi {
+    background: #fffbf0;
+    border-left: 4px solid var(--amber);
+    color: #5a4a28;
+  }
+  .lang-label {
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .lang-label-en { color: var(--teal); }
+  .lang-label-vi { color: #b07c1a; }
+
+  .prompt-quote {
+    display: block;
+    background: rgba(26,127,110,0.07);
+    border-left: 3px solid var(--teal-light);
+    border-radius: 0 10px 10px 0;
+    padding: 11px 14px;
+    margin: 10px 0;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  .lang-col-en .prompt-quote { color: var(--teal-dark); }
+  .lang-col-vi .prompt-quote { color: #7a5c10; background: rgba(244,162,97,0.1); border-left-color: var(--amber); }
+
+  .task-bullet {
+    background: rgba(233,196,106,0.15);
+    border: 1px solid var(--gold);
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-top: 10px;
+    font-size: 0.88rem;
+    line-height: 1.9;
+  }
+  .task-bullet-en {
+    background: rgba(26,127,110,0.06);
+    border: 1px solid var(--teal-light);
+  }
+
+  /* ─── WRITING AREA ─── */
+  .writing-section {
+    background: var(--card-bg);
+    border-radius: 24px;
+    padding: 28px 28px 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow);
+    display: none;
+  }
+  .writing-section.visible { display: block; animation: fadeSlideUp 0.4s ease; }
+  .writing-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .writing-label {
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--teal-dark);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* Timer */
+  .timer-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f8f8f8;
+    border-radius: 12px;
+    padding: 8px 16px;
+  }
+  .timer-display {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--teal-dark);
+    min-width: 58px;
+  }
+  .timer-display.warning { color: var(--coral); }
+  .timer-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 2px 4px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .timer-btn:hover { opacity: 1; }
+
+  .word-count { font-size: 0.82rem; color: var(--text-muted); }
+  .word-count span { font-weight: 700; color: var(--teal); }
+
+  textarea#essayInput {
+    width: 100%;
+    min-height: 280px;
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.02rem;
+    line-height: 1.8;
+    color: var(--text);
+    resize: vertical;
+    transition: border-color 0.2s;
+    outline: none;
+    background: #fafafa;
+  }
+  textarea#essayInput:focus {
+    border-color: var(--teal);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(26,127,110,0.08);
+  }
+  textarea#essayInput::placeholder { color: #bbb; }
+
+  .autosave-note {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .autosave-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #bbb;
+    display: inline-block;
+    transition: background 0.3s;
+  }
+  .autosave-dot.saved { background: #4caf50; }
+
+  .writing-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+
+  /* ─── SAVED ESSAYS ─── */
+  .saved-section { margin-bottom: 48px; }
+  .saved-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 8px;
+  }
+  .saved-card {
+    background: var(--card-bg);
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    position: relative;
+  }
+  .saved-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+  .saved-card-tag {
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--teal);
+    background: #e8f8f5;
+    padding: 3px 10px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+  .saved-card-preview {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text);
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    margin-bottom: 12px;
+  }
+  .saved-card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+  .saved-card-del {
+    position: absolute;
+    top: 12px; right: 14px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+    color: var(--coral);
+  }
+  .saved-card:hover .saved-card-del { opacity: 1; }
+  .no-saved {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 32px;
+    font-size: 0.95rem;
+  }
+
+  /* ─── MODAL (View Saved Essay) ─── */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.open { display: flex; animation: fadeIn 0.25s ease; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .modal {
+    background: #fff;
+    border-radius: 24px;
+    padding: 32px;
+    max-width: 640px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    animation: modalSlide 0.3s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes modalSlide { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  .modal-header h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--teal-dark); }
+  .modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted); line-height: 1; }
+  .modal-body { font-size: 1rem; line-height: 1.9; white-space: pre-wrap; color: var(--text); }
+
+  /* ─── BROWSE ALL TASKS ─── */
+  .all-tasks { margin-bottom: 48px; }
+  .tasks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+    margin-top: 4px;
+  }
+  .task-mini-card {
+    background: var(--card-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 18px 18px 14px;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  }
+  .task-mini-card:hover {
+    border-color: var(--teal);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+  .task-mini-num {
+    font-weight: 800;
+    font-size: 0.75rem;
+    color: var(--teal);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .task-mini-text {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: var(--text);
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+
+  /* ─── TOAST ─── */
+  .toast {
+    position: fixed;
+    bottom: 28px; right: 28px;
+    background: var(--teal-dark);
+    color: #fff;
+    padding: 12px 22px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    z-index: 9999;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s, transform 0.3s;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    text-align: center;
+    padding: 24px;
+    color: var(--text-muted);
+    font-size: 0.84rem;
+    border-top: 1px solid var(--border);
+  }
+
+  /* Shuffle animation */
+  @keyframes cardFlip {
+    0% { transform: rotateY(0); }
+    50% { transform: rotateY(90deg) scale(1.05); }
+    100% { transform: rotateY(0); }
+  }
+  .flipping { animation: cardFlip 0.5s ease; }
+
+  /* Selected task highlight in browse */
+  .task-mini-card.active {
+    border-color: var(--teal);
+    background: linear-gradient(135deg, #e8f8f5, #f5fffc);
+    box-shadow: var(--shadow);
+  }
+
+  @media (max-width: 600px) {
+    .hero { padding: 40px 16px 60px; }
+    .game-section { padding: 28px 20px; }
+    .task-display, .writing-section { padding: 20px 16px; }
+    .modal { padding: 24px 18px; }
+    .hero-stats { gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">✍️ B1 Writing Practice</div>
+  <h1>Luyện Kỹ Năng <span>Viết B1</span><br>Mỗi Ngày Một Đề</h1>
+  <p>Chọn đề ngẫu nhiên, viết bài trong thời gian thực, bài viết được lưu tự động ngay cả khi tắt trình duyệt.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong>34</strong><span>Đề luyện tập</span></div>
+    <div class="hero-stat"><strong>20</strong><span>Phút / đề</span></div>
+    <div class="hero-stat"><strong>120+</strong><span>Từ mỗi bài</span></div>
+  </div>
+</div>
+
+<!-- INSPIRATION IMAGES -->
+<div class="container">
+  <div class="section-header">
+    <h2>🌍 Nguồn Cảm Hứng</h2>
+    <p>Những khung cảnh đẹp giúp bạn viết tốt hơn</p>
+    <div class="divider"></div>
+  </div>
+</div>
+<div class="inspiration-strip">
+  <div class="inspo-card"><img src="https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=400&q=80" alt="Paris"><div class="inspo-label">✈️ Du lịch</div></div>
+  <div class="inspo-card"><img src="https://images.unsplash.com/photo-1526400473556-aac12354f3db?w=400&q=80" alt="letter"><div class="inspo-label">💌 Thư từ</div></div>
+  <div class="inspo-card"><img src="https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=400&q=80" alt="Vietnam"><div class="inspo-label">🇻🇳 Việt Nam</div></div>
+  <div class="inspo-card"><img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=400&q=80" alt="writing"><div class="inspo-label">✍️ Viết lách</div></div>
+  <div class="inspo-card"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80" alt="beach"><div class="inspo-label">🏖️ Bãi biển</div></div>
+  <div class="inspo-card"><img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=400&q=80" alt="city"><div class="inspo-label">🏙️ Thành phố</div></div>
+  <div class="inspo-card"><img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&q=80" alt="friends"><div class="inspo-label">👫 Bạn bè</div></div>
+</div>
+
+<!-- GAME + WRITING -->
+<div class="container">
+  <div class="section-header">
+    <h2>🎲 Chọn Đề Thi</h2>
+    <p>Rút thẻ ngẫu nhiên hoặc chọn đề bất kỳ từ danh sách bên dưới</p>
+    <div class="divider"></div>
+  </div>
+
+  <!-- GAME CARD -->
+  <div class="game-section">
+    <p class="game-title">Bấm để rút đề ngẫu nhiên!</p>
+    <p class="game-subtitle">Thử vận may của bạn – mỗi lần rút là một thử thách mới 🎴</p>
+    <div class="card-deck" onclick="drawRandomTask()" title="Nhấn để rút đề">
+      <div class="deck-card"></div>
+      <div class="deck-card"></div>
+      <div class="deck-card" id="topCard">
+        <div class="card-inner">🃏 Rút Đề<br>Ngẫu Nhiên</div>
+      </div>
+    </div>
+    <div class="game-buttons">
+      <button class="btn btn-primary" onclick="drawRandomTask()">🎲 Rút Ngẫu Nhiên</button>
+      <button class="btn btn-outline" onclick="scrollToBrowse()">📋 Xem Tất Cả Đề</button>
+    </div>
+  </div>
+
+  <!-- SELECTED TASK -->
+  <div class="task-display" id="taskDisplay">
+    <div class="task-number" id="taskNum">Task 1</div>
+    <div class="task-prompt" id="taskContent"></div>
+  </div>
+
+  <!-- WRITING AREA -->
+  <div class="writing-section" id="writingSection">
+    <div class="writing-top">
+      <div class="writing-label">✏️ Bài viết của bạn</div>
+      <div class="timer-box">
+        <span style="font-size:1rem">⏱️</span>
+        <div class="timer-display" id="timerDisplay">20:00</div>
+        <button class="timer-btn" id="timerBtn" onclick="toggleTimer()" title="Bắt đầu / Dừng">▶</button>
+        <button class="timer-btn" onclick="resetTimer()" title="Đặt lại">↺</button>
+      </div>
+    </div>
+    <div style="margin-bottom:10px;">
+      <span class="word-count">Số từ: <span id="wordCount">0</span> / 120 (tối thiểu)</span>
+    </div>
+    <textarea id="essayInput" placeholder="Bắt đầu viết bài của bạn tại đây... (Viết ít nhất 120 từ)" oninput="onEssayInput()" rows="12"></textarea>
+    <div class="autosave-note"><span class="autosave-dot" id="autosaveDot"></span><span id="autosaveText">Bài viết sẽ được lưu tự động</span></div>
+    <div class="writing-actions">
+      <button class="btn btn-primary btn-sm" onclick="saveEssay()">💾 Lưu Bài</button>
+      <button class="btn btn-outline btn-sm" onclick="clearEssay()">🗑️ Xoá Nháp</button>
+      <button class="btn btn-coral btn-sm" onclick="copyEssay()">📋 Sao Chép</button>
+    </div>
+  </div>
+
+  <!-- SAVED ESSAYS -->
+  <div class="saved-section">
+    <div class="section-header" style="padding-top:24px;">
+      <h2>📁 Bài Viết Đã Lưu</h2>
+      <p>Tất cả bài viết được lưu trong máy tính của bạn</p>
+      <div class="divider"></div>
+    </div>
+    <div class="saved-grid" id="savedGrid"></div>
+  </div>
+
+  <!-- BROWSE ALL TASKS -->
+  <div class="all-tasks" id="browseSection">
+    <div class="section-header" style="padding-top:24px;">
+      <h2>📚 Tất Cả 34 Đề</h2>
+      <p>Nhấn vào đề bất kỳ để bắt đầu luyện viết</p>
+      <div class="divider"></div>
+    </div>
+    <div class="tasks-grid" id="tasksGrid"></div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modalTitle">Bài viết</h3>
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<footer>✍️ B1 Writing Practice &nbsp;|&nbsp; Bài viết lưu tự động trên máy bạn &nbsp;|&nbsp; Chúc em đạt điểm cao! 🎉</footer>
+
+<script>
+// ═══════════════════════════════════════
+// DATA: 34 TASKS
+// ═══════════════════════════════════════
+const tasks = [
+  {
+    num: 1,
+    enTitle: "Reply to Mary – Guide to your city",
+    enPrompt: "You have received a letter from your English friend Mary. Read part of her letter below.",
+    enQuote: `"I'm really excited to see you next month. I've just booked my flight....."`,
+    enBullets: "Write a letter responding to Mary.\n• Explain how to get to your house from the airport\n• Recommend the best places to visit in the area\n• Suggest some museums or galleries nearby",
+    viTitle: "Thư trả lời Mary – Hướng dẫn về thành phố",
+    viPrompt: "Bạn nhận được thư từ người bạn người Anh tên Mary. Đọc phần thư của cô ấy:",
+    viQuote: `"Tôi rất hào hứng được gặp bạn tháng tới. Tôi vừa đặt vé máy bay xong....."`,
+    viBullets: "Viết thư trả lời Mary.\n• Hướng dẫn cách đến nhà bạn từ sân bay\n• Giới thiệu các địa điểm đáng đến thăm\n• Đề xuất bảo tàng hoặc phòng trưng bày"
+  },
+  {
+    num: 2,
+    enTitle: "Reply to Paula – Best time to visit",
+    enPrompt: "You have received a letter from your English friend, Paula. Read part of her letter below.",
+    enQuote: `"Thanks for inviting me to come and stay with you. I'm going to take you up on it…"`,
+    enBullets: "Write a letter responding to Paula.\n• Say when the best time to visit would be\n• Describe activities you can do together\n• Suggest what kind of present to bring",
+    viTitle: "Thư trả lời Paula – Thời gian đến thăm",
+    viPrompt: "Bạn nhận được thư từ người bạn người Anh tên Paula. Đọc phần thư của cô ấy:",
+    viQuote: `"Cảm ơn bạn đã mời tôi đến ở cùng. Tôi sẽ nhận lời mời của bạn…"`,
+    viBullets: "Viết thư trả lời Paula.\n• Thời điểm tốt nhất để đến thăm\n• Các hoạt động có thể làm cùng nhau\n• Gợi ý về quà tặng nên mang"
+  },
+  {
+    num: 3,
+    enTitle: "Email reply to Anna – Reconnecting online",
+    enPrompt: "You have received a letter from your English friend Anna. Read part of her letter below.",
+    enQuote: `"I'm very happy to see your name on the friend's forever website. Do you remember me?"`,
+    enBullets: "Write an email responding to Anna.\n• Tell her about your current life and job\n• Describe where you are living now\n• Invite her to a family dinner",
+    viTitle: "Email trả lời Anna – Gặp lại qua mạng",
+    viPrompt: "Bạn nhận được thư từ người bạn người Anh tên Anna. Đọc phần thư của cô ấy:",
+    viQuote: `"Tôi rất vui khi thấy tên bạn trên trang web friend's forever. Bạn có nhớ tôi không?"`,
+    viBullets: "Viết email trả lời Anna.\n• Kể về cuộc sống và công việc hiện tại\n• Mô tả nơi bạn đang sống\n• Mời Anna đến ăn tối cùng gia đình"
+  },
+  {
+    num: 4,
+    enTitle: "Reply to Marry – Life update",
+    enPrompt: "Read part of the letter below.",
+    enQuote: `"How are things getting on with you? We haven't met for a long time. I hope everything is going well. What have you been up to lately? Are you still living in the same place with your parents? I remember you telling me that you were thinking about buying a house in the countryside."`,
+    enBullets: "Write a letter responding to Marry.\n• Talk about your work and daily life\n• Describe where you are living now\n• Mention your plans for buying a house",
+    viTitle: "Thư trả lời Marry – Cập nhật cuộc sống",
+    viPrompt: "Đọc phần thư sau:",
+    viQuote: `"Dạo này bạn thế nào? Chúng ta đã lâu không gặp nhau. Bạn đang làm gì? Bạn có còn sống cùng bố mẹ không? Tôi nhớ bạn từng nói muốn mua nhà ở vùng quê."`,
+    viBullets: "Viết thư trả lời Marry.\n• Kể về công việc và cuộc sống hằng ngày\n• Nơi bạn đang sinh sống\n• Kế hoạch mua nhà ở vùng quê"
+  },
+  {
+    num: 5,
+    enTitle: "Reply to roommate Anna – New life after campus",
+    enPrompt: "You have received a letter from your roommate, Anna. Read part of her letter below.",
+    enQuote: `"How time flies! I was very busy on my last day of staying on campus before the summer vacation. I am sorry that I didn't have time to say goodbye to you…"`,
+    enBullets: "Write a letter responding to Anna.\n• Tell her about your current accommodation\n• Describe your upcoming holiday plans\n• Invite her to visit your hometown",
+    viTitle: "Thư trả lời bạn cùng phòng Anna – Cuộc sống mới",
+    viPrompt: "Bạn nhận được thư từ bạn cùng phòng Anna. Đọc phần thư:",
+    viQuote: `"Thời gian trôi nhanh thật! Ngày cuối ở ký túc xá trước kỳ nghỉ hè tôi rất bận. Xin lỗi vì không có thời gian chào tạm biệt bạn…"`,
+    viBullets: "Viết thư trả lời Anna.\n• Kể về nơi bạn đang ở hiện tại\n• Kế hoạch kỳ nghỉ sắp tới\n• Mời Anna đến thăm quê hương"
+  },
+  {
+    num: 6,
+    enTitle: "Email to Mary – Weather & places to visit",
+    enPrompt: "You received an email from your English friend. Read part of her email below.",
+    enQuote: `"I am wondering what the weather is like in your country, where I should go to visit and some interesting activities I can take part in there. Can you give me some information?"`,
+    enBullets: "Write an email in reply.\n• Describe the weather at the time of the visit\n• Recommend places worth visiting\n• Suggest interesting activities to do",
+    viTitle: "Email cho Mary – Thời tiết và địa điểm",
+    viPrompt: "Bạn nhận được email từ người bạn người Anh. Đọc phần email:",
+    viQuote: `"Tôi đang thắc mắc thời tiết ở đất nước bạn như thế nào, nên đi đâu thăm quan và có hoạt động thú vị nào không. Bạn có thể cho tôi biết không?"`,
+    viBullets: "Viết email trả lời.\n• Mô tả thời tiết vào thời điểm bạn đến\n• Gợi ý những địa điểm đáng thăm\n• Đề xuất các hoạt động thú vị"
+  },
+  {
+    num: 7,
+    enTitle: "Email to Ann – Hometown information",
+    enPrompt: "This is a part of an email you received from your English-speaking friend, Ann.",
+    enQuote: `"I'm planning to visit your hometown next month and I'm really excited about the trip. Can you suggest somewhere to stay and tell me a little bit about what I can do in your hometown and what clothes should I bring?"`,
+    enBullets: "Write an email in reply.\n• Suggest a place to stay\n• Describe things to do in your hometown\n• Advise on clothing to bring",
+    viTitle: "Email cho Ann – Thông tin về quê hương",
+    viPrompt: "Đây là một phần email bạn nhận từ người bạn nói tiếng Anh, Ann:",
+    viQuote: `"Tôi đang lên kế hoạch thăm quê bạn tháng tới và rất hào hứng. Bạn có thể gợi ý chỗ ở và cho tôi biết có thể làm gì ở đó, nên mang trang phục gì không?"`,
+    viBullets: "Viết email trả lời Ann.\n• Gợi ý nơi lưu trú phù hợp\n• Kể về các hoạt động ở quê hương\n• Tư vấn trang phục nên mang"
+  },
+  {
+    num: 8,
+    enTitle: "Letter about a room for rent",
+    enPrompt: "Your friend will visit Vietnam next year and wants to find somewhere to stay. You have a room for rent. Write a letter to:",
+    enQuote: null,
+    enBullets: "Write a letter to Ann.\n• Give information about the location\n• Describe what the room looks like (colours, number of rooms)\n• Recommend some activities she can do nearby",
+    viTitle: "Thư cho thuê phòng",
+    viPrompt: "Người bạn sẽ đến Việt Nam năm tới và muốn tìm chỗ ở. Bạn có một phòng cho thuê. Hãy viết thư cho Ann:",
+    viQuote: null,
+    viBullets: "Viết thư cho Ann.\n• Thông tin về vị trí căn phòng\n• Mô tả phòng (màu sắc, số lượng phòng)\n• Gợi ý các hoạt động gần đó"
+  },
+  {
+    num: 9,
+    enTitle: "Letter asking for information before visiting",
+    enPrompt: "A friend you met last year invited you to visit his/her country. You have never been there before and need some information. Before you leave, write a letter to your friend. In your letter:",
+    enQuote: null,
+    enBullets: "Write a letter to your friend.\n• Request advice about a gift for his/her family\n• Ask about activities and clothing in his/her country\n• Find out about the local food",
+    viTitle: "Thư hỏi thông tin trước chuyến đi",
+    viPrompt: "Một người bạn bạn gặp năm ngoái mời bạn đến thăm đất nước của họ. Đây là lần đầu tiên bạn đến đó. Trước khi đi, hãy viết thư cho bạn ấy:",
+    viQuote: null,
+    viBullets: "Viết thư cho bạn.\n• Hỏi ý kiến về quà tặng cho gia đình bạn ấy\n• Hỏi về các hoạt động và trang phục phù hợp\n• Hỏi thêm về ẩm thực địa phương"
+  },
+  {
+    num: 10,
+    enTitle: "Letter of advice – Living & working in your country",
+    enPrompt: "Your friend wants to go to your country to live and work and is asking for information and advice.",
+    enQuote: null,
+    enBullets: "Write a letter to Ann.\n• Explain what to do to get a job\n• Suggest somewhere to spend a holiday\n• Give advice on what to do to live happily",
+    viTitle: "Thư tư vấn – Sống và làm việc",
+    viPrompt: "Người bạn muốn đến đất nước bạn để sống và làm việc, đang cần thông tin và lời khuyên:",
+    viQuote: null,
+    viBullets: "Viết thư cho Ann.\n• Cách tìm được việc làm\n• Địa điểm nên đến nghỉ dưỡng\n• Lời khuyên để sống hạnh phúc"
+  },
+  {
+    num: 11,
+    enTitle: "Letter about life in a new country",
+    enPrompt: "You have recently migrated to another country. Now write a letter to your friend to describe your present life. In your letter say:",
+    enQuote: null,
+    enBullets: "Write a letter to Ann.\n• When you moved and why you chose this country\n• How things are now for you\n• What you enjoy about living there",
+    viTitle: "Thư kể về cuộc sống ở đất nước mới",
+    viPrompt: "Bạn vừa di cư đến một đất nước khác. Viết thư cho bạn kể về cuộc sống hiện tại:",
+    viQuote: null,
+    viBullets: "Viết thư cho Ann.\n• Khi nào bạn chuyển đến và lý do chọn đất nước này\n• Cuộc sống hiện tại của bạn như thế nào\n• Những điều bạn thích ở đất nước mới"
+  },
+  {
+    num: 12,
+    enTitle: "Letter advising a friend to get a job instead of college",
+    enPrompt: "You recently received a letter from a friend asking for advice. You think he/she should get a job. Write a letter to this friend. In your letter:",
+    enQuote: null,
+    enBullets: "Write a letter to your friend.\n• Say why he/she would not enjoy going to college\n• Explain why getting a job is a good idea\n• Suggest types of job that would be suitable",
+    viTitle: "Thư khuyên đi làm thay vì học đại học",
+    viPrompt: "Bạn vừa nhận thư từ một người bạn xin lời khuyên về việc học hay đi làm. Bạn nghĩ họ nên đi làm:",
+    viQuote: null,
+    viBullets: "Viết thư cho bạn.\n• Giải thích tại sao không nên đi học đại học\n• Lợi ích của việc đi làm sớm\n• Gợi ý loại công việc phù hợp"
+  },
+  {
+    num: 13,
+    enTitle: "Reply to Ann – Starting college in a new city",
+    enPrompt: "Read part of the letter from Ann:",
+    enQuote: `"I really hope that your life is going well. Glad to hear that you started college in a new city. It must be very exciting, right? Are you living in a flat or a hostel? What is it like?"`,
+    enBullets: "Write a letter responding to Ann.\n• Tell her about the university you are attending\n• Describe where you are living\n• Share your feelings about student life",
+    viTitle: "Thư trả lời Ann – Bắt đầu đại học ở thành phố mới",
+    viPrompt: "Đọc phần thư từ Ann:",
+    viQuote: `"Tôi thực sự hy vọng cuộc sống của bạn đang tốt. Vui khi nghe bạn bắt đầu học đại học ở thành phố mới. Chắc rất thú vị nhỉ? Bạn đang ở căn hộ hay ký túc xá? Nơi đó thế nào?"`,
+    viBullets: "Viết thư trả lời Ann.\n• Kể về trường đại học bạn đang học\n• Mô tả nơi bạn đang ở\n• Chia sẻ cảm nhận về cuộc sống sinh viên"
+  },
+  {
+    num: 14,
+    enTitle: "Letter about your favourite holiday",
+    enPrompt: "Your friend has a holiday soon. She asked you to write a letter telling her about a holiday you liked most before. You should say:",
+    enQuote: null,
+    enBullets: "Write a letter to Ann.\n• Where did you go and where did you stay?\n• What could you do and what was your favourite food?\n• Your most memorable moments",
+    viTitle: "Thư kể về kỳ nghỉ yêu thích",
+    viPrompt: "Người bạn sắp có kỳ nghỉ và muốn nghe về kỳ nghỉ đáng nhớ nhất của bạn:",
+    viQuote: null,
+    viBullets: "Viết thư cho Ann.\n• Bạn đã đi đâu và ở đâu?\n• Bạn làm gì và món ăn yêu thích là gì?\n• Những kỷ niệm đáng nhớ nhất"
+  },
+  {
+    num: 15,
+    enTitle: "Letter about a job opportunity in a local company",
+    enPrompt: "A friend you made while studying abroad has written to ask you for help in finding a job in your country. You have heard about a job in a local company that might be suitable for him/her. Write a letter to this friend. In your letter:",
+    enQuote: null,
+    enBullets: "Write a letter to Ann.\n• Tell your friend about the job and what it involves\n• Say why you think the job would be suitable\n• Explain how to apply for the job",
+    viTitle: "Thư giới thiệu việc làm tại công ty địa phương",
+    viPrompt: "Người bạn quen thời du học nhờ bạn giúp tìm việc tại Việt Nam. Bạn biết một vị trí phù hợp. Viết thư cho bạn ấy:",
+    viQuote: null,
+    viBullets: "Viết thư cho Ann.\n• Kể về công việc và nội dung công việc\n• Giải thích tại sao phù hợp với bạn ấy\n• Hướng dẫn cách nộp đơn"
+  },
+  {
+    num: 16,
+    enTitle: "Letter asking a friend to help find a part-time job",
+    enPrompt: "You are going to another country to study. You would like to do a part-time job while you are studying, so you want to ask a friend who lives there for some help. Write a letter to this friend. In your letter:",
+    enQuote: null,
+    enBullets: "Write a letter to Ann.\n• Give details of your study plans\n• Explain why you want to get a part-time job\n• Suggest how your friend could help you find a job",
+    viTitle: "Thư nhờ bạn giúp tìm việc làm thêm khi du học",
+    viPrompt: "Bạn sắp đi du học ở nước ngoài và muốn làm thêm. Nhờ người bạn đang sống ở đó giúp đỡ:",
+    viQuote: null,
+    viBullets: "Viết thư cho Ann.\n• Kể về kế hoạch học tập của bạn\n• Giải thích tại sao muốn làm thêm\n• Gợi ý cách bạn ấy có thể giúp tìm việc"
+  },
+  {
+    num: 17,
+    enTitle: "Reply about Vietnam's weather & tourist spots",
+    enPrompt: "Read part of the letter from your friend:",
+    enQuote: `"I'm going to see you next summer. This is my first visit to Vietnam. I'm wondering about the weather and clothes to bring with me. And I know your country is famous for some tourist attractions - famous landscapes."`,
+    enBullets: "Write a letter in reply.\n• Introduce famous tourist attractions\n• Describe summer weather in Vietnam\n• Advise on what clothes to bring",
+    viTitle: "Thư trả lời – Thời tiết và địa điểm du lịch Việt Nam",
+    viPrompt: "Đọc phần thư từ bạn:",
+    viQuote: `"Tôi sắp đến thăm bạn vào mùa hè tới. Đây là lần đầu tôi đến Việt Nam. Tôi đang thắc mắc về thời tiết và trang phục cần mang. Tôi biết đất nước bạn nổi tiếng với nhiều địa danh đẹp."`,
+    viBullets: "Viết thư trả lời.\n• Giới thiệu các địa điểm du lịch nổi tiếng\n• Mô tả thời tiết mùa hè ở Việt Nam\n• Tư vấn trang phục cần chuẩn bị"
+  },
+  {
+    num: 18,
+    enTitle: "Email reply – Group trip to your friend's city",
+    enPrompt: "Read part of the email from your friend:",
+    enQuote: `"I'm very glad to learn that your group is coming to our city in June. I'm sure you all will learn a lot of English and have a good time. You can either stay at a dormitory or local family homestay. What kinds of activities do you like doing? We have many choices: climbing a mountain, riding a bike and paying a visit to famous landscapes."`,
+    enBullets: "Write an email in reply.\n• Tell him/her about your accommodation plan\n• Describe activities your group would like to do\n• Mention sightseeing and shopping plans",
+    viTitle: "Email trả lời – Kế hoạch chuyến đi theo nhóm",
+    viPrompt: "Đọc phần email từ bạn:",
+    viQuote: `"Tôi rất vui khi biết nhóm của bạn sẽ đến thành phố chúng tôi vào tháng Sáu. Bạn có thể ở ký túc xá hoặc homestay tại gia đình. Các bạn thích hoạt động gì? Ở đây có nhiều lựa chọn: leo núi, đi xe đạp, thăm danh lam thắng cảnh."`,
+    viBullets: "Viết email trả lời.\n• Kế hoạch lưu trú của nhóm\n• Hoạt động nhóm bạn muốn tham gia\n• Kế hoạch tham quan và mua sắm"
+  },
+  {
+    num: 19,
+    enTitle: "Letter about moving to a new city",
+    enPrompt: "Have you just moved to a new city? Write a letter to your friend and tell him/her whether you like it. How does it look like to have a friend in that city?",
+    enQuote: null,
+    enBullets: "Write a letter to Ann.\n• Describe the new city you moved to\n• What you like about living there\n• Invite your friend to come and visit",
+    viTitle: "Thư kể về việc chuyển đến thành phố mới",
+    viPrompt: "Bạn vừa chuyển đến một thành phố mới. Viết thư cho bạn kể về cuộc sống mới:",
+    viQuote: null,
+    viBullets: "Viết thư cho Ann.\n• Mô tả thành phố mới bạn chuyển đến\n• Điều bạn thích ở đó\n• Mời bạn đến thăm"
+  },
+  {
+    num: 20,
+    enTitle: "Thank-you letter after staying at a friend's house",
+    enPrompt: "You went to another city for a training course and stayed at a friend's house for a week. They have been great hosts.",
+    enQuote: null,
+    enBullets: "Write a thank-you letter to Ann.\n• Thank them for letting you stay during the training\n• Express gratitude for their kindness and hospitality\n• Share a fond memory of being with their family",
+    viTitle: "Thư cảm ơn vì đã cho ở nhờ",
+    viPrompt: "Bạn đến thành phố khác để tham gia khóa đào tạo và đã ở nhà bạn suốt một tuần. Bạn ấy là những người chủ nhà tuyệt vời:",
+    viQuote: null,
+    viBullets: "Viết thư cảm ơn Ann.\n• Cảm ơn vì đã cho ở nhờ trong tuần đào tạo\n• Bày tỏ lòng biết ơn về sự tử tế và hiếu khách\n• Chia sẻ kỷ niệm đẹp cùng gia đình bạn"
+  },
+  {
+    num: 21,
+    enTitle: "Invitation letter – Dinner at your home",
+    enPrompt: "You made a friend when you visited another city a few months ago. This friend has come to your city for some work and will stay for another week. You want to invite this friend to your home for dinner.",
+    enQuote: null,
+    enBullets: "Write a letter to Ann.\n• Invite her to dinner and mention the time\n• Describe where your house is\n• Give directions on how to get there",
+    viTitle: "Thư mời ăn tối tại nhà",
+    viPrompt: "Bạn quen Ann khi đến thành phố khác. Cô ấy đang đến thành phố của bạn làm việc và sẽ ở lại một tuần. Bạn muốn mời cô ấy đến ăn tối:",
+    viQuote: null,
+    viBullets: "Viết thư cho Ann.\n• Mời đến ăn tối và đề cập thời gian\n• Mô tả vị trí nhà bạn\n• Hướng dẫn cách đến nhà"
+  },
+  {
+    num: 22,
+    enTitle: "Letter about a two-month course in your region",
+    enPrompt: "Your friend is interested in joining a two-month course in your region. Write a letter to share information.",
+    enQuote: null,
+    enBullets: "Write a letter to Jane.\n• Suggest somewhere for her to stay\n• Recommend a course she should join\n• Describe what she will learn and enjoy",
+    viTitle: "Thư giới thiệu khóa học 2 tháng",
+    viPrompt: "Bạn của bạn quan tâm đến một khóa học 2 tháng tại địa phương của bạn. Viết thư chia sẻ thông tin:",
+    viQuote: null,
+    viBullets: "Viết thư cho Jane.\n• Gợi ý nơi ở cho bạn\n• Giới thiệu về khóa học bạn nên tham gia\n• Mô tả những gì bạn sẽ học và trải nghiệm"
+  },
+  {
+    num: 23,
+    enTitle: "Letter about an English course",
+    enPrompt: "Your friend wants to learn English and has asked you about English centres.",
+    enQuote: null,
+    enBullets: "Write a letter to Marie.\n• Introduce a good English centre\n• Describe the advantages of the courses offered\n• Explain the fun activities available there",
+    viTitle: "Thư giới thiệu khóa học tiếng Anh",
+    viPrompt: "Người bạn muốn học tiếng Anh và hỏi bạn về các trung tâm tiếng Anh:",
+    viQuote: null,
+    viBullets: "Viết thư cho Marie.\n• Giới thiệu về trung tâm tiếng Anh tốt\n• Ưu điểm của các khóa học tại đó\n• Các hoạt động thú vị khi học"
+  },
+  {
+    num: 24,
+    enTitle: "Email about your favourite English teacher",
+    enPrompt: "Your friend asked you about your English learning journey and the teacher who influenced you the most.",
+    enQuote: null,
+    enBullets: "Write an email to Ann.\n• Talk about your English learning experience\n• Describe the teacher who left the biggest impression\n• Explain how this teacher influenced you",
+    viTitle: "Email kể về giáo viên tiếng Anh yêu thích",
+    viPrompt: "Người bạn hỏi về hành trình học tiếng Anh và người thầy/cô ảnh hưởng nhất đến bạn:",
+    viQuote: null,
+    viBullets: "Viết email cho Ann.\n• Kể về quá trình học tiếng Anh\n• Mô tả người giáo viên để lại ấn tượng nhất\n• Giải thích tại sao họ ảnh hưởng đến bạn"
+  },
+  {
+    num: 25,
+    enTitle: "Letter about moving to a new house",
+    enPrompt: "You have recently moved to a different new house. Write a letter to your friend to tell them about it.",
+    enQuote: null,
+    enBullets: "Write a letter to Ann.\n• Say why you moved house\n• Describe what the new house looks like (colours, rooms)\n• Plan a get-together at your new home",
+    viTitle: "Thư kể về việc chuyển nhà mới",
+    viPrompt: "Bạn vừa chuyển đến một ngôi nhà mới. Viết thư kể cho bạn nghe:",
+    viQuote: null,
+    viBullets: "Viết thư cho Ann.\n• Lý do chuyển nhà\n• Mô tả ngôi nhà mới (màu sắc, số phòng)\n• Kế hoạch gặp gỡ tại nhà mới"
+  },
+  {
+    num: 26,
+    enTitle: "Letter about your favourite pet",
+    enPrompt: "You want to tell your friend about the pet you love the most.",
+    enQuote: null,
+    enBullets: "Write a letter to Jane.\n• Say what pet you like and why\n• Describe how you take care of it every day\n• Share a memorable moment with your pet",
+    viTitle: "Thư kể về thú cưng yêu thích",
+    viPrompt: "Bạn muốn kể cho người bạn nghe về thú cưng mà bạn yêu thích nhất:",
+    viQuote: null,
+    viBullets: "Viết thư cho Jane.\n• Loại thú cưng bạn yêu thích và lý do\n• Cách chăm sóc hàng ngày\n• Kỷ niệm đáng nhớ với thú cưng"
+  },
+  {
+    num: 27,
+    enTitle: "Letter recommending an interesting website",
+    enPrompt: "Write a letter to a friend telling him/her about an interesting website that you have found recently. In your letter:",
+    enQuote: null,
+    enBullets: "Write a letter to Lan.\n• Say what the website is called and how you found it\n• Explain what it offers and why it is useful\n• Describe how easy it is to use",
+    viTitle: "Thư giới thiệu một website thú vị",
+    viPrompt: "Viết thư cho bạn giới thiệu về một trang web thú vị bạn vừa tìm thấy:",
+    viQuote: null,
+    viBullets: "Viết thư cho Lan.\n• Tên website và bạn tìm thấy như thế nào\n• Nội dung và lợi ích của website\n• Website đó dễ sử dụng như thế nào"
+  },
+  {
+    num: 28,
+    enTitle: "Email reply to Mary – Current life update",
+    enPrompt: "Your English-speaking friend, Mary, whom you haven't met for a long time, sent you an email. Write a reply telling her about your life now.",
+    enQuote: null,
+    enBullets: "Write an email to Mary.\n• Describe your current job\n• Talk about new hobbies and changes in your life\n• Recall a shared memory from the past",
+    viTitle: "Email trả lời Mary – Cập nhật cuộc sống",
+    viPrompt: "Người bạn người Anh tên Mary, lâu không gặp, vừa gửi email cho bạn. Viết email trả lời kể về cuộc sống hiện tại:",
+    viQuote: null,
+    viBullets: "Viết email cho Mary.\n• Kể về công việc hiện tại\n• Sở thích mới và những thay đổi trong cuộc sống\n• Nhắc lại kỷ niệm cùng nhau"
+  },
+  {
+    num: 29,
+    enTitle: "Letter advising how to spend a gift of money",
+    enPrompt: "You have just received a letter from your English pen friend. Read part of his letter below.",
+    enQuote: `"I'm very happy to know that you passed the exam with flying colors and received some money as a special gift from your parents. You are wondering between buying a computer or saving up a bit more and getting some clothes."`,
+    enBullets: "Write a letter in reply.\n• Give advice on what to buy\n• Explain the benefits of that choice\n• Say why it is the right decision",
+    viTitle: "Thư tư vấn dùng tiền thưởng để làm gì",
+    viPrompt: "Bạn vừa nhận thư từ người bạn bút. Đọc phần thư:",
+    viQuote: `"Tôi rất vui khi biết bạn thi đậu và nhận được tiền thưởng từ bố mẹ. Bạn đang phân vân giữa việc mua máy tính hay dành dụm thêm để mua quần áo."`,
+    viBullets: "Viết thư trả lời.\n• Tư vấn nên mua gì\n• Giải thích lợi ích của lựa chọn đó\n• Tại sao đó là quyết định đúng đắn"
+  },
+  {
+    num: 30,
+    enTitle: "Letter recommending a great holiday destination",
+    enPrompt: "A friend of yours is going on holiday soon and has asked you to recommend a destination. Write a letter to your friend and recommend a good place for a holiday that you have visited before. Say where you went, where you stayed, what you did there and what the food was like.",
+    enQuote: null,
+    enBullets: "Write a letter to Anna. (At least 120 words)\n• Where you went and where you stayed\n• Activities you did during the trip\n• What the food was like",
+    viTitle: "Thư giới thiệu địa điểm du lịch tuyệt vời",
+    viPrompt: "Bạn sắp có kỳ nghỉ và nhờ bạn gợi ý địa điểm. Viết thư giới thiệu một nơi bạn đã đến:",
+    viQuote: null,
+    viBullets: "Viết thư cho Anna. (Ít nhất 120 từ)\n• Bạn đã đi đâu và ở đâu?\n• Các hoạt động bạn đã tham gia\n• Ẩm thực tại đó như thế nào?"
+  },
+  {
+    num: 31,
+    enTitle: "Letter with directions and weather information",
+    enPrompt: "Your English-speaking friend, Natalie, sent you an email saying she has accepted your invitation and is going to visit Vietnam next month.",
+    enQuote: null,
+    enBullets: "Write a letter to Natalie.\n• Give directions from the airport to your apartment\n• Describe the weather at that time of year\n• Advise what to prepare before coming",
+    viTitle: "Thư hướng dẫn đường và thông tin thời tiết",
+    viPrompt: "Người bạn Natalie đã chấp nhận lời mời và sắp đến Việt Nam tháng tới:",
+    viQuote: null,
+    viBullets: "Viết thư cho Natalie.\n• Hướng dẫn đường từ sân bay đến căn hộ\n• Mô tả thời tiết vào thời điểm đó\n• Tư vấn cần chuẩn bị gì trước khi đến"
+  },
+  {
+    num: 32,
+    enTitle: "Letter advising to buy a computer (variant)",
+    enPrompt: "You have just received a letter from your English pen friend. Read part of his letter below.",
+    enQuote: `"I'm very happy to know that you passed the exam with flying colors and received some money as a special gift from your parents. You are wondering between buying a computer or saving up a bit more and getting some clothes."`,
+    enBullets: "Write a letter to Mary.\n• Recommend buying a computer over clothes\n• Explain how a computer helps with studying\n• Mention useful websites for learning",
+    viTitle: "Thư tư vấn mua máy tính (phiên bản khác)",
+    viPrompt: "Bạn vừa nhận thư từ người bạn bút. Đọc phần thư:",
+    viQuote: `"Tôi rất vui khi biết bạn thi đậu và nhận được tiền thưởng từ bố mẹ. Bạn đang phân vân giữa việc mua máy tính hay dành dụm thêm để mua quần áo."`,
+    viBullets: "Viết thư cho Mary.\n• Khuyên nên mua máy tính thay vì quần áo\n• Lợi ích của máy tính đối với việc học\n• Những website hữu ích cho việc học"
+  },
+  {
+    num: 33,
+    enTitle: "Letter asking a friend in London for job-hunting help",
+    enPrompt: "You are going to another country to study. You would like to do a part-time job while you are studying, so you want to ask a friend who lives there for some help.",
+    enQuote: null,
+    enBullets: "Write a letter to Rita.\n• Give details of your Masters course in London\n• Explain why you need a part-time job\n• Ask how her network could help you find work",
+    viTitle: "Thư nhờ bạn ở London giúp tìm việc làm thêm",
+    viPrompt: "Bạn sắp du học ở London và muốn làm thêm. Nhờ người bạn đang sống ở đó giúp đỡ:",
+    viQuote: null,
+    viBullets: "Viết thư cho Rita.\n• Kể về khóa Thạc sĩ bạn sắp học ở London\n• Giải thích lý do cần làm thêm\n• Hỏi mạng lưới của bạn ấy có thể giúp gì"
+  },
+  {
+    num: 34,
+    enTitle: "Letter recommending a photography job at Brand Company",
+    enPrompt: "A friend you made while you were studying abroad has written to ask you for help in finding a job in your country. You have heard about a job in a local company that might be suitable for him/her.",
+    enQuote: null,
+    enBullets: "Write a letter to Tom.\n• Describe the company and the open position\n• Say why the job is a perfect fit for Tom\n• Explain the application process",
+    viTitle: "Thư giới thiệu vị trí nhiếp ảnh ở công ty Brand",
+    viPrompt: "Người bạn quen thời du học nhờ bạn giúp tìm việc tại Việt Nam. Bạn biết một vị trí phù hợp:",
+    viQuote: null,
+    viBullets: "Viết thư cho Tom.\n• Mô tả công ty và vị trí đang tuyển\n• Lý do vị trí này rất phù hợp với Tom\n• Hướng dẫn quy trình nộp đơn"
+  }
+];
+
+// ═══════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════
+let currentTaskIndex = null;
+let timerInterval = null;
+let timerSeconds = 20 * 60;
+let timerRunning = false;
+let autosaveTimeout = null;
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+window.addEventListener('load', () => {
+  renderTasksGrid();
+  renderSavedEssays();
+  updateTimerDisplay();
+});
+
+window.addEventListener('beforeunload', () => {
+  if (currentTaskIndex !== null) {
+    const val = document.getElementById('essayInput').value.trim();
+    if (val) autoSaveDraft(val);
+  }
+});
+
+// ═══════════════════════════════════════
+// TASK GRID
+// ═══════════════════════════════════════
+function renderTasksGrid() {
+  const grid = document.getElementById('tasksGrid');
+  grid.innerHTML = tasks.map((t, i) => `
+    <div class="task-mini-card" id="miniCard${i}" onclick="selectTask(${i})">
+      <div class="task-mini-num">Task ${t.num}</div>
+      <div class="task-mini-text">${t.enTitle}</div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════
+// SELECT / DRAW TASK
+// ═══════════════════════════════════════
+function drawRandomTask() {
+  const topCard = document.getElementById('topCard');
+  topCard.classList.add('flipping');
+  setTimeout(() => topCard.classList.remove('flipping'), 500);
+  const idx = Math.floor(Math.random() * tasks.length);
+  setTimeout(() => selectTask(idx), 250);
+}
+
+function selectTask(idx) {
+  currentTaskIndex = idx;
+  const t = tasks[idx];
+
+  // Update mini cards highlight
+  document.querySelectorAll('.task-mini-card').forEach((c, i) => {
+    c.classList.toggle('active', i === idx);
+  });
+
+  // Build English column HTML
+  let enHtml = `<p>${t.enPrompt}</p>`;
+  if (t.enQuote) enHtml += `<span class="prompt-quote">${t.enQuote}</span>`;
+  if (t.enBullets) {
+    enHtml += `<div class="task-bullet task-bullet-en">${t.enBullets.split('\n').join('<br>')}</div>`;
+  }
+
+  // Build Vietnamese column HTML
+  let viHtml = `<p>${t.viPrompt}</p>`;
+  if (t.viQuote) viHtml += `<span class="prompt-quote">${t.viQuote}</span>`;
+  if (t.viBullets) {
+    viHtml += `<div class="task-bullet">${t.viBullets.split('\n').join('<br>')}</div>`;
+  }
+
+  document.getElementById('taskNum').textContent = `Task ${t.num}`;
+  document.getElementById('taskContent').innerHTML = `
+    <div class="bilingual-grid">
+      <div class="lang-col lang-col-en">
+        <div class="lang-label lang-label-en">🇬🇧 English (Original)</div>
+        ${enHtml}
+      </div>
+      <div class="lang-col lang-col-vi">
+        <div class="lang-label lang-label-vi">🇻🇳 Tiếng Việt (Dịch)</div>
+        ${viHtml}
+      </div>
+    </div>
+  `;
+
+  const disp = document.getElementById('taskDisplay');
+  const ws = document.getElementById('writingSection');
+  disp.classList.add('visible');
+  ws.classList.add('visible');
+
+  // Load draft if exists
+  const draft = localStorage.getItem(`b1_draft_task_${idx}`);
+  document.getElementById('essayInput').value = draft || '';
+  updateWordCount();
+  updateAutosave(!!draft);
+
+  disp.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  resetTimer();
+}
+
+function scrollToBrowse() {
+  document.getElementById('browseSection').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ═══════════════════════════════════════
+// ESSAY INPUT / AUTOSAVE
+// ═══════════════════════════════════════
+function onEssayInput() {
+  updateWordCount();
+  updateAutosave(false);
+  clearTimeout(autosaveTimeout);
+  autosaveTimeout = setTimeout(() => {
+    if (currentTaskIndex !== null) {
+      const val = document.getElementById('essayInput').value.trim();
+      autoSaveDraft(val);
+    }
+  }, 1500);
+}
+
+function autoSaveDraft(text) {
+  if (currentTaskIndex === null) return;
+  localStorage.setItem(`b1_draft_task_${currentTaskIndex}`, text);
+  updateAutosave(true);
+}
+
+function updateAutosave(saved) {
+  const dot = document.getElementById('autosaveDot');
+  const txt = document.getElementById('autosaveText');
+  if (saved) {
+    dot.classList.add('saved');
+    txt.textContent = '✅ Đã lưu tự động';
+  } else {
+    dot.classList.remove('saved');
+    txt.textContent = 'Đang nhập…';
+  }
+}
+
+function updateWordCount() {
+  const text = document.getElementById('essayInput').value;
+  const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+  const el = document.getElementById('wordCount');
+  el.textContent = words;
+  el.style.color = words >= 120 ? '#1a7f6e' : (words >= 80 ? '#f4a261' : '#e76f51');
+}
+
+// ═══════════════════════════════════════
+// SAVE / CLEAR / COPY
+// ═══════════════════════════════════════
+function saveEssay() {
+  if (currentTaskIndex === null) return showToast('❗ Hãy chọn đề trước!');
+  const text = document.getElementById('essayInput').value.trim();
+  if (!text) return showToast('❗ Bài viết đang trống!');
+  const words = text.split(/\s+/).length;
+  if (words < 60) return showToast('⚠️ Viết thêm một chút nữa nhé!');
+
+  const saved = getSavedEssays();
+  const entry = {
+    id: Date.now(),
+    taskIndex: currentTaskIndex,
+    taskNum: tasks[currentTaskIndex].num,
+    taskTitle: tasks[currentTaskIndex].title,
+    text,
+    wordCount: words,
+    date: new Date().toLocaleString('vi-VN')
+  };
+  saved.unshift(entry);
+  localStorage.setItem('b1_essays', JSON.stringify(saved));
+  renderSavedEssays();
+  showToast('💾 Đã lưu bài viết thành công!');
+}
+
+function clearEssay() {
+  if (!confirm('Xoá bài đang viết? Bản nháp tự động cũng sẽ bị xoá.')) return;
+  document.getElementById('essayInput').value = '';
+  updateWordCount();
+  if (currentTaskIndex !== null) {
+    localStorage.removeItem(`b1_draft_task_${currentTaskIndex}`);
+  }
+  updateAutosave(false);
+}
+
+function copyEssay() {
+  const text = document.getElementById('essayInput').value;
+  if (!text) return showToast('❗ Không có gì để sao chép!');
+  navigator.clipboard.writeText(text).then(() => showToast('📋 Đã sao chép!'));
+}
+
+// ═══════════════════════════════════════
+// SAVED ESSAYS
+// ═══════════════════════════════════════
+function getSavedEssays() {
+  try { return JSON.parse(localStorage.getItem('b1_essays') || '[]'); }
+  catch { return []; }
+}
+
+function renderSavedEssays() {
+  const saved = getSavedEssays();
+  const grid = document.getElementById('savedGrid');
+  if (!saved.length) {
+    grid.innerHTML = `<div class="no-saved">📭 Chưa có bài viết nào được lưu.<br>Hãy viết và nhấn "Lưu Bài" nhé!</div>`;
+    return;
+  }
+  grid.innerHTML = saved.map((e, i) => `
+    <div class="saved-card" onclick="viewSaved(${i})">
+      <button class="saved-card-del" onclick="deleteSaved(event,${i})">🗑️</button>
+      <div class="saved-card-tag">Task ${e.taskNum}</div>
+      <div class="saved-card-preview">${e.text}</div>
+      <div class="saved-card-meta">
+        <span>📝 ${e.wordCount} từ</span>
+        <span>🕐 ${e.date}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function viewSaved(i) {
+  const saved = getSavedEssays();
+  const e = saved[i];
+  document.getElementById('modalTitle').textContent = `Task ${e.taskNum} – ${e.taskTitle}`;
+  document.getElementById('modalBody').textContent = e.text;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function deleteSaved(event, i) {
+  event.stopPropagation();
+  if (!confirm('Xoá bài viết này?')) return;
+  const saved = getSavedEssays();
+  saved.splice(i, 1);
+  localStorage.setItem('b1_essays', JSON.stringify(saved));
+  renderSavedEssays();
+  showToast('🗑️ Đã xoá bài viết');
+}
+
+function closeModal(event) {
+  if (event.target === document.getElementById('modalOverlay')) {
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
+}
+
+function closeModalDirect() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+// ═══════════════════════════════════════
+// TIMER
+// ═══════════════════════════════════════
+function toggleTimer() {
+  if (timerRunning) {
+    clearInterval(timerInterval);
+    timerRunning = false;
+    document.getElementById('timerBtn').textContent = '▶';
+  } else {
+    timerRunning = true;
+    document.getElementById('timerBtn').textContent = '⏸';
+    timerInterval = setInterval(() => {
+      timerSeconds--;
+      updateTimerDisplay();
+      if (timerSeconds <= 0) {
+        clearInterval(timerInterval);
+        timerRunning = false;
+        document.getElementById('timerBtn').textContent = '▶';
+        showToast('⏰ Hết giờ! Hãy hoàn thành bài và lưu lại nhé!');
+      }
+    }, 1000);
+  }
+}
+
+function resetTimer() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  timerSeconds = 20 * 60;
+  document.getElementById('timerBtn').textContent = '▶';
+  updateTimerDisplay();
+}
+
+function updateTimerDisplay() {
+  const m = Math.floor(timerSeconds / 60);
+  const s = timerSeconds % 60;
+  const el = document.getElementById('timerDisplay');
+  el.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  el.classList.toggle('warning', timerSeconds <= 120);
+}
+
+// ═══════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>

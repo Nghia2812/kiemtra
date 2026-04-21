@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B1 Reading — VSTEP</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0f14;
+  --surface: #13151c;
+  --surface2: #1a1d27;
+  --border: rgba(255,255,255,0.07);
+  --accent: #e8ff47;
+  --accent2: #7c6af7;
+  --accent3: #ff6b6b;
+  --text: #f0f0f0;
+  --muted: #6b7280;
+  --correct: #34d399;
+  --wrong: #f87171;
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ═══════════════════ HEADER ═══════════════════ */
+.header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 18px 48px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(13,15,20,0.92);
+  backdrop-filter: blur(12px);
+}
+.header-left { display: flex; gap: 8px; align-items: center; }
+.header-tag {
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  color: var(--accent);
+  padding: 4px 10px;
+  border: 1px solid var(--accent);
+  border-radius: 2px;
+  text-transform: uppercase;
+}
+.header-center {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 800;
+  text-align: center;
+  letter-spacing: 1px;
+}
+.header-center span { color: var(--accent); }
+.header-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+/* ═══════════════════ HOME ═══════════════════ */
+#homeScreen {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: calc(100vh - 61px);
+}
+
+.sidebar {
+  border-right: 1px solid var(--border);
+  padding: 32px 28px;
+  position: sticky;
+  top: 61px;
+  height: calc(100vh - 61px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+.sidebar-title {
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.stat-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 12px;
+}
+.stat-box .num {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+}
+.stat-box .lbl {
+  font-size: 0.68rem;
+  color: var(--muted);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.search-wrap { position: relative; }
+.search-wrap input {
+  width: 100%;
+  padding: 10px 14px 10px 36px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.search-wrap input:focus { border-color: var(--accent); }
+.search-wrap input::placeholder { color: var(--muted); }
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.btn-random {
+  width: 100%;
+  padding: 13px 16px;
+  background: var(--accent);
+  color: #0d0f14;
+  border: none;
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
+}
+.btn-random:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,255,71,0.3); }
+.btn-random:active { transform: scale(0.97); }
+
+.progress-overall {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 14px;
+}
+.progress-overall .po-label { font-size: 0.72rem; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+.progress-track { height: 6px; background: var(--border); border-radius: 10px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent2), var(--accent)); border-radius: 10px; transition: width 0.5s; }
+.progress-pct { font-family: var(--font-display); font-size: 1.4rem; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+
+/* ═══════════════════ EXAM GRID ═══════════════════ */
+.main-area {
+  padding: 32px 40px;
+  overflow-y: auto;
+}
+.main-area-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+.main-area-header h2 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+.main-area-header span { font-size: 0.8rem; color: var(--muted); }
+
+.exam-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+}
+
+.exam-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.exam-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--accent2), var(--accent));
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.exam-card:hover::before { opacity: 0.05; }
+.exam-card:hover { border-color: rgba(124,106,247,0.5); transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.4); }
+.exam-card.done { border-color: rgba(52,211,153,0.3); background: rgba(52,211,153,0.04); }
+.exam-card .ec-num {
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  letter-spacing: 2px;
+  color: var(--accent2);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.exam-card.done .ec-num { color: var(--correct); }
+.exam-card .ec-title {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.5em;
+  margin-bottom: 14px;
+}
+.ec-footer { display: flex; align-items: center; justify-content: space-between; }
+.ec-count { font-size: 0.7rem; color: var(--muted); }
+.ec-score {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+.ec-score.high { background: rgba(52,211,153,0.15); color: var(--correct); }
+.ec-score.mid { background: rgba(251,191,36,0.15); color: #fbbf24; }
+.ec-score.low { background: rgba(248,113,113,0.15); color: var(--wrong); }
+.ec-score.none { background: var(--surface2); color: var(--muted); }
+
+/* ═══════════════════ QUIZ SCREEN ═══════════════════ */
+#quizScreen {
+  display: none;
+  min-height: calc(100vh - 61px);
+}
+
+.quiz-layout {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  min-height: calc(100vh - 61px);
+}
+
+.passage-panel {
+  border-right: 1px solid var(--border);
+  position: sticky;
+  top: 61px;
+  height: calc(100vh - 61px);
+  overflow-y: auto;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.passage-panel::-webkit-scrollbar { width: 4px; }
+.passage-panel::-webkit-scrollbar-thumb { background: var(--border); }
+
+.quiz-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  width: fit-content;
+}
+.quiz-back-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+.quiz-exam-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.quiz-exam-num {
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  color: var(--accent2);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.passage-label {
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  color: var(--muted);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.passage-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.passage-text {
+  font-size: 0.87rem;
+  line-height: 1.9;
+  color: #c8cdd8;
+  font-weight: 300;
+}
+
+/* quiz score summary */
+.quiz-score-bar {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 14px;
+  margin-bottom: 4px;
+}
+.qsb-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.qsb-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+.qsb-answered { font-family: var(--font-display); font-size: 1.1rem; font-weight: 800; }
+.qsb-track { height: 4px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.qsb-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width 0.3s; }
+
+/* Questions panel */
+.questions-panel {
+  padding: 32px 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.questions-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.questions-header h3 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.q-count-badge {
+  font-size: 0.75rem;
+  color: var(--muted);
+  background: var(--surface);
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+}
+
+.question-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px;
+  transition: border-color 0.2s;
+}
+.question-card.answered-correct { border-color: rgba(52,211,153,0.3); }
+.question-card.answered-wrong { border-color: rgba(248,113,113,0.2); }
+
+.q-num {
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  letter-spacing: 2px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.q-text {
+  font-size: 0.93rem;
+  line-height: 1.65;
+  color: var(--text);
+  font-weight: 400;
+  margin-bottom: 16px;
+}
+
+.opts { display: flex; flex-direction: column; gap: 8px; }
+.opt-btn {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 11px 16px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  color: #c0c5d0;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.87rem;
+  line-height: 1.5;
+  text-align: left;
+  transition: all 0.15s;
+  width: 100%;
+}
+.opt-btn:hover:not(:disabled) { border-color: var(--accent2); background: rgba(124,106,247,0.08); color: var(--text); }
+.opt-lbl {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.78rem;
+  color: var(--accent2);
+  min-width: 20px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.opt-btn.correct { border-color: var(--correct); background: rgba(52,211,153,0.08); color: #a7f3d0; }
+.opt-btn.correct .opt-lbl { color: var(--correct); }
+.opt-btn.wrong { border-color: var(--wrong); background: rgba(248,113,113,0.08); color: #fca5a5; }
+.opt-btn.wrong .opt-lbl { color: var(--wrong); }
+.opt-btn:disabled { cursor: default; }
+
+.result-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 9px 14px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+.result-hint.ok { background: rgba(52,211,153,0.08); color: #6ee7b7; border: 1px solid rgba(52,211,153,0.2); }
+.result-hint.err { background: rgba(248,113,113,0.08); color: #fca5a5; border: 1px solid rgba(248,113,113,0.2); }
+
+/* Submit button */
+.submit-wrap {
+  padding: 28px 0 16px;
+  display: flex;
+  justify-content: center;
+}
+.btn-submit {
+  padding: 15px 48px;
+  background: var(--accent);
+  color: #0d0f14;
+  border: none;
+  border-radius: 10px;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: all 0.2s;
+}
+.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(232,255,71,0.3); }
+.btn-submit:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* ═══════════════════ RESULT SCREEN ═══════════════════ */
+#resultScreen {
+  display: none;
+  min-height: calc(100vh - 61px);
+}
+
+.result-layout {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  min-height: calc(100vh - 61px);
+}
+.result-left {
+  border-right: 1px solid var(--border);
+  padding: 60px 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 32px;
+}
+.result-big-score {
+  font-family: var(--font-display);
+  font-size: 7rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--accent);
+}
+.result-label { font-size: 0.7rem; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; margin-bottom: 4px; }
+.result-msg { font-family: var(--font-display); font-size: 2rem; font-weight: 800; line-height: 1.2; }
+.result-sub { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+.result-stats { display: flex; gap: 20px; }
+.rs-item { }
+.rs-item .rsv { font-family: var(--font-display); font-size: 1.5rem; font-weight: 800; }
+.rs-item .rsl { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+.result-actions { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+.btn-primary {
+  padding: 13px 24px;
+  background: var(--accent);
+  color: #0d0f14;
+  border: none;
+  border-radius: 9px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: center;
+}
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(232,255,71,0.25); }
+.btn-outline {
+  padding: 12px 24px;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: center;
+}
+.btn-outline:hover { border-color: var(--accent2); color: var(--accent2); }
+
+.result-right {
+  padding: 48px 52px;
+  overflow-y: auto;
+}
+.result-right h3 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+.review-grid { display: flex; flex-direction: column; gap: 12px; }
+.review-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.review-item.ok { border-left: 3px solid var(--correct); }
+.review-item.err { border-left: 3px solid var(--wrong); }
+.ri-icon { font-size: 1rem; flex-shrink: 0; margin-top: 2px; }
+.ri-body { flex: 1; min-width: 0; }
+.ri-q { font-size: 0.82rem; color: #9ca3af; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+.ri-ans { font-size: 0.85rem; font-weight: 500; }
+.ri-ans.ok { color: var(--correct); }
+.ri-ans.err { color: var(--wrong); }
+
+/* ═══════════════════ SPINNER ═══════════════════ */
+.spinner-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+}
+.spinner-overlay.show { display: flex; }
+.spinner-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 48px 60px;
+  text-align: center;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+}
+.spin-tag { font-size: 0.62rem; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; margin-bottom: 20px; }
+.spin-num {
+  font-family: var(--font-display);
+  font-size: 4.5rem;
+  font-weight: 800;
+  color: var(--accent2);
+  line-height: 1;
+  min-width: 120px;
+  transition: color 0.1s;
+}
+.spin-num.landed { color: var(--accent) !important; }
+.spin-title { font-size: 0.83rem; color: var(--muted); margin-top: 12px; max-width: 280px; font-style: italic; }
+
+/* ═══════════════════ RESPONSIVE ═══════════════════ */
+@media (max-width: 900px) {
+  #homeScreen { grid-template-columns: 1fr; }
+  .sidebar { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+  .main-area { padding: 24px 20px; }
+  .quiz-layout { grid-template-columns: 1fr; }
+  .passage-panel { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+  .questions-panel { padding: 24px 20px; }
+  .result-layout { grid-template-columns: 1fr; }
+  .result-left { padding: 40px 24px; }
+  .result-big-score { font-size: 5rem; }
+  .result-right { padding: 24px 20px; }
+  .header { grid-template-columns: 1fr auto; padding: 14px 20px; }
+  .header-right { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <span class="header-tag">VSTEP</span>
+    <span class="header-tag" style="color:var(--muted); border-color:var(--border);">B1</span>
+  </div>
+  <div class="header-center">📖 LUYỆN <span>ĐỌC</span></div>
+  <div class="header-right">Chọn đề hoặc quay ngẫu nhiên để bắt đầu</div>
+</div>
+
+<!-- HOME -->
+<div id="homeScreen">
+  <aside class="sidebar">
+    <div>
+      <div class="sidebar-title">Tổng quan</div>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-box"><div class="num" id="totalExams">0</div><div class="lbl">Đề thi</div></div>
+      <div class="stat-box"><div class="num" id="totalQs">0</div><div class="lbl">Câu hỏi</div></div>
+      <div class="stat-box"><div class="num" id="doneExams">0</div><div class="lbl">Đã làm</div></div>
+      <div class="stat-box"><div class="num" id="avgScore" style="font-size:1.5rem">—</div><div class="lbl">Điểm TB</div></div>
+    </div>
+
+    <div class="progress-overall">
+      <div class="po-label">Tiến độ</div>
+      <div class="progress-pct" id="progressPct">0%</div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    </div>
+
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="Tìm theo tên hoặc số đề..." id="searchInput" oninput="filterExams()">
+    </div>
+
+    <button class="btn-random" onclick="startRandom()">
+      <span>🎲</span> Quay ngẫu nhiên
+    </button>
+  </aside>
+
+  <div class="main-area">
+    <div class="main-area-header">
+      <h2>Tất cả đề thi</h2>
+      <span id="examCountLabel"></span>
+    </div>
+    <div class="exam-grid" id="examGrid"></div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div id="quizScreen">
+  <div class="quiz-layout">
+    <div class="passage-panel" id="passagePanel">
+      <button class="quiz-back-btn" onclick="goHome()">← Trang chủ</button>
+      <div>
+        <div class="quiz-exam-num" id="quizExamNum"></div>
+        <div class="quiz-exam-title" id="quizExamTitle"></div>
+      </div>
+      <div class="quiz-score-bar">
+        <div class="qsb-row">
+          <span class="qsb-label">Đã trả lời</span>
+          <span class="qsb-answered" id="answeredCount">0 / 0</span>
+        </div>
+        <div class="qsb-track"><div class="qsb-fill" id="answeredFill" style="width:0%"></div></div>
+      </div>
+      <div class="passage-label">Đoạn văn</div>
+      <div class="passage-text" id="passageText"></div>
+    </div>
+
+    <div class="questions-panel" id="questionsPanel">
+      <div class="questions-header">
+        <h3>Câu hỏi</h3>
+        <span class="q-count-badge" id="qCountBadge"></span>
+      </div>
+      <div id="questionsArea"></div>
+      <div class="submit-wrap">
+        <button class="btn-submit" id="submitBtn" onclick="finishExam()" disabled>Nộp bài →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div id="resultScreen">
+  <div class="result-layout">
+    <div class="result-left">
+      <div>
+        <div class="result-label">Kết quả</div>
+        <div class="result-big-score" id="resBigScore">0%</div>
+      </div>
+      <div>
+        <div class="result-msg" id="resMsg"></div>
+        <div class="result-sub" id="resSub" style="margin-top:8px"></div>
+      </div>
+      <div class="result-stats">
+        <div class="rs-item">
+          <div class="rsv" id="resCorrect" style="color: var(--correct)">0</div>
+          <div class="rsl">Đúng</div>
+        </div>
+        <div class="rs-item">
+          <div class="rsv" id="resWrong" style="color: var(--wrong)">0</div>
+          <div class="rsl">Sai</div>
+        </div>
+        <div class="rs-item">
+          <div class="rsv" id="resTotal">0</div>
+          <div class="rsl">Tổng</div>
+        </div>
+      </div>
+      <div class="result-actions">
+        <button class="btn-primary" onclick="retryExam()">🔄 Làm lại</button>
+        <button class="btn-outline" onclick="goHome()">← Trang chủ</button>
+      </div>
+    </div>
+    <div class="result-right">
+      <h3>Chi tiết đáp án</h3>
+      <div class="review-grid" id="reviewGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SPINNER -->
+<div class="spinner-overlay" id="spinnerOverlay">
+  <div class="spinner-box">
+    <div class="spin-tag">🎲 Quay ngẫu nhiên</div>
+    <div class="spin-num" id="spinNum">—</div>
+    <div class="spin-title" id="spinTitle">Đang chọn đề...</div>
+  </div>
+</div>
+
+<script>
+const EXAMS = [
+{id:1,title:"Brendan's best friend is Tip",passage:`Brendan's best friend is Tip. Tip and Brendan are inseparable. They teach each other things and they look after each other. Tip has helped Brendan become more responsible, more caring, and a better friend. Brendan is a nine-year-old boy, and Tip is a ten-year-old dog.\n\nHaving a dog helps a child learn how to act responsibly. As a dog owner, the child must take care of the animal's daily needs. The dog must be fed and exercised every day. A dog is completely dependent on its owner for all its needs. Therefore, being responsible for a dog also means taking care of the dog so that it stays healthy.\n\nAnother lesson that a child can learn from having a dog is how to be empathetic. A dog cannot express itself with speech, so its owner must learn how to interpret its behaviour. The child must learn to understand what the dog's behaviour means. Understanding a situation from the dog's perspective helps the child understand why the dog is behaving in a certain way.\n\nOne of the most significant benefits of owning a dog is the example of true friendship that a dog provides. A dog gives unconditional love to its owner. A dog will not stop loving its owner because of a little anger, indifference, or neglect.`,questions:[{q:"The word 'its' in paragraph 2 refer to:",opts:["A horse","A rabbit","A pig","A dog"],ans:3},{q:"What does the author say about empathy?",opts:["It eventually makes children more competitive","It eventually makes children more considerate and caring","It leads children to become more independent","It encourages children to be more reserved"],ans:1},{q:"All of the following is true of learning to take care of a dog EXCEPT:",opts:["It teaches children about independence","It is a simple task for children","It is a minor role in children's development","It is an important responsibility in children's life"],ans:3},{q:"What does the author say about the dog's behaviour?",opts:["They express the dog's mind","They show the dog's training","They indicate the dog's breed","They reflect the dog's health"],ans:0},{q:"In which paragraph does the author mention dogs owners responsibilities to their dog?",opts:["Paragraph 3","Paragraph 2","Paragraph 4","Paragraph 1"],ans:1},{q:"What can we say about Tip and Brendan?",opts:["Tip is five years old","Tip is a newborn","Tip is three years old","Tip is older than Brendan"],ans:3},{q:"What is main idea of paragraph 3?",opts:["How dogs enhance children's intelligence","How dogs teach children about discipline","How dogs improve children's physical health","How dogs teach children about empathy"],ans:3},{q:"What is best title for the passage?",opts:["Responsibilities of dog ownership for children","Positive effects on children of owning a dog","Challenges of owning a dog for children","Negative effects on children of owning a dog"],ans:1}]},
+{id:2,title:"New Zealand's South Island",passage:`New Zealand's South Island is the best place for road trips. You can see sea creatures along the Kaikoura Coast, explore the Abel Tasman National Park for beaches, visit Waipara Valley famous for its vineyards and local wines, and enjoy winter sports in the mountains.`,questions:[{q:"You may have chance to see sea creatures in:",opts:["Kaikoura coast","Waipara valley","Christchurch city","Wellington harbour"],ans:0},{q:"Which place would probably give you the best time at the beach?",opts:["Kaikoura Coast","Abel Tasman","Waipara Valley","Christchurch"],ans:1},{q:"Rebound =",opts:["recovery","prevention","recession","honeymoon"],ans:0},{q:"Majestic =",opts:["harmonious","dilapidated","uncommon","magnificent"],ans:3},{q:"What activities can tourists do at Pegasus bay winery?",opts:["See sea creatures","Enjoy beaches","They can taste wine","Road trips"],ans:2},{q:"All of the following is true, EXCEPT:",opts:["It is the best place for road trips","Waipara valley produces one of the best bottles in the world","Waipara valley is famous for its vineyards","Waipara valley is renowned for its local wines"],ans:1},{q:"What does the author say about New Zealand's south island?",opts:["It is the center of economy","It is known for urban life","It is the most populated area","It is the best place for road trips"],ans:3},{q:"Main Idea:",opts:["Best place in New Zealand's South Island","Most affordable destination in New Zealand","Busiest tourist spot in New Zealand","Quietest region in New Zealand's South Island"],ans:0}]},
+{id:3,title:"Flood is a term used to...",passage:`Flood is a term used to denote an enormous amount of water. When there is an outflow of water in a place, it is said to be flooded. Floods lead to an overfull and huge spread of water and bring diseases such as typhoid, cholera. Flood may be caused by massive rainfall, overflowing rivers, collapsed dams, snowmelt, deforestation, climate change, and emission of greenhouse gases. A flood can be caused both due to natural causes as well as it can be a human-made flood. Flood causes a huge loss of life and property. Waterborne diseases spread as a result of floods causing health problems.`,questions:[{q:"How does melting snow cause flooding?",opts:["It decreases the flow of river","It makes the level of the river rise","It lowers the temperature of the river","It changes the course of the river"],ans:1},{q:"Which statement is true?",opts:["Flooding can be caused by both nature and human activity","Flooding is entirely prevented by modern technology","Flooding is solely a natural phenomenon","Flooding is only caused by human activities"],ans:0},{q:"According to the passage, flows of unleashed dam waters can:",opts:["Destroy everything on their ways","Create new habitats for wildlife","Enhance the surrounding environment","Improve water quality downstream"],ans:0},{q:"Which of the following would be the best title for the passage?",opts:["Causes of floods","Effects of floods","Types of floods","Prevention of floods"],ans:0},{q:"All of the following are natural disasters EXCEPT?",opts:["Floods","Tsunami","Earthquake","Airplane crash"],ans:3}]},
+{id:4,title:"Baseball is sometimes called...",passage:`Baseball is sometimes called a national pastime in America. It has been played for many years in countries of South America and is very popular in Japan. Since baseball is an Olympic sport, more and more countries are putting together teams and joining the game.\n\nModern baseball began about 150 years ago in New York, USA. Baseball is played with a bat about 100 cm long made of metal or wood, and a small hard ball. Each player also wears one heavy leather glove.\n\nBaseball is played on a special outdoor field with an infield and outfield. In the infield is an area shaped like a diamond with three bases. The game of baseball is divided into nine innings. The team that scores the most runs by the end of the ninth inning wins.`,questions:[{q:"The writer says that baseball:",opts:["It is played only in America","It is not popular in Japan","It started in South America","It is becoming more popular all over the world"],ans:3},{q:"According to the text, baseball is played in more and more countries because:",opts:["It is an exciting game","It is included in the Olympic Games","Many American people live there","It is easy to play"],ans:1},{q:"Which sentence isn't true about baseball?",opts:["It was first played during the 1850s","It is an Olympic sport","The rules have changed quite a lot over the years","It started in New York"],ans:2},{q:"Which piece of equipment is not mentioned in the text?",opts:["Bat","Ball","Glove","Mask"],ans:3},{q:"What is the baseball field like?",opts:["It has an infield, outfield, and middle field","There are three diamonds on the ground","There are three bases on the diamond","It is usually in an indoor stadium"],ans:2},{q:"The game is divided into:",opts:["Two halves","Nine innings","Three bases","An infield and outfield"],ans:1},{q:"The object of the game is to:",opts:["Catch as many balls as you can","Hit the ball the farthest","Score the most runs","Bat as often as you can"],ans:2}]},
+{id:5,title:"Brenda Ann Spencer",passage:`Brenda Ann Spencer grew up opposite the Cleveland Elementary School in a broken, disadvantaged family. Her father drank quite a lot of alcohol. Doctors had suggested that Brenda should be hospitalized, but instead her father gave her a gun as a Christmas present. She shot at students and school employees. When asked why she did it, she said: "I don't like Mondays." Two people were killed.`,questions:[{q:"Main idea of the passage:",opts:["A story about a school shooting and the reasons behind","The shooting accident","Opposite the Cleveland Elementary School","The suggestion that Brenda should be hospitalized"],ans:0},{q:"Where did Brenda Ann Spencer live?",opts:["Near the Cleveland High School","Opposite the Cleveland Elementary School","Across from the Cleveland Library","Beside the Cleveland Community Center"],ans:1},{q:"Which statement describes Brenda's background?",opts:["She grew up in a broken disadvantaged family","She came from a highly educated family","She was raised in a stable supportive family","She grew up in a wealthy privileged family"],ans:0},{q:"What did Brenda's father do when doctors suggested she be hospitalized?",opts:["He enrolled her in sports","He took her on vacation","He gave her a gun as a present for Christmas","He bought her a bicycle"],ans:2},{q:"How many people were killed by Brenda?",opts:["2","3","4","5"],ans:0},{q:"According to Spencer, why did she shoot the students?",opts:["She grew up in a broken family","Her father gave her a gun","She detested Mondays","Her father drank alcohol"],ans:2}]},
+{id:7,title:"A pancake is a flat cake",passage:`A pancake is a flat cake, often thin and round, prepared from a starch-based batter that may contain eggs, milk and butter and cooked on a hot surface. Archaeological evidence suggests that pancakes were probably eaten in prehistoric societies.\n\nIn the United Kingdom, pancakes are often unleavened and resemble a crêpe. In North America, a leavening agent is used creating a thick fluffy pancake. The Ancient Greeks made pancakes called tagenias, made with wheat flour, olive oil, honey, and curdled milk, served for breakfast.`,questions:[{q:"What is the main ingredient that gives pancakes their structure?",opts:["Starch-based batter","Lemon","Chocolate","Honey"],ans:0},{q:"In which paragraph does the author describe pancake varieties?",opts:["Paragraph 1","Paragraph 2","Paragraph 3","Paragraph 4"],ans:1},{q:"What type of pancake does North America use a leavening agent for?",opts:["Thin crêpe","Thick fluffy","Chocolate","Savoury"],ans:1}]},
+{id:8,title:"Many people enjoy a cup of coffee",passage:`Coffee trees are native to eastern Africa and areas of the Arabian Peninsula. Coffee was first grown and traded in the 15th century. Most coffee came from Yemen. By the 17th century coffee had been introduced to Europe. The Dutch brought coffee to Indonesia. By the 20th century, most of the world's production came from Central and South America. Today, Brazil is the largest producer of coffee in the world.\n\nThe two most important kinds of coffee plants are arabica and robusta. Arabica makes up around 70% of the world's production. Robusta has more caffeine than arabica and is grown in Central and Western Africa. Robusta is less costly to grow because it is more resistant to diseases.`,questions:[{q:"What is the main idea of paragraph 2?",opts:["All types produce similar coffee","A comparison between some main type of coffee plants","Expensive to grow disease-prone plants","The story of coffee"],ans:1},{q:"Where do coffee trees originally come from?",opts:["Brazil","Arabian Peninsula","Indonesia","Europe"],ans:1},{q:"Which country makes the most coffee in the world?",opts:["Colombia","Vietnam","Ethiopia","Brazil"],ans:3},{q:"Which part of the coffee plant is used for the production of coffee drink?",opts:["The coffee bean","The leaf","The root","The flower"],ans:0},{q:"What would be the best title?",opts:["The story of coffee","Arabian Peninsula","Types of coffee plants","The coffee bean"],ans:0}]},
+{id:11,title:"Many people would like to learn a musical instrument",passage:`Many people would like to learn how to play a musical instrument, but they are put off by one big problem: what to play?\n\nThink about your long-term future as a musician. If you want to play with other people, what sort of instrument would be most practical? The initial attraction of playing a dazzling solo instrument like trumpet, violin, flute or lead guitar might fade when you realise how many others compete with the same instrument!\n\nMany people live in flats and practising the drums, for example, will drive neighbours crazy. Electric versions of instruments give you the option of playing into the night using headphones.\n\nThis is quite a big factor. Many instruments can be purchased in different price ranges. Talk to people who already play instruments and find an experienced music teacher.`,questions:[{q:"Which can be a drawback if you want to play with others:",opts:["Playing a popular solo instrument","Learning from a teacher","Choosing a simple instrument","Practising at home"],ans:0},{q:"It can be inferred from the text that the author:",opts:["Dislikes all musical instruments","Is giving advice on choosing musical instruments","Thinks music is too expensive","Prefers drums above all"],ans:1},{q:"'Purchased' is closest to:",opts:["Bought","Sold","Given","Returned"],ans:0},{q:"The best title is:",opts:["Why music is important","Choosing a musical instrument is a big decision","How to play guitar","Electric instruments are best"],ans:1},{q:"In the passage, electric instruments:",opts:["Are a good idea to avoid disturbing other people","Are very expensive","Are only for professionals","Have poor sound quality"],ans:0}]},
+{id:12,title:"The Olympic Games — The Decathlon",passage:`The Olympic Games have changed a lot since their origins in Ancient Greece. Today, athletes from countries all over the world take part. In the ancient Games, a great champion might have received as much as a year's pay for winning a race.\n\nIn the ancient Olympics, athletes competed in the pentathlon, which consisted of the long jump, the discus, the javelin, a running race and wrestling. The Stockholm Olympics of 1912 brought back this tradition. The modern decathlon (ten events) was included, with the heptathlon (seven events) for women introduced later.\n\nAmerican decathlete Bruce Thorpe says: "The way it works is you complete each event and get points. At the end of two days, the person with the most points is champion and takes the gold medal."`,questions:[{q:"What is the best title for this article?",opts:["Jump high","Get a trainer","The decathlon","Sports history"],ans:2},{q:"To win a gold medal in the decathlon, you need to:",opts:["Get a trainer to guide you","Reintroduce the winner of all rounds","Score more points than all other competitors","Finish first in every event"],ans:2},{q:"The heptathlon for women:",opts:["Is the same as the pentathlon","Became an Olympic event after 1912","Was the first champion of the ancient Olympic","Is harder than the decathlon"],ans:1},{q:"How did the Stockholm Olympics of 1912 contribute to the Olympics?",opts:["It reintroduced the search for the winner of all rounds","It reduced the number of events","It got rid of track events","It introduced team sports"],ans:0}]},
+{id:13,title:"All mammals feed their young",passage:`All mammals feed their young. Beluga whale mothers nurse their calves for some twenty months. The behavior of feeding of the young is built into the reproductive system. It is a nonselective part of parental care and the defining feature of a mammal.\n\nBut not all animal parents feed their young. Most egg-guarding fish do not for the simple reason that their young are so much smaller than the parents. In reptiles, the crocodile mother protects her young after they have hatched and takes them down to the water, but she does not actually feed them.\n\nFor animals other than mammals, feeding is not intrinsic to parental care. The most vulnerable moment in any animal's life is when it first finds itself completely on its own. Feeding postpones that moment until a young animal has grown to such a size that it is better able to cope.`,questions:[{q:"What does the passage mainly discuss?",opts:["The care that various animals give to their offspring","The difficulties young animals face","The methods mammals use to nurse","The importance of becoming independent"],ans:0},{q:"The word 'tend' in paragraph 2 is closest in meaning to:",opts:["Sit on","Move","Notice","Care for"],ans:3},{q:"The word 'provisioning' in paragraph 2 is closest in meaning to:",opts:["Supplying","Preparing","Building","Expanding"],ans:0},{q:"The word 'edge' in the third paragraph is closest in meaning to:",opts:["Opportunity","Advantage","Purpose","Rest"],ans:1},{q:"The word 'it' in the third paragraph refers to:",opts:["Feeding","Moment","Young animal","Size"],ans:2}]},
+{id:15,title:"During the seventeenth and eighteenth centuries",passage:`During the seventeenth and eighteenth centuries, almost nothing was written about the contribution of women during the colonial period. Lacking the right to vote and absent from the seats of power, women were not considered an important force in history. Anne Bradstreet wrote significant poetry, Mercy Otis Warren produced a history of the American Revolution, and Abigail Adams penned important letters. But little or no notice was taken.\n\nThroughout the nineteenth century, this lack of visibility continued. Writers were amateur historians whose writings were celebratory in nature and uncritical in their selection and use of sources.\n\nDespite gathering more information about ordinary women, most writing conformed to the 'great women' theory of history. Female authors singled out women leaders and wrote biographies. Most of these leaders were involved in public life as reformers, activists, or authors, and were not representative of ordinary women.`,questions:[{q:"What does the passage mainly discuss?",opts:["The keen sense of history shown by American women","The 'great women' approach to history","The role of literature in early American histories","The place of American women in written histories"],ans:3},{q:"In the first paragraph, Bradstreet, Warren, and Adams are mentioned to show that:",opts:["Poetry by women was more readily accepted","Only three women were able to get published","Even outstanding women's contributions were ignored","A woman's status was changed by marriage"],ans:2},{q:"The word 'celebratory' in line 11 means that the writings refer to:",opts:["Related to parties","Full of praise","Religious","Serious"],ans:1},{q:"It can be inferred that during the 17th and 18th centuries:",opts:["Both male and female writers wrote about women","Women had right to vote","Women's contribution was not highly appreciated","Women had great influence on politics"],ans:2}]},
+{id:16,title:"Babies' speech",passage:`Long before they can actually speak, babies pay special attention to the speech they hear around them. Within the first month of their lives, babies' responses to the sound of the human voice are different from their responses to other kinds of auditory stimuli. They will stop crying when they hear a person talking, but not when they hear a bell or the sound of a rattle.\n\nBy the time they are six or seven weeks old, babies can detect the difference between syllables pronounced with rising and falling intonations. Long before they develop actual language comprehension, babies can sense when an adult is playful or angry.\n\nAdults make it as easy as they can for babies to learn a language by exaggerating such cues. One researcher observed babies and their mothers in six different cultures and found that, in all six languages, the mothers used simplified syntax, short utterances, and even nonsense sounds.`,questions:[{q:"What does the passage mainly discuss?",opts:["How babies differentiate the human voice from other sounds","Differences between baby's and adult's ability to comprehend language","How babies perceive and respond to the human voice","The response of babies to sounds other than human voice"],ans:2},{q:"Why does the author mention a bell and rattle in paragraph 1?",opts:["To contrast reactions of babies to human and nonhuman sounds","To give examples of sounds that cause a baby to cry","To explain how babies distinguish between nonhuman sounds","To give examples of toys babies do not like"],ans:0},{q:"What point illustrates that babies are born with the ability to acquire language?",opts:["Babies understand words in songs","Babies exaggerate their own sounds","Babies are more sensitive to sounds","Babies notice minor differences between speech sounds"],ans:3}]},
+{id:17,title:"Esperanto is what is called a planned language",passage:`Esperanto is a planned, or artificial, language. It was created by Polish eye doctor Ludwik Lazar Zamenhof. Zamenhof believed that a common language would help to alleviate some of the misunderstandings among cultures.\n\nIn Zamenhof's first attempt, he tried to create a language that was as uncomplicated as possible. He then tried a different way: making words sound like words people already knew but simplifying the grammar. All nouns end in -o (e.g. amiko = friend), all adjectives end in -a (e.g. bela = pretty). The prefix mal- makes a word opposite: malamiko = enemy.\n\nIn 1887, Zamenhof published a description using the pen name Dr. Esperanto, which means "a person who hopes." The First World Congress of Esperanto took place in 1905 in France, with 700 attendees from 20 countries. Today, it is estimated that perhaps a quarter of a million people are fluent in it.`,questions:[{q:"The topic of this passage is:",opts:["One man's efforts to create a universal language","How language can be improved","Using language to communicate internationally","A language developed in the last few years"],ans:0},{q:"According to the passage, Zamenhof wanted to create a universal language:",opts:["To build a name for himself","To provide a more complex language","To resolve cultural differences","To create one world culture"],ans:2},{q:"It can be inferred that the Esperanto word 'malespera' means:",opts:["Hopeless","Hope","Hopelessness","Hopeful"],ans:0},{q:"The passage would most likely be assigned reading in a course on:",opts:["European history","English grammar","World government","Applied linguistics"],ans:3}]},
+{id:19,title:"Taken together, income, occupation...",passage:`Taken together, income, occupation, and education are good measures of people's social standing. Using a layered model of stratification, most sociologists describe the class system in the United States as: upper, upper middle, middle, lower middle, and lower class.\n\nIn the United States, the upper class owns the major share of corporate and personal wealth. They are the most powerful group and influence the economy and politics of the country. The upper class is primarily characterized by inherited wealth passed down across multiple generations.\n\nThe upper-middle class consists of highly educated professionals such as doctors, lawyers, and corporate executives who earn high incomes but do not own major shares of corporate wealth.\n\nThe middle class is the most difficult to define because people in this class vary widely in lifestyle and resources.\n\nThe lower-middle class consists largely of unskilled workers in manual labor. Quite a few of them think that they don't belong to this class and many actively seek upward mobility.\n\nThe lower class includes both the working poor and the underclass. Some people in the lower class don't have any jobs so they may earn their living by committing crimes.`,questions:[{q:"According to the passage, which of the following is true about the lower middle class:",opts:["Most of them aspire to join the upper class","They are highly satisfied with their social status","Many of them actively seek to leave this class","Quite a few of them think they don't belong to this class"],ans:3},{q:"Which class has had a subcategory added to it:",opts:["The middle class","The upper class","The lower class","The upper-middle class"],ans:2},{q:"Why is the middle class difficult to define according to the passage:",opts:["People in the middle class have identical career paths","The middle class is defined by a single income bracket","People in the middle class vary widely in lifestyle and resources","The middle class shares a uniform educational background"],ans:2},{q:"According to the passage, what is the primary characteristic of the upper class in the US:",opts:["An inheritance of wealth across multiple generations","A dependence on government assistance","A consistent rise in income through career advancement","A rapid accumulation of wealth through ventures"],ans:0}]},
+{id:20,title:"Although America's immigration...",passage:`Although America's immigration policy now seems dominated by a desire to seal the country's southern border, Donald Trump's administration has been surprisingly tolerant of a certain type of crossing. Those by legal, temporary migrants or guest workers in search of low-wage work have risen dramatically over the past decade. The government granted 408,000 visas for guest workers in 2019, up from 103,000 in 2010.\n\nThe H-2A visa for agricultural workers has no annual cap, and the number has soared. The H-2B visa for non-agricultural seasonal workers does have a cap: Congress sets a maximum of 66,000 per year.\n\nEmployers favour guest workers because they are cheaper to hire. They receive lower wages than American workers, are not entitled to the same benefits, and employers do not have to pay for their transport or housing. Labour advocates have lambasted the guest-worker programme, arguing that it creates a system ripe for exploitation.`,questions:[{q:"What do labour advocates say about the current guest worker recruitment process:",opts:["It guarantees job security for local workers","It simplifies the hiring process","It ensures fair wages for all workers","It may bring about labour exploitation"],ans:3},{q:"How many visas for guest workers were granted by the US government in 2010:",opts:["85,000","125,000","150,000","103,000"],ans:3},{q:"Which type of immigrants has witnessed a big increase over the last decade:",opts:["Illegal immigrants","Refugees","Political asylum seekers","Legal, temporary migrants"],ans:3},{q:"'Lambasted' in the passage =",opts:["Outlawed","Criticized","Favoured","Approved"],ans:1},{q:"What is TRUE about H-2B visas:",opts:["The number of H-2B visas varies annually","The minimum number is fixed","H-2B visas are unlimited","The maximum number granted per year is fixed"],ans:3}]},
+{id:21,title:"The Olympic Games — Decathlon (VSTEP B1-C1)",passage:`The Olympic Games have changed a lot since their origins in Ancient Greece. Today, athletes from countries all over the world take part and the Olympics are big business, watched by millions on television. Some things have stayed the same: athletes could make a lot of money from winning. In the ancient Games, a great champion might have received as much as a year's pay for winning a race.\n\nIn the ancient Olympics, athletes competed in the pentathlon: the long jump, the discus, the javelin, a running race and wrestling. The first winner, in 708 BC, was Lampis of Sparta. The Stockholm Olympics of 1912 brought back this tradition. The modern decathlon (ten events) was included, with the heptathlon (seven events) for women introduced later.\n\nBruce Thorpe says: "The way it works is you complete each event and get points. At the end of two days, the person with the most points is champion. We start with the 100 metres, the long jump, the shot put, the high jump and the 400 metres. The second day, it's the 110 metre hurdles, the discus, the javelin, the pole vault and the 1500 metres."`,questions:[{q:"In the first paragraph, the writer says that athletes today:",opts:["Are more popular than in ancient times","Are much better than in ancient times","Treat the Olympics like a business","Can become wealthy through sport"],ans:3},{q:"The ancient pentathlon didn't test athletes' abilities to:",opts:["Throw things","Jump high","Run fast","Jump far"],ans:1},{q:"Lampis of Sparta was:",opts:["The organizer of the first ancient Olympics","Emperor Theodosius of Rome","The first winner of the ancient Olympics","The greatest athlete in history"],ans:2},{q:"According to the passage, the heptathlon for women:",opts:["Became an Olympic event after 1912","Is similar to the ancient pentathlon","Tests the ability to ride a horse","Is much easier than the decathlon"],ans:0},{q:"What do you have to do to win a gold medal in the decathlon?",opts:["Score more points than all other competitors","Beat others in at least three events","Finish each event in top three","Complete events in right order"],ans:0}]},
+{id:26,title:"Bangkok — Travel in Bangkok",passage:`Bangkok might be noisy and polluted but it's also an exciting city with plenty of things to see and do. The Khao San Road was a famous traveler spot but for something more authentic, Phra Kanong offers an alternative place to stay, with its fantastic street markets. It's not as convenient for the main tourist sites, but it has a Skytrain station so you can be at the Grand Palace in 20 minutes.\n\nBangkok's traffic can be a nightmare. To explore the temples and historical sites, catch an express boat river taxi along the Chao Phraya River and the canals. For the modern part of the city, the Skytrain is a fast, cheap way to travel.\n\nThai street food is among the best in the world, and for around $5 you can eat a filling and delicious meal. Head for Chinatown — Yaowarat Street — and choose from many excellent Chinese and Thai restaurants.`,questions:[{q:"Which area is recommended for an authentic Bangkok experience?",opts:["Khao San Road","Phra Kanong","Grand Palace","Chatuchak"],ans:1},{q:"What is the best way to explore Bangkok's temples?",opts:["By taxi","By river boat","By Skytrain","By bus"],ans:1},{q:"Where is recommended for good food in Bangkok?",opts:["Khao San Road","Phra Kanong","Yaowarat Street (Chinatown)","Grand Palace"],ans:2}]},
+{id:28,title:"As health care costs rise — Acupuncture",passage:`As health care costs continually rise in most developed countries, many people are looking to alternative forms of health therapy. Two of the most popular are acupuncture and herbal medicine, both of which have been used for centuries in Asia and are rooted in ancient Chinese medicine.\n\nAcupuncture is based on ancient Chinese medicine and the importance of ki, a kind of life force that pulsates through every human's body. Acupuncturists locate and stimulate certain areas on the surface of the body to relieve pressure and allow ki to flow freely.\n\nHerbal therapy involves special herbs prescribed to be taken in a hot liquid form, usually tea. Herbs boost the immune system and can aid in normalizing blood pressure.`,questions:[{q:"According to the passage, which of the following is true of ki?",opts:["It constantly runs through the various blood vessels","It is the basis upon which acupuncture was devised","It is an invisible force that blocks pathways","It stimulates pathways and relieves pain"],ans:0},{q:"What's the main idea of the passage?",opts:["Acupuncture — the best therapy","People using plants for healing","Two forms of alternative therapies in the West","Western medical techniques are improved"],ans:2},{q:"What method of acupuncture is described as effective and popular?",opts:["Nose acupuncture","Back acupuncture","Foot acupuncture","Ear acupuncture"],ans:3}]},
+{id:29,title:"There are two basic types of glaciers",passage:`There are two basic types of glaciers: those that flow outward in all directions with little regard for underlying terrain (ice sheets and ice caps), and those that are confined by terrain to a particular path (mountain or alpine glaciers).\n\nThere must be over 50,000 square kilometres of land covered with ice for the glacier to qualify as an ice sheet. Now there are only two ice sheets left on Earth, covering Greenland and Antarctica.\n\nAny domelike body of ice that also flows out in all directions but covers less than 50,000 square kilometres is called an ice cap. Mountain glaciers are typically identified by the landform that controls their flow. The most common types of mountain glaciers are the cirque and valley glaciers.`,questions:[{q:"What does the passage mainly discuss?",opts:["Where major glaciers are located","How glaciers shape the land","How glaciers are formed","The different kinds of glaciers"],ans:3},{q:"The word 'massive' in paragraph 2 is closest in meaning to:",opts:["Huge","Strange","Cold","Recent"],ans:0},{q:"According to the passage, ice shelves can be found:",opts:["Covering an entire continent","Buried within mountains","Spreading into the ocean","Filling deep valleys"],ans:2},{q:"All of the following are alpine glaciers EXCEPT:",opts:["Cirque glaciers","Ice caps","Valley glaciers","Ice fields"],ans:1}]},
+{id:30,title:"American Jazz",passage:`American jazz is a mixture of sounds borrowed from American and African folk music, European classical music, and Christian gospel songs. One of the recognizable characteristics of jazz is its use of improvisation: certain parts are written out and played the same way, while improvised parts are created spontaneously during a performance.\n\nThe earliest form of jazz was ragtime, lively songs performed on the piano. The best-known of the ragtime performers was Scott Joplin. Born in 1868 to former slaves, Joplin earned his living from a very early age playing the piano in bars along the Mississippi. One of his regular jobs was at the Maple Leaf Club in Sedalia, Missouri, where he began writing over 500 compositions, the most famous being "The Maple Leaf Rag."`,questions:[{q:"This passage is about:",opts:["The life of Scott Joplin","The major characteristics of jazz","Jazz in general and one specific type of jazz","The various sources of jazz"],ans:2},{q:"Which of the following is NOT a source of American jazz?",opts:["Christian gospel songs","European folk songs","European classical music","American and African folk music"],ans:1},{q:"According to the passage, ragtime was:",opts:["Performed only at the Maple Leaf Club","Generally performed on a variety of instruments","The first type of jazz","Extremely soothing and sedate"],ans:2}]},
+{id:31,title:"Millions of people are using cellphones today",passage:`Millions of people are using cellphones today. In many countries, cellphones are very popular with young people. They find that the phones are more than a means of communication — having a mobile phone shows that they are cool and connected.\n\nSome doctors are concerned that in the future many people may suffer health problems from the use of mobile phones. Medical studies have shown changes in the brain cells of some people who use mobile phones. In one case, a travelling salesman had to retire at a young age because of serious memory loss. He used to talk on his mobile phone for about six hours a day.\n\nWhat makes mobile phones potentially harmful? The answer is radiation. Mobile phone companies agree that there is some radiation, but say the amount is too small to worry about.\n\nAs the discussion about their safety continues, it appears that it's best to use mobile phones less often.`,questions:[{q:"According to the passage, cellphones are especially popular with young people because:",opts:["They are indispensable in everyday communications","They make them look more stylish","They keep the users alert","They cannot be replaced by regular phones"],ans:1},{q:"The word 'potentially' in the passage most closely means:",opts:["Obviously","Possibly","Certainly","Privately"],ans:1},{q:"The man mentioned in the passage who used cellphone too often:",opts:["Suffered serious loss of mental ability","Could no longer think lucidly","Abandoned his family","Had a problem with memory"],ans:3},{q:"According to the passage, what makes mobile phones potentially harmful?",opts:["Their radiant light","Their power of attraction","Their raiding power","Their invisible rays (radiation)"],ans:3},{q:"The most suitable title for the passage could be:",opts:["The Reasons Why Mobile Phones Are Popular","Technological Innovations and Their Price","The Way Mobile Phones Work","Mobile Phones: A Must of Our Time"],ans:1}]},
+{id:33,title:"The development of jazz",passage:`The development of jazz can be seen as part of the larger continuum of American popular music, especially dance music. In the twenties, jazz became the hottest new thing in dance music, much as ragtime had at the turn of the century.\n\nTwo characteristics distinguish jazz from other dance music. The first is improvisation, the changing of a musical phrase according to the player's inspiration. Jazz musicians strive for an individual style.\n\nThe second distinguishing characteristic of jazz is a rhythmic drive that was initially called "hot" and later "swing". In playing hot, a musician consciously departs from strict meter to create a relaxed sense of phrasing that also emphasizes the underlying rhythms.`,questions:[{q:"Which of the following appeared before jazz as popular music for dancing?",opts:["Rock","Ragtime","Rhythm and blues","Disco"],ans:1},{q:"According to the passage, jazz musicians demonstrate their individual artistry mainly by:",opts:["Being able to play all types of popular music","Creating musical variations while performing","Preparing musical arrangements","Reading music with great skill"],ans:1},{q:"The word 'consciously' is closest in meaning to:",opts:["Easily","Carelessly","Periodically","Purposely"],ans:3}]},
+{id:36,title:"Birds that feed in flocks",passage:`Birds that feed in flocks commonly retire together into roosts. In winter, it is important for birds to keep warm at night and conserve precious food reserves. Solitary roosters shelter in dense vegetation or enter a cavity, but the effect of sheltering is magnified by several birds huddling together. Body contact reduces the surface area exposed to the cold air. Two kinglets huddling together were found to reduce their heat losses by a quarter, and three together saved a third of their heat.\n\nThe second possible benefit of communal roosts is that they act as "information centers". When birds return in the evening, those that did not feed well appear to follow those that did the next morning.\n\nFinally, there is safety in numbers at communal roosts since there will always be a few birds awake at any given moment to give the alarm. But this increased protection is partially counteracted by the fact that mass roosts attract predators.`,questions:[{q:"What does the passage mainly discuss?",opts:["How birds find and store food","How birds maintain body heat in winter","Why birds need to establish territory","Why some species of birds nest together"],ans:3},{q:"The word 'conserve' in paragraph 1 is closest in meaning to:",opts:["Retain","Watch","Locate","Share"],ans:0},{q:"The word 'magnified' in paragraph 1 is closest in meaning to:",opts:["Caused","Modified","Intensified","Combined"],ans:2},{q:"Which of the following is a disadvantage of communal roosts?",opts:["Diseases easily spread","Groups are more attractive to predators","Food supplies are quickly depleted","Some birds in the group attack others"],ans:1}]},
+{id:38,title:"Basic to any understanding of Canada",passage:`Basic to any understanding of Canada in the 20 years after the Second World War is the country's impressive population growth. For every three Canadians in 1945, there were over five in 1966. Most of this surging growth came from natural increase. The baby boom continued through the decade of the 1950s, producing a population increase of nearly fifteen percent in the five years from 1951 to 1956. In 1957 the Canadian birth rate stood at 28 per thousand, one of the highest in the world.\n\nAfter the peak year of 1957, the birth rate in Canada began to decline. Partly this decline reflected the low level of births during the depression and the war, but it was also caused by changes in Canadian society. Young people were staying at school longer; more women were working; young married couples were buying automobiles or houses before starting families.`,questions:[{q:"When was the birth rate in Canada at its lowest postwar level?",opts:["1957","1966","1951","1956"],ans:1},{q:"According to the passage, when did Canada's baby boom begin?",opts:["During the depression of the 1930s","After 1945","In 1966","In the decade after 1911"],ans:1},{q:"What does the passage mainly discuss?",opts:["Educational changes in Canadian society","Canada during the Second World War","Population trends in postwar Canada","Standards of living in Canada"],ans:2},{q:"The word 'surging' is closest in meaning to:",opts:["Surprising","New","Accelerating","Extra"],ans:2}]},
+{id:39,title:"Most people can remember a phone number",passage:`Most people can remember a phone number for up to thirty seconds. Information that makes its way to the short term memory (STM) does so via the sensory storage area. The most accepted theory comes from George A. Miller, who suggested that humans can remember approximately seven chunks of information.\n\nWhen making a conscious effort to memorize something, many people engage in "rote rehearsal". By repeating something over and over again, one is able to keep a memory alive. Unfortunately, this type of memory maintenance only succeeds if there are no interruptions.\n\nA better way is to practice "elaborate rehearsal". This involves assigning semantic meaning to a piece of information so that it can be filed along with other pre-existing long term memories.`,questions:[{q:"According to the passage, how do memories get transferred to the STM?",opts:["They revert from long term memory","They are filtered from the sensory storage area","They get chunked when they enter the brain","They enter via the nervous system"],ans:1},{q:"The author believes that rote retention is:",opts:["The best way to remember something","More efficient than chunking","Ineffective in the long run","An unnecessary interruption"],ans:2},{q:"The word 'elaborate' in paragraph 3 is closest in meaning to:",opts:["Complex","Efficient","Pretty","Regular"],ans:0}]},
+{id:41,title:"Before the mid-nineteenth century — Food preservation",passage:`Before the mid-nineteenth century, people in the United States ate most foods only in season. In 1810, a French inventor named Nicolas Appert developed the cooking-and-sealing process of canning. In the 1850s, Gail Borden developed a means of condensing and preserving milk. By 1880, inventors had fashioned stamping and soldering machines that mass-produced cans from tinplate.\n\nRailroad refrigerator cars enabled growers and meat packers to ship perishables great distances. By the 1890's, northern city dwellers could enjoy southern and western strawberries, grapes, and tomatoes for up to six months of the year. The icebox was replaced by the mechanized refrigerator in the 1920's and 1930's.`,questions:[{q:"What does the passage mainly discuss?",opts:["Causes of food spoilage","Commercial production of ice","Population movements in the 19th century","Inventions that led to changes in the American diet"],ans:3},{q:"The phrase 'in season' in line 1 refers to:",opts:["A particular time of year","A kind of weather","An official schedule","A method of flavoring"],ans:0},{q:"Which of the following statements is supported by the passage?",opts:["Most farmers in the United States raised only fruits and vegetables.","Tin cans and iceboxes helped to make many foods more widely available.","Commercial ice factories were developed by railroad owners.","People who lived in cities demanded home delivery of foods."],ans:1}]},
+{id:44,title:"Many folk cures",passage:`Many folk cures which have been around for centuries may be more therapeutic than previously suspected. Alexander Fleming did not just randomly choose cheese molds to study when he discovered penicillin. Moldy cheese was frequently given to patients as a remedy for illness.\n\nIn parts of South America, a powder obtained from grinding sugar cane is used for healing infections. Ordinary sugar in high concentrations is lethal to bacteria. Its suction effect eliminates dead cells and generates a glass-like layer which protects the wound.\n\nAnother example is Arab fishermen who rub their wounds with a venomous catfish to quicken healing. This catfish excretes a gel-like slime which scientists found to contain antibiotics, coagulant that helps close injured blood vessels, and anti-inflammatory agents.`,questions:[{q:"This passage is mainly about:",opts:["Antibiotics in the field of medicine","The validity of folk remedies and their use for advances in modern medicine","Using folk medicines in place of modern medicines","Isolating antibiotics in cheese, sugar, and slime"],ans:1},{q:"The word 'therapeutic' in paragraph 1 is closest in meaning to:",opts:["Psychological","Physiological","Traditional","Medicinal"],ans:3},{q:"The word 'eliminates' in paragraph 2 is closest in meaning to:",opts:["Excretes","Disposes of","Kills off","Cleanses"],ans:1},{q:"According to the passage:",opts:["Sugar kills unhealthy cells","Bacteria feed on sugar","Sugar promotes healing","Glass is formed from sugar"],ans:2}]},
+{id:46,title:"Horace Mann — Education Reform",passage:`Perhaps it was his own lack of adequate schooling that inspired Horace Mann to work so hard for the important reforms in education that he accomplished. While he was still a boy, his father and older brother died, and he became responsible for supporting his family.\n\nWhile serving in the Massachusetts legislature, he signed a historic education bill. He gave up his successful legal practice and political career to become the first secretary of the state board of education. Under his leadership, the curriculum was restructured, the school year was increased to a minimum of six months, and mandatory schooling was extended to age sixteen.\n\nMann's ideas about school reform were developed and distributed in twelve annual reports. Considered quite radical at the time, the Massachusetts reforms later served as a model for the nation.`,questions:[{q:"Which title best expresses the main topic of the passage?",opts:["The Father of American Public Education","Philosophy of Education","The Massachusetts State Board of Education","Politics of Educational Institutions"],ans:0},{q:"Which describes Horace Mann's early life?",opts:["He attended school six months a year","He had to study alone","He supported his family after his father died","He was an only child"],ans:2},{q:"The word 'mandatory' in paragraph 2 is closest in meaning to:",opts:["Required","Equal","Excellent","Basic"],ans:0},{q:"How were Mann's educational reforms distributed?",opts:["In twelve annual reports to the state of Massachusetts","In reports for national distribution","In speeches throughout the country","In books in school libraries"],ans:0}]}
+];
+
+function shuffle(arr) {
+  let a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+let progress = {};
+try { progress = JSON.parse(localStorage.getItem('b1dark_v1') || '{}'); } catch(e) {}
+
+let currentExam = null;
+let currentQs = [];
+let answers = [];
+
+/* ───── HOME ───── */
+function buildHome() {
+  const totalQ = EXAMS.reduce((s, e) => s + e.questions.length, 0);
+  document.getElementById('totalExams').textContent = EXAMS.length;
+  document.getElementById('totalQs').textContent = totalQ;
+  const doneArr = Object.values(progress).filter(p => p.done);
+  document.getElementById('doneExams').textContent = doneArr.length;
+  const scores = doneArr.map(p => p.score);
+  document.getElementById('avgScore').textContent = scores.length ? Math.round(scores.reduce((a,b)=>a+b,0)/scores.length) + '%' : '—';
+  const pct = Math.round(doneArr.length / EXAMS.length * 100);
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('progressFill').style.width = pct + '%';
+  renderGrid(EXAMS);
+}
+
+function renderGrid(exams) {
+  document.getElementById('examCountLabel').textContent = exams.length + ' đề';
+  const g = document.getElementById('examGrid');
+  g.innerHTML = exams.map(e => {
+    const p = progress[e.id] || {};
+    let scoreBadge = '';
+    if (p.done && p.score !== undefined) {
+      const cls = p.score >= 80 ? 'high' : p.score >= 60 ? 'mid' : 'low';
+      scoreBadge = `<span class="ec-score ${cls}">${p.score}%</span>`;
+    } else {
+      scoreBadge = `<span class="ec-score none">Chưa làm</span>`;
+    }
+    return `<div class="exam-card ${p.done ? 'done' : ''}" onclick="startExam(${e.id})">
+      <div class="ec-num">ĐỀ ${e.id}</div>
+      <div class="ec-title">${e.title}</div>
+      <div class="ec-footer">
+        <span class="ec-count">${e.questions.length} câu</span>
+        ${scoreBadge}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterExams() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  renderGrid(EXAMS.filter(e => e.title.toLowerCase().includes(q) || ('đề ' + e.id).includes(q)));
+}
+
+/* ───── RANDOM ───── */
+function startRandom() {
+  const overlay = document.getElementById('spinnerOverlay');
+  const spinNum = document.getElementById('spinNum');
+  const spinTitle = document.getElementById('spinTitle');
+  overlay.classList.add('show');
+  const chosen = EXAMS[Math.floor(Math.random() * EXAMS.length)];
+  let count = 0;
+  const interval = setInterval(() => {
+    const fake = EXAMS[Math.floor(Math.random() * EXAMS.length)];
+    spinNum.textContent = 'ĐỀ ' + fake.id;
+    spinTitle.textContent = fake.title;
+    count++;
+    if (count > 28) {
+      clearInterval(interval);
+      spinNum.textContent = 'ĐỀ ' + chosen.id;
+      spinNum.classList.add('landed');
+      spinTitle.textContent = chosen.title;
+      setTimeout(() => {
+        overlay.classList.remove('show');
+        spinNum.classList.remove('landed');
+        startExam(chosen.id);
+      }, 1000);
+    }
+  }, 75);
+}
+
+/* ───── QUIZ ───── */
+function startExam(id) {
+  currentExam = EXAMS.find(e => e.id === id);
+  // Shuffle questions
+  const qs = shuffle(currentExam.questions).map(q => {
+    const opts = [...q.opts];
+    const correct = opts[q.ans];
+    const shuffled = shuffle(opts);
+    return { ...q, opts: shuffled, ans: shuffled.indexOf(correct) };
+  });
+  currentQs = qs;
+  answers = new Array(qs.length).fill(null);
+
+  document.getElementById('homeScreen').style.display = 'none';
+  document.getElementById('resultScreen').style.display = 'none';
+  document.getElementById('quizScreen').style.display = 'block';
+
+  document.getElementById('quizExamNum').textContent = 'ĐỀ ' + currentExam.id;
+  document.getElementById('quizExamTitle').textContent = currentExam.title;
+  document.getElementById('passageText').innerHTML = (currentExam.passage || '').replace(/\n/g, '<br><br>');
+  document.getElementById('qCountBadge').textContent = qs.length + ' câu hỏi';
+
+  renderAllQuestions();
+  updateProgress();
+  window.scrollTo(0, 0);
+}
+
+function renderAllQuestions() {
+  const labels = ['A', 'B', 'C', 'D'];
+  const area = document.getElementById('questionsArea');
+  area.innerHTML = currentQs.map((q, qi) => {
+    const chosen = answers[qi];
+    let cardClass = 'question-card';
+    if (chosen !== null) {
+      cardClass += chosen === q.ans ? ' answered-correct' : ' answered-wrong';
+    }
+    const optsHTML = q.opts.map((opt, oi) => {
+      let cls = 'opt-btn';
+      if (chosen !== null) {
+        if (oi === q.ans) cls += ' correct';
+        else if (oi === chosen) cls += ' wrong';
+      }
+      return `<button class="${cls}" onclick="selectOpt(${qi}, ${oi})" ${chosen !== null ? 'disabled' : ''}>
+        <span class="opt-lbl">${labels[oi]}</span>${opt}
+      </button>`;
+    }).join('');
+
+    let hint = '';
+    if (chosen !== null) {
+      if (chosen === q.ans) {
+        hint = `<div class="result-hint ok">✅ Chính xác!</div>`;
+      } else {
+        hint = `<div class="result-hint err">❌ Sai — Đáp án đúng: <strong>${labels[q.ans]}. ${q.opts[q.ans]}</strong></div>`;
+      }
+    }
+
+    return `<div class="question-card ${chosen !== null ? (chosen === q.ans ? 'answered-correct' : 'answered-wrong') : ''}" id="qcard-${qi}">
+      <div class="q-num">Câu ${qi + 1}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="opts">${optsHTML}</div>
+      ${hint}
+    </div>`;
+  }).join('');
+}
+
+function selectOpt(qi, oi) {
+  if (answers[qi] !== null) return;
+  answers[qi] = oi;
+  updateProgress();
+  // Re-render just that card
+  const q = currentQs[qi];
+  const labels = ['A', 'B', 'C', 'D'];
+  const card = document.getElementById('qcard-' + qi);
+  const chosen = oi;
+  card.className = 'question-card ' + (chosen === q.ans ? 'answered-correct' : 'answered-wrong');
+  const optsHTML = q.opts.map((opt, idx) => {
+    let cls = 'opt-btn';
+    if (idx === q.ans) cls += ' correct';
+    else if (idx === chosen) cls += ' wrong';
+    return `<button class="${cls}" disabled><span class="opt-lbl">${labels[idx]}</span>${opt}</button>`;
+  }).join('');
+  let hint = chosen === q.ans
+    ? `<div class="result-hint ok">✅ Chính xác!</div>`
+    : `<div class="result-hint err">❌ Sai — Đáp án đúng: <strong>${labels[q.ans]}. ${q.opts[q.ans]}</strong></div>`;
+  card.innerHTML = `<div class="q-num">Câu ${qi + 1}</div><div class="q-text">${q.q}</div><div class="opts">${optsHTML}</div>${hint}`;
+}
+
+function updateProgress() {
+  const answered = answers.filter(a => a !== null).length;
+  const total = currentQs.length;
+  document.getElementById('answeredCount').textContent = answered + ' / ' + total;
+  document.getElementById('answeredFill').style.width = Math.round(answered / total * 100) + '%';
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = answered < total;
+  btn.textContent = answered < total ? `Trả lời thêm ${total - answered} câu nữa` : 'Nộp bài →';
+}
+
+/* ───── RESULT ───── */
+function finishExam() {
+  let correct = 0;
+  answers.forEach((a, i) => { if (a === currentQs[i].ans) correct++; });
+  const total = currentQs.length;
+  const score = Math.round(correct / total * 100);
+  progress[currentExam.id] = { done: true, score, correct, total };
+  try { localStorage.setItem('b1dark_v1', JSON.stringify(progress)); } catch(e) {}
+
+  document.getElementById('quizScreen').style.display = 'none';
+  document.getElementById('resultScreen').style.display = 'block';
+  document.getElementById('resBigScore').textContent = score + '%';
+  document.getElementById('resCorrect').textContent = correct;
+  document.getElementById('resWrong').textContent = total - correct;
+  document.getElementById('resTotal').textContent = total;
+
+  let msg, sub;
+  if (score >= 90) { msg = '🎉 Xuất sắc!'; sub = 'Em nắm vững bài này rồi. Tiếp tục phát huy!'; }
+  else if (score >= 70) { msg = '👍 Khá tốt!'; sub = 'Còn vài điểm cần ôn thêm. Thử lại để đạt cao hơn!'; }
+  else if (score >= 50) { msg = '📚 Cần cố gắng'; sub = 'Đọc kỹ đoạn văn và thử lại nhé!'; }
+  else { msg = '💪 Cố lên nào!'; sub = 'Xem lại đáp án để hiểu bài rồi làm lại!'; }
+  document.getElementById('resMsg').textContent = msg;
+  document.getElementById('resSub').textContent = sub;
+
+  // Review grid
+  const labels = ['A','B','C','D'];
+  document.getElementById('reviewGrid').innerHTML = answers.map((a, i) => {
+    const q = currentQs[i];
+    const ok = a === q.ans;
+    return `<div class="review-item ${ok ? 'ok' : 'err'}">
+      <span class="ri-icon">${ok ? '✅' : '❌'}</span>
+      <div class="ri-body">
+        <div class="ri-q">Câu ${i+1}: ${q.q}</div>
+        <div class="ri-ans ${ok ? 'ok' : 'err'}">${ok ? 'Đúng' : `Sai → ${labels[q.ans]}. ${q.opts[q.ans]}`}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  window.scrollTo(0, 0);
+}
+
+function retryExam() {
+  startExam(currentExam.id);
+}
+
+function goHome() {
+  document.getElementById('quizScreen').style.display = 'none';
+  document.getElementById('resultScreen').style.display = 'none';
+  document.getElementById('homeScreen').style.display = 'grid';
+  buildHome();
+  window.scrollTo(0, 0);
+}
+
+buildHome();
+</script>
+</body>
+</html>

@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luyện Thi B1 - Reading Comprehension</title>
+<style>
+  :root {
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --primary-light: #dbeafe;
+    --success: #16a34a;
+    --success-light: #dcfce7;
+    --danger: #dc2626;
+    --danger-light: #fee2e2;
+    --warning: #d97706;
+    --warning-light: #fef3c7;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-500: #6b7280;
+    --gray-700: #374151;
+    --gray-900: #111827;
+    --radius: 12px;
+    --shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -2px rgba(0,0,0,.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(135deg, #667eea22 0%, #764ba222 100%);
+    min-height: 100vh;
+    color: var(--gray-900);
+  }
+
+  /* ---- HEADER ---- */
+  .header {
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    color: white;
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-lg);
+  }
+  .header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .header-icon { font-size: 28px; }
+  .header h1 { font-size: 18px; font-weight: 700; }
+  .header p { font-size: 13px; opacity: .85; margin-top: 2px; }
+  .header-right { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+  .badge {
+    background: rgba(255,255,255,.2);
+    border: 1px solid rgba(255,255,255,.3);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  /* ---- MAIN ---- */
+  .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+  /* ---- HOME SCREEN ---- */
+  #home-screen { }
+  .home-hero {
+    background: white;
+    border-radius: var(--radius);
+    padding: 32px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow);
+    text-align: center;
+  }
+  .home-hero h2 { font-size: 24px; font-weight: 700; margin-bottom: 8px; color: var(--primary); }
+  .home-hero p { color: var(--gray-500); font-size: 15px; line-height: 1.6; }
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .stat-card {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
+  .stat-num { font-size: 28px; font-weight: 800; color: var(--primary); }
+  .stat-label { font-size: 12px; color: var(--gray-500); margin-top: 4px; }
+
+  .mode-title { font-size: 16px; font-weight: 700; margin-bottom: 14px; color: var(--gray-700); }
+  .mode-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .mode-card {
+    background: white;
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius);
+    padding: 20px;
+    cursor: pointer;
+    transition: all .2s;
+    box-shadow: var(--shadow);
+  }
+  .mode-card:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+  .mode-card.selected { border-color: var(--primary); background: var(--primary-light); }
+  .mode-icon { font-size: 32px; margin-bottom: 10px; }
+  .mode-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .mode-card p { font-size: 13px; color: var(--gray-500); line-height: 1.5; }
+
+  .exam-list-title { font-size: 16px; font-weight: 700; margin-bottom: 14px; color: var(--gray-700); }
+  .exam-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .exam-card {
+    background: white;
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius);
+    padding: 16px;
+    cursor: pointer;
+    transition: all .2s;
+    box-shadow: var(--shadow);
+  }
+  .exam-card:hover { border-color: var(--primary); transform: translateY(-2px); }
+  .exam-card.selected { border-color: var(--primary); background: var(--primary-light); }
+  .exam-num-badge {
+    display: inline-block;
+    background: var(--primary);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+  }
+  .exam-card h3 { font-size: 13px; font-weight: 600; color: var(--gray-700); line-height: 1.4; }
+  .exam-card .q-count { font-size: 12px; color: var(--gray-500); margin-top: 6px; }
+  .exam-card .score-badge {
+    display: inline-block;
+    background: var(--success-light);
+    color: var(--success);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-top: 6px;
+  }
+
+  .start-btn {
+    display: block;
+    width: 100%;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: white;
+    border: none;
+    padding: 16px 24px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all .2s;
+    box-shadow: var(--shadow);
+    letter-spacing: .5px;
+  }
+  .start-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+  .start-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+  /* ---- QUIZ SCREEN ---- */
+  #quiz-screen { display: none; }
+
+  .quiz-topbar {
+    background: white;
+    border-radius: var(--radius);
+    padding: 14px 20px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: var(--shadow);
+  }
+  .quiz-info { flex: 1; }
+  .quiz-title { font-size: 14px; font-weight: 700; color: var(--gray-700); }
+  .quiz-progress-text { font-size: 12px; color: var(--gray-500); margin-top: 3px; }
+
+  .progress-bar-wrap { height: 6px; background: var(--gray-200); border-radius: 3px; margin-top: 8px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #2563eb, #7c3aed); border-radius: 3px; transition: width .4s ease; }
+
+  .q-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    background: white;
+    border-radius: var(--radius);
+    padding: 14px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+  }
+  .q-dot {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: 2px solid var(--gray-300);
+    background: white;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .15s;
+    color: var(--gray-500);
+  }
+  .q-dot.answered { background: var(--primary); border-color: var(--primary); color: white; }
+  .q-dot.current { border-color: var(--primary); color: var(--primary); }
+  .q-dot.current.answered { background: var(--primary-dark); }
+
+  .quiz-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 700px) { .quiz-body { grid-template-columns: 1fr; } }
+
+  .passage-panel {
+    background: white;
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    max-height: 520px;
+    overflow-y: auto;
+  }
+  .passage-panel h3 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary-light);
+  }
+  .passage-text {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--gray-700);
+    white-space: pre-wrap;
+  }
+
+  .question-panel {
+    background: white;
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+  }
+  .q-number { font-size: 12px; font-weight: 700; color: var(--primary); text-transform: uppercase; margin-bottom: 10px; }
+  .q-text { font-size: 15px; font-weight: 600; line-height: 1.6; color: var(--gray-900); margin-bottom: 20px; }
+
+  .answers { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .answer-btn {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    border: 2px solid var(--gray-200);
+    border-radius: 10px;
+    background: var(--gray-50);
+    cursor: pointer;
+    transition: all .15s;
+    text-align: left;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--gray-700);
+  }
+  .answer-btn:hover:not(:disabled) { border-color: var(--primary); background: var(--primary-light); color: var(--primary); }
+  .answer-btn .letter {
+    display: flex; align-items: center; justify-content: center;
+    min-width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--gray-200);
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--gray-600);
+    transition: all .15s;
+  }
+  .answer-btn:hover:not(:disabled) .letter { background: var(--primary); color: white; }
+  .answer-btn.selected { border-color: var(--primary); background: var(--primary-light); }
+  .answer-btn.selected .letter { background: var(--primary); color: white; }
+  .answer-btn.correct { border-color: var(--success); background: var(--success-light); color: var(--success); }
+  .answer-btn.correct .letter { background: var(--success); color: white; }
+  .answer-btn.wrong { border-color: var(--danger); background: var(--danger-light); color: var(--danger); }
+  .answer-btn.wrong .letter { background: var(--danger); color: white; }
+  .answer-btn:disabled { cursor: default; }
+
+  .q-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+  }
+  .btn {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .btn-primary { background: var(--primary); color: white; }
+  .btn-primary:hover { background: var(--primary-dark); }
+  .btn-secondary { background: var(--gray-100); color: var(--gray-700); border: 2px solid var(--gray-200); }
+  .btn-secondary:hover { background: var(--gray-200); }
+  .btn:disabled { opacity: .4; cursor: not-allowed; }
+
+  .feedback-bar {
+    background: white;
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-top: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    display: none;
+    align-items: center;
+    gap: 8px;
+  }
+  .feedback-bar.show { display: flex; }
+  .feedback-bar.correct { background: var(--success-light); color: var(--success); border: 2px solid #86efac; }
+  .feedback-bar.wrong { background: var(--danger-light); color: var(--danger); border: 2px solid #fca5a5; }
+
+  /* ---- RESULT SCREEN ---- */
+  #result-screen { display: none; }
+  .result-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 32px;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+    margin-bottom: 20px;
+  }
+  .result-emoji { font-size: 64px; margin-bottom: 16px; }
+  .result-score { font-size: 48px; font-weight: 900; color: var(--primary); margin-bottom: 8px; }
+  .result-label { font-size: 16px; color: var(--gray-500); margin-bottom: 20px; }
+  .result-meter {
+    height: 12px;
+    background: var(--gray-200);
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 16px 0;
+  }
+  .result-meter-fill { height: 100%; border-radius: 6px; transition: width 1s ease; }
+
+  .result-details-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .result-stat { background: var(--gray-50); border-radius: 10px; padding: 14px; }
+  .result-stat .num { font-size: 24px; font-weight: 800; }
+  .result-stat .lbl { font-size: 12px; color: var(--gray-500); margin-top: 4px; }
+  .correct-color { color: var(--success); }
+  .wrong-color { color: var(--danger); }
+  .skip-color { color: var(--warning); }
+
+  .review-section { margin-top: 24px; }
+  .review-title { font-size: 16px; font-weight: 700; margin-bottom: 14px; color: var(--gray-700); display: flex; align-items: center; gap: 8px; }
+  .review-item {
+    background: white;
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--gray-300);
+  }
+  .review-item.correct { border-left-color: var(--success); }
+  .review-item.wrong { border-left-color: var(--danger); }
+  .review-q { font-size: 14px; font-weight: 600; margin-bottom: 10px; color: var(--gray-900); }
+  .review-answers { display: flex; flex-direction: column; gap: 6px; }
+  .review-ans {
+    font-size: 13px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .review-ans.correct { background: var(--success-light); color: var(--success); font-weight: 600; }
+  .review-ans.wrong-chosen { background: var(--danger-light); color: var(--danger); }
+  .review-ans .r-letter { font-weight: 700; min-width: 20px; }
+
+  .result-actions { display: flex; gap: 12px; margin-top: 20px; }
+
+  /* ---- SCROLLBAR ---- */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--gray-100); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb { background: var(--gray-300); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--gray-500); }
+
+  /* ---- TIMER ---- */
+  .timer {
+    background: var(--primary-light);
+    color: var(--primary);
+    font-size: 14px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 20px;
+    white-space: nowrap;
+    transition: background .3s;
+  }
+  .timer.warning { background: var(--warning-light); color: var(--warning); }
+  .timer.danger { background: var(--danger-light); color: var(--danger); animation: pulse 1s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .6; } }
+
+  /* ---- TOAST ---- */
+  .toast {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    background: var(--gray-900);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    z-index: 9999;
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all .3s;
+    box-shadow: var(--shadow-lg);
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="header-icon">📚</div>
+    <div>
+      <h1>Luyện Thi B1 Reading</h1>
+      <p>Kỹ năng đọc hiểu tiếng Anh</p>
+    </div>
+    <div class="header-right">
+      <span class="badge" id="header-streak">🔥 0 ngày</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- HOME SCREEN -->
+  <div id="home-screen">
+    <div class="home-hero">
+      <h2>🎯 Ôn luyện đề thi B1</h2>
+      <p>Tổng hợp các đề đọc hiểu từ bộ đề B1. Chọn chế độ luyện tập và đề thi để bắt đầu!</p>
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-num" id="stat-exams">15</div>
+          <div class="stat-label">Đề thi</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="stat-questions">146</div>
+          <div class="stat-label">Câu hỏi</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="stat-done">0</div>
+          <div class="stat-label">Đã hoàn thành</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="mode-title">⚡ Chọn chế độ luyện tập</div>
+      <div class="mode-grid">
+        <div class="mode-card selected" id="mode-practice" onclick="selectMode('practice')">
+          <div class="mode-icon">📝</div>
+          <h3>Luyện tập</h3>
+          <p>Xem đáp án ngay sau mỗi câu. Không giới hạn thời gian.</p>
+        </div>
+        <div class="mode-card" id="mode-exam" onclick="selectMode('exam')">
+          <div class="mode-icon">⏱️</div>
+          <h3>Thi thử</h3>
+          <p>Làm hết rồi mới xem kết quả. Có đồng hồ đếm giờ.</p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="exam-list-title">📖 Chọn đề thi</div>
+      <div class="exam-grid" id="exam-list"></div>
+    </div>
+
+    <button class="start-btn" id="start-btn" onclick="startQuiz()" disabled>
+      Chọn đề để bắt đầu →
+    </button>
+  </div>
+
+  <!-- QUIZ SCREEN -->
+  <div id="quiz-screen">
+    <div class="quiz-topbar">
+      <div class="quiz-info">
+        <div class="quiz-title" id="quiz-title-bar"></div>
+        <div class="quiz-progress-text" id="quiz-progress-text"></div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+        </div>
+      </div>
+      <div class="timer" id="timer">00:00</div>
+    </div>
+
+    <div class="q-nav" id="q-nav"></div>
+
+    <div class="quiz-body">
+      <div class="passage-panel">
+        <h3>📄 Bài đọc</h3>
+        <div class="passage-text" id="passage-text"></div>
+      </div>
+      <div class="question-panel">
+        <div class="q-number" id="q-number"></div>
+        <div class="q-text" id="q-text"></div>
+        <div class="answers" id="answers"></div>
+        <div class="feedback-bar" id="feedback-bar"></div>
+        <div class="q-actions">
+          <button class="btn btn-secondary" id="prev-btn" onclick="prevQuestion()">← Trước</button>
+          <button class="btn btn-primary" id="next-btn" onclick="nextQuestion()">Tiếp →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULT SCREEN -->
+  <div id="result-screen">
+    <div class="result-card">
+      <div class="result-emoji" id="result-emoji">🎉</div>
+      <div class="result-score" id="result-score">0/0</div>
+      <div class="result-label" id="result-label"></div>
+      <div class="result-meter">
+        <div class="result-meter-fill" id="result-meter-fill" style="width:0%"></div>
+      </div>
+      <div class="result-details-grid">
+        <div class="result-stat">
+          <div class="num correct-color" id="res-correct">0</div>
+          <div class="lbl">✅ Đúng</div>
+        </div>
+        <div class="result-stat">
+          <div class="num wrong-color" id="res-wrong">0</div>
+          <div class="lbl">❌ Sai</div>
+        </div>
+        <div class="result-stat">
+          <div class="num skip-color" id="res-skip">0</div>
+          <div class="lbl">⏭️ Bỏ qua</div>
+        </div>
+      </div>
+      <div class="result-actions">
+        <button class="btn btn-secondary" style="flex:1" onclick="retryQuiz()">🔄 Làm lại</button>
+        <button class="btn btn-primary" style="flex:1" onclick="goHome()">🏠 Về trang chủ</button>
+      </div>
+    </div>
+
+    <div class="review-section">
+      <div class="review-title">📋 Xem lại đáp án</div>
+      <div id="review-list"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const QUIZ_DATA = [{"id":1,"title":"Brendan's best friend is Tip","passage":"Brendan's best friend is Tip. Tip and Brendan are inseparable. They\nteach each other things and they look after each other. Tip has helped\nBrendan become more responsible, more caring, and a better friend.\nBrendan is a nine-year-old boy, and Tip is a ten-year-old dog. Brendan\nand Tip are an example of how owning a dog can have a positive effect on\na child's development. Having a dog develops a child's sense of\nresponsibility, broadens his capacity for empathy, and teaches the\nnature of friendship.\n\nHaving a dog helps a child learn how to act responsibly. As a dog owner,\nthe child must take care of the animal's daily needs. The dog must be\nfed and exercised every day. A dog is completely dependent on its owner\nfor all its needs, including the need for good health and a safe\nenvironment. Therefore, being responsible for a dog also means taking\ncare of the dog so that it stays healthy. Furthermore, the owner must\ntake responsibility for the safety of the dog and the safety of the\npeople it comes into contact with. If the child forgets any of these\nduties and responsibilities, or ignores any of the dog's needs, the dog\nwill suffer. This teaches the child that his responsibility to the dog\nis more important than his desire to play with his toys, talk on the\nphone, or watch TV. This is true not only for the care of a dog, but\nalso for the care of oneself, another person, or one's job. Learning\nhow to take responsibility for the health and welfare of a dog leads to\nlearning how to take responsibility for oneself.\n\nAnother lesson that a child can learn from having a dog is how to be\nempathetic. Empathy is the ability to put oneself in another person's,\nor in this case another creature's, situation and imagine that\nperson's or creature's feelings or problems. A dog cannot express\nitself with speech, so its owner must learn how to interpret its\nbehaviour. The child must learn to understand what the dog's behaviour\nmeans. Is the dog frightened, aggressive, or sick? The child needs to\nunderstand what is going on in the dog's mind. Understanding a\nsituation from the dog's perspective helps the child understand why the\ndog is behaving in a certain way and what the dog needs. The result of\nlearning to read a dog's behaviour is that the child develops empathy.\nBy learning how to empathize with a dog, the child also learns how to\nempathize with other people. This leads to the child becoming a more\nconsiderate and caring person.\n\nBeing considerate and caring are important characteristics in a good\nfriend. One of the most significant benefits of owning a dog is the\nexample of true friendship that a dog provides. A dog gives\nunconditional love to its owner. A dog will not stop loving its owner\nbecause of a little anger, indifference, or neglect. The dog will wait\npatiently for its owner to pat its head and say a few kind words. This\nacceptance of the negative qualities and appreciation for the positive\nqualities of its owner provide a wonderful model of how to be a good\nfriend. A child soon realizes that his dog will always listen to him,\nwill always be ready to play with him, will always protect him, and will\nalways forgive him. A child who has learned to be even half as good a\nfriend to others as his dog is to him will have learned one of the most\nvaluable lessons in life.\n\nThese are some of the most important lessons a child will ever learn.\nThe benefits of owning a dog will last the child's entire lifetime. The\nunderstanding and appreciation of responsibility, empathy, and\nfriendship that a child develops from the experience of having a dog\nwill help him or her grow into a reliable, caring, and mature adult.","questions":[{"num":1,"text":"The word 'its' in paragraph 2 refer to:","answers":[{"letter":"A","text":"a horse"},{"letter":"B","text":"a rabbit"},{"letter":"C","text":"a pig"},{"letter":"D","text":"a dog"}],"correct":"D"},{"num":2,"text":"What does the author say about empathy:","answers":[{"letter":"A","text":"it eventually makes children more competitive and assertive"},{"letter":"B","text":"it eventually makes children more considerate and caring it leads children to become more independent"},{"letter":"C","text":"it encourages children to be more reserved and cautious"}],"correct":"B"},{"num":3,"text":"All of the following is true oflearning to take care of a dog EXCEPT:","answers":[{"letter":"A","text":"it teaches children about independence"},{"letter":"B","text":"it is a simple task for children"},{"letter":"C","text":"it is a minor role in children's development"},{"letter":"D","text":"it is an important responsibility in childrent's life"}],"correct":"D"},{"num":4,"text":"What does the author say about the dog's behaviour:","answers":[{"letter":"A","text":"they express the dog's mind"},{"letter":"B","text":"they show the dog's training"},{"letter":"C","text":"they indicate the dog's breed"},{"letter":"D","text":"they reflect the dog's health"}],"correct":"A"},{"num":5,"text":"In which paragraph does the author mentions dogs owners responsibilities to their dog?","answers":[{"letter":"A","text":"Paragraph 3"},{"letter":"B","text":"Paragraph 2"},{"letter":"C","text":"Paragraph 4"},{"letter":"D","text":"Paragraph 1"}],"correct":"B"},{"num":6,"text":"What can we say about Tip and Brendan's age?","answers":[{"letter":"A","text":"Tip is five years old"},{"letter":"B","text":"Tip is a newborn"},{"letter":"C","text":"Tip is three years old"},{"letter":"D","text":"Tip is one yerar old"}],"correct":"D"},{"num":7,"text":"What is main idea of paragraph 3:","answers":[{"letter":"A","text":"how dogs enhance children's intelligence"},{"letter":"B","text":"how dogs teach children about discipline"},{"letter":"C","text":"how dogs improve children's physical health"},{"letter":"D","text":"how dog teacher children about empathy"}],"correct":"D"},{"num":8,"text":"The word 'pat' in paragraph 4 is closet meaning to","answers":[{"letter":"A","text":"cancer"},{"letter":"B","text":"diabetes"},{"letter":"C","text":"seizure"},{"letter":"D","text":"stroke"}],"correct":"D"},{"num":9,"text":"Accordign to the passage, all of the following is true of dog EXCEPT:","answers":[{"letter":"A","text":"Paragraph 2"},{"letter":"B","text":"it is an important responsibility in childrent's life"},{"letter":"C","text":"they express the dog's mind"},{"letter":"D","text":"they cannot express themselves 10. What is best tilte for the passage:"},{"letter":"A","text":"responsibilities of dog ownership for children"},{"letter":"B","text":"positive effects on children of owning a dog"},{"letter":"C","text":"challenges of owning a dog for children"},{"letter":"D","text":"negative effects on children of owning a dog 11. What does the author say about the dog's behaviour:"},{"letter":"A","text":"they show the dog's training"},{"letter":"B","text":"they reflect the dog's health"},{"letter":"C","text":"they indicate the dog's breed"},{"letter":"D","text":"they express the dog's mind 12. Accordign to the passage, all of the following is true of dog EXCEPT:"},{"letter":"A","text":"it is an important responsibility in childrent's life"},{"letter":"B","text":"they express the dog's mind"},{"letter":"C","text":"they cannot express themselves"},{"letter":"D","text":"Paragraph 2"}],"correct":"D"}]},{"id":2,"title":"There's one thing we can all agree on getting on","passage":"","questions":[{"num":1,"text":"You may have change to see sea creatures in:","answers":[{"letter":"A","text":"Kaikoura coast"},{"letter":"B","text":"Waipara valley produces 1 of the best bottles in the world"},{"letter":"C","text":"Paragraph 3"},{"letter":"D","text":"Alel Tasman"}],"correct":"A"},{"num":2,"text":"Which place would probably give you the best time at the beach:","answers":[{"letter":"A","text":"Paragraph 3"},{"letter":"B","text":"Alel Tasman"},{"letter":"C","text":"Kaikoura Coast"},{"letter":"D","text":"It Is The Best Place For The Road Trips"}],"correct":"B"},{"num":3,"text":"Rebound =","answers":[{"letter":"A","text":"recovery"},{"letter":"B","text":"prevention"},{"letter":"C","text":"recession"},{"letter":"D","text":"honeymoon"}],"correct":"A"},{"num":4,"text":"Majestic =","answers":[{"letter":"A","text":"harmonious"},{"letter":"B","text":"dilapidated"},{"letter":"C","text":"uncommon"},{"letter":"D","text":"magnificent"}],"correct":"D"},{"num":5,"text":"In which paragraph does the author mention the plae where peole can play winter sport:","answers":[{"letter":"A","text":"para 1"},{"letter":"B","text":"para 3"},{"letter":"C","text":"para 4"},{"letter":"D","text":"para 5"}],"correct":"B"},{"num":6,"text":"What activities can tourists do at pegcisus bay winery:","answers":[{"letter":"A","text":"Kaikoura coast"},{"letter":"B","text":"Alel Tasman"},{"letter":"C","text":"they can taste wine"},{"letter":"D","text":"it is the best place for the road trips"}],"correct":"C"},{"num":7,"text":"All of the following is true, except:","answers":[{"letter":"A","text":"it is the best place for the road trips"},{"letter":"B","text":"waipara valley produces 1 of the best bottles in the world"},{"letter":"C","text":"waipara valley is famous for its vineyards"},{"letter":"D","text":"waipara valley is renowned for its local wines"}],"correct":"B"},{"num":8,"text":"'it' in para 4 refers to:","answers":[{"letter":"A","text":"Para 3"},{"letter":"B","text":"Alel Tasman"},{"letter":"C","text":"Kaikoura"},{"letter":"D","text":"Waipara Valley Produces 1 Of The Best Bottles In The World"}],"correct":"C"},{"num":9,"text":"What does the author say about New Zealand's south island:","answers":[{"letter":"A","text":"it is the center of new zealand's economy"},{"letter":"B","text":"it is known for its urban life"},{"letter":"C","text":"it is the most populated area"},{"letter":"D","text":"it is the best place for the road trips"}],"correct":"D"},{"num":10,"text":"Main Idea","answers":[{"letter":"A","text":"best place in New Zealand's South Island"},{"letter":"B","text":"most affordable destination in New Zealand"},{"letter":"C","text":"busiest tourist spot in New Zealand"},{"letter":"D","text":"quietest region in New Zealand's South Island"}],"correct":"A"}]},{"id":4,"title":"Baseball is sometimes colled","passage":"Baseball, hot dogs, apple pie... you just can't get more American than\nthat! Frank Bell gives us a look at baseball, no longer just America's\nfavorite sport!\n\nBaseball is sometimes called a national pastime in America because it is\na much-loved national sport. Of course, baseball is not limited to the\nUSA. It has been played for many years in the countries of South America\nand is very popular in Japan. Europe is another matter, not many\nbaseball teams exist in Europe today. That, however, is slowly changing.\nSince baseball is an Olympic sport, more and more countries are putting\ntogether teams and joining the game! (A)\n\nGoing to baseball games is a way of life for many fans. They sit in the\nstands on hot and sunny spring and summer days, eat hot dogs or popcorn,\nsip cola or lemonade and enjoy the game. Adults and children alike\nattend games, and it's a sport that everyone seems to love. Baseball is\nsuch a part of American life that nearly everyone's favorite childhood\nmemory includes a day at the ballpark.\n\nWhen and where did the game of baseball start? Well, people have been\nplaying games with a stick and a ball for hundreds of years! Modern\nbaseball, however, began about 150 years ago in New York, USA, and has\nbeen a popular sport ever since. It has changed a little bit over the\nyears but the basic game remains the same. Baseball is played with a\nbat, which is a stick about 100 cm long made of metal or wood, and a\nsmall hard ball. Each player also wears one heavy leather glove to catch\nthe ball. Baseball gear usually consists of a lightweight shirt and\ntrousers that come down just past the knees. (B)\n\nBaseball is played on a special outdoor field that has two parts, the\ninfield, and the outfield. In the infield is an area shaped like a\ndiamond that indicates the boundaries of the playing area. On the\ndiamond, there are also the three bases that the players must run over\nto score. The outfield is an open grassy area where players wail to\ncatch balls that are hit by other players.\n\nThe game of baseball is divided into nine parts, called innings. During\nan inning, each of the two teams takes its turn to bat, which means\ntrying to hit the ball that is thrown to them by the pitcher of the\nother team. After the ball is hit, the player tries to run and touch\nthree different bases before running to the home base. The team not\nbatting tries to catch the balls that are hit and stop the runners\nbefore they score. The team that scores the most runs by the end of the\nninth inning wins. It's a game that can go very slowly for a while and\nthen suddenly have a series of fast and exciting moves! (C) Fans love\nbaseball games! The stands are usually filled for the games. People\nenjoy a day at the ballpark cheering on their favorite team and relaxing\nin the summer sun. So what are you waiting for? Put on your baseball cap\nand give it a try!","questions":[{"num":1,"text":"The writer says that baseball","answers":[{"letter":"A","text":"It is played only in America."},{"letter":"B","text":"It is not popular in countries like Japan."},{"letter":"C","text":"It started in South America."},{"letter":"D","text":"It is becoming more popular all over the world."}],"correct":"D"},{"num":2,"text":"According to the text, baseball is played in more and more countries because","answers":[{"letter":"A","text":"It is an exciting game."},{"letter":"B","text":"It is included in the Olympic Games."},{"letter":"C","text":"Many American people live there."},{"letter":"D","text":"It is easy to play."}],"correct":"B"},{"num":3,"text":"Which sentence isn't true about baseball?","answers":[{"letter":"A","text":"It was first played during the 1850s."},{"letter":"B","text":"It is an Olympic sport."},{"letter":"C","text":"The rules have changed quite a lot over the years."},{"letter":"D","text":"It started in New York."}],"correct":"C"},{"num":4,"text":"Which piece of equipment is not mentioned in the text?","answers":[{"letter":"A","text":"bat"},{"letter":"B","text":"ball"},{"letter":"C","text":"glove"},{"letter":"D","text":"mask"}],"correct":"D"},{"num":5,"text":"In which space (marked (A), (B), (C), and (D)in the passage will the following sentence fit? Players wear shoes with spikes to help them run, just as football players do, and a baseball cap, which is something everyone is familiar with!","answers":[{"letter":"A","text":"\\(A\\)"},{"letter":"B","text":"(B)"},{"letter":"C","text":"\\(C\\)"},{"letter":"D","text":"\\(D\\)"}],"correct":"B"},{"num":6,"text":"What is the baseball field like?","answers":[{"letter":"A","text":"It has an infield, an outfield, and a middle field."},{"letter":"B","text":"There are three diamonds on the ground."},{"letter":"C","text":"There are three bases on the diamond."},{"letter":"D","text":"It is usually in an indoor stadium."}],"correct":"C"},{"num":7,"text":"The game is divided into","answers":[{"letter":"A","text":"two halves"},{"letter":"B","text":"nine innings"},{"letter":"C","text":"three bases"},{"letter":"D","text":"an infield and an outfield"}],"correct":"B"},{"num":8,"text":"The object of the game is to","answers":[{"letter":"A","text":"catch as many balls as you can"},{"letter":"B","text":"hit the ball the farthest"},{"letter":"C","text":"score the most runs"},{"letter":"D","text":"bat as often as you can"}],"correct":"C"},{"num":9,"text":"What is true about a baseball match?","answers":[{"letter":"A","text":"It's slow."},{"letter":"B","text":"It often takes place on hot summer days."},{"letter":"C","text":"Spectators are not allowed to bring food to the ballpark."},{"letter":"D","text":"The speed of the match may change suddenly. 10. According to the text, most American people have"},{"letter":"A","text":"childhood memory at a ballpark"},{"letter":"B","text":"baseball gear"},{"letter":"C","text":"experience of participating in at least a baseball inning"},{"letter":"D","text":"all of them"}],"correct":"D"}]},{"id":5,"title":"Breda ann spencer as ...","passage":"","questions":[{"num":1,"text":"Main idea of the passage:","answers":[{"letter":"A","text":"a story about a school shooting and the reasons behind"},{"letter":"B","text":"the shooting accident"},{"letter":"C","text":"opposite the Cleveland Elementary School"},{"letter":"D","text":": the suggestion that Brenda should be hospitalized"}],"correct":"A"},{"num":2,"text":"Where did Brenda Ann Spencer lives:","answers":[{"letter":"A","text":"near the Cleveland High School"},{"letter":"B","text":"opposite the Cleveland Elementary School"},{"letter":"C","text":"across from The Cleveland Library"},{"letter":"D","text":"beside the Cleveland Community Center"}],"correct":"B"},{"num":3,"text":"Main idea of paragraph 4:","answers":[{"letter":"A","text":"she detested monday"},{"letter":"B","text":"the shooting accident"},{"letter":"C","text":"brenda's father drank quite lot of alcolhol"},{"letter":"D","text":": the suggestion that brenda should be hospitalized"}],"correct":"B"},{"num":4,"text":"Which statement describes Brenda's background:","answers":[{"letter":"A","text":"she grew up in a broken disadvantage family"},{"letter":"B","text":"she came from a highly educated family"},{"letter":"C","text":"she was raised in a stable supportive family"},{"letter":"D","text":"she grew up in a wealthy privileged family"}],"correct":"A"},{"num":5,"text":"What did Brenda's father do when doctors suggested that she should be placed in a hospital:","answers":[{"letter":"A","text":"he enrolled her in a youth sports program"},{"letter":"B","text":"he took her on a family vacation"},{"letter":"C","text":"he gave her a gun as a present for Christmas"},{"letter":"D","text":"he bought her a new bicycle for her birthday"}],"correct":"C"},{"num":6,"text":"How many people were killed bye Brenda:","answers":[{"letter":"A","text":"2"},{"letter":"B","text":"Brenda's father drank quite lot of alcolhol"},{"letter":"C","text":"opposite the Cleveland Elementary School"},{"letter":"D","text":": the suggestion that Brenda should be hospitalized"}],"correct":"A"},{"num":7,"text":"Introverted =","answers":[{"letter":"A","text":"outspoken"},{"letter":"B","text":"neutral"},{"letter":"C","text":"reserved"},{"letter":"D","text":"aggressive"}],"correct":"C"},{"num":8,"text":"According the Spencer, why did she shoot the students an school employees:","answers":[{"letter":"A","text":"she grew up in a broken disadvantage family"},{"letter":"B","text":"he gave her a gun as a present for Christmas"},{"letter":"C","text":"she detested Monday"},{"letter":"D","text":"Brenda's father drank quite lot of alcolhol"}],"correct":"C"},{"num":9,"text":": the suggestion that Brenda should be hospitalized","answers":[{"letter":"A","text":"The word it in paragraph 3 refers to"},{"letter":"B","text":"Where did Brenda Ann Spencer lives:"},{"letter":"C","text":"Main idea of the passage:"},{"letter":"D","text":"Which statement describes Brenda's background:"}],"correct":"A"},{"num":10,"text":"It can be refered from the paragraph 2 that:","answers":[{"letter":"A","text":"Brenda's father was a teetotaler"},{"letter":"B","text":"Brenda's father avoided alcohol completely"},{"letter":"C","text":"Brenda's father preferred coffee over alcohol"},{"letter":"D","text":"Brenda's father drank quite lot of alcolhol"}],"correct":"D"}]},{"id":13,"title":"All mamals feed their young","passage":"All mammals feed their young. Beluga whale mothers, for example, nurse\ntheir calves for some twenty months, until they are about to give birth\nagain and their young are able to find their own food. The behavior of\nfeeding of the young is built into the reproductive system. It is a\nnonselective part of parental care and the defining feature of a mammal,\nthe most important thing that mammals - whether marsupials, platypuses,\nspiny anteaters, or placental mammals - have in common.\n\nBut not all animal parents, even those that tend their offspring to the\npoint of hatching or birth, feed their young. Most egg-guarding fish do\nnot for the simple reason that their young are so much smaller than the\nparents and eat food that is also much smaller than the food eaten by\nadults. In reptiles, the crocodile mother protects her young after they\nhave hatched and takes them down to the water, where they will find\nfood, but she does not actually feed them. Few insects feed their young\nafter hatching, but some make other arrangement provisioning their cells\nand nests with caterpillars and spiders that they have paralyzed with\ntheir venom and stored in a state of suspended animation so that their\nlarvae might have a supply of fresh food when they hatch.\n\nFor animals other than mammals, then, feeding is not intrinsic to\nparental care. Animals add it to their reproductive strategies to give\nthem an edge in their lifelong quest for descendants. The most\nvulnerable moment in any animal's life is when it first finds itself\ncompletely on its own, when it must forage and fend for itself. Feeding\npostpones that moment until a young animal has grown to such a size that\nit is better able to cope.\n\nYoung that are fed by their parents become nutritionally independent at\na much greater fraction of their full adult size. And in the meantime\nthose young are shielded against the vagaries of fluctuating or\ndifficult-to-find supplies. Once a species does take the step of feeding\nits young, the young become totally dependent on the extra effort. If\nboth parents are removed, the young generally do not survive.","questions":[{"num":1,"text":"What does the passage mainly discuss?\\","answers":[{"letter":"A","text":"The care that various animals give to their offspring"},{"letter":"B","text":"The difficulties young animals face in obtaining food"},{"letter":"C","text":"The methods that mammals use to nurse their young"},{"letter":"D","text":"The importance among young mammals of becoming independent"}],"correct":"A"},{"num":2,"text":"The author lists various animals in the first paragraph to ________.\\","answers":[{"letter":"A","text":"contrast the feeding habits of different types of mammals"},{"letter":"B","text":"describe the process by which mammals came to be defined"},{"letter":"C","text":"emphasize the point that every type of mammal feeds its own young"},{"letter":"D","text":"explain why a particular feature of mammals is nonselective"}],"correct":"C"},{"num":3,"text":"The word \"tend\" in the second paragraph is closest in meaning to ________.\\","answers":[{"letter":"A","text":"sit on"},{"letter":"B","text":"move"},{"letter":"C","text":"notice"},{"letter":"D","text":"care for"}],"correct":"D"},{"num":4,"text":"The word \"provisioning\" in the second paragraph is closest in meaning to ________.\\","answers":[{"letter":"A","text":"supplying"},{"letter":"B","text":"preparing"},{"letter":"C","text":"building"},{"letter":"D","text":"expanding"}],"correct":"A"},{"num":5,"text":"According to the passage, how do some insects make sure their young have food to?\\","answers":[{"letter":"A","text":"By storing food near their young."},{"letter":"B","text":"By locating their nests or cells near spiders and caterpillars."},{"letter":"C","text":"By searching for food some distance from their nest."},{"letter":"D","text":"By gathering food from a nearby water source."}],"correct":"A"},{"num":6,"text":"The word \"edge\" in the third paragraph is closest in meaning to ________.\\","answers":[{"letter":"A","text":"opportunity"},{"letter":"B","text":"advantage"},{"letter":"C","text":"purpose"},{"letter":"D","text":"rest"}],"correct":"B"},{"num":7,"text":"The word \"it\" in the third paragraph refers to ________.\\","answers":[{"letter":"A","text":"feeding"},{"letter":"B","text":"moment"},{"letter":"C","text":"young animal"},{"letter":"D","text":"size"}],"correct":"C"},{"num":8,"text":"The word \"shielded\" in the last paragraph is closest in meaning to ________.\\","answers":[{"letter":"A","text":"raised"},{"letter":"B","text":"protected"},{"letter":"C","text":"hatched"},{"letter":"D","text":"valued"}],"correct":"B"}]},{"id":19,"title":"Taken together, income, occupation ...","passage":"Taken together, income, occupation, and education are good measures of\npeople's social standing. Using a layered model of stratification, most\nsociologists describe the class system in the United States as: upper,\nupper middle, middle, lower middle, and lower class. The different\nclasses are arranged along a continuum with those with the most money,\neducation, and prestige at the top and those with the least at the\nbottom. In the United States, the upper class owns the major share of\ncorporate a...","questions":[{"num":1,"text":"According the para 6, which of the following is true about the lower middle class: Chọn đáp án đúng","answers":[{"letter":"A","text":"most of them aspire to join the upper class"},{"letter":"B","text":"they are highly satisfied with their social status"},{"letter":"C","text":"many of them actively seek to leave this class"},{"letter":"D","text":"quite a few of them think that they don't belong to this class"}],"correct":"D"},{"num":2,"text":"Which of following class has had a subcategory add to it: Chọn đáp án đúng","answers":[{"letter":"A","text":"the middle class"},{"letter":"B","text":"the upper class"},{"letter":"C","text":"the lower class"},{"letter":"D","text":"the upper-middle class"}],"correct":"C"},{"num":3,"text":"Primarly = Chọn đáp án đúng","answers":[{"letter":"A","text":"weekly"},{"letter":"B","text":"always"},{"letter":"C","text":"mostly but not always"},{"letter":"D","text":"mostly"}],"correct":"D"},{"num":4,"text":"Which paragraph contains a term used to refer to a particular group of rich people Chọn đáp án đúng","answers":[{"letter":"A","text":"people in the midde class vary widely in lifestyle and resourses"},{"letter":"B","text":"the lower class"},{"letter":"C","text":"unskilled workers in manual labor"},{"letter":"D","text":": paragraph 3"}],"correct":"D"},{"num":5,"text":"Which of the following statements best express of the information conveyed in the sentence: 'despite social myths to the contrary, the best predictor of future wealth the family in which you are born: Chọn đáp án đúng","answers":[{"letter":"A","text":"'despite common beliefs, personal skills are the best predictor of future wealth'"},{"letter":"B","text":"'future wealth is solely determined by individual effort and hard work'"},{"letter":"C","text":"'contrary to popular opinion, education is the key to future wealth'"},{"letter":"D","text":"'although many people may not believe it, future wealth is best predicted based on famiy background'"}],"correct":"D"},{"num":6,"text":"Why is the middle class difficult to difine according to the passages: Chọn đáp án đúng","answers":[{"letter":"A","text":"people in the middle class have identical career paths"},{"letter":"B","text":"the middle class is defined by a single income bracket"},{"letter":"C","text":"people in the midde class vary widely in lifestyle and resourses"},{"letter":"D","text":"the middle class shares a uniform educational background"}],"correct":"C"},{"num":7,"text":"Tenous = Chọn đáp án đúng","answers":[{"letter":"A","text":"strong"},{"letter":"B","text":"semistrong"},{"letter":"C","text":"perfect"},{"letter":"D","text":"weak"}],"correct":"D"},{"num":8,"text":"According the para 2 what is primary characteristic of the upper class in the US: Chọn đáp án đúng","answers":[{"letter":"A","text":"a ineritance of wealth across multiple generation"},{"letter":"B","text":"a dependence on government assistance for financial stability"},{"letter":"C","text":"a consistent rise in income through career advancement"},{"letter":"D","text":"a rapid accumulation of wealth through business ventures"}],"correct":"A"},{"num":9,"text":"Which information is true: Chọn đáp án đúng","answers":[{"letter":"A","text":"all people in the lower class rely on government subsidies"},{"letter":"B","text":"some people in the lower class earn their living through volunteer work"},{"letter":"C","text":"most people in the lower class work in high-paying jobs"},{"letter":"D","text":"some people in the lower class don't have any jobs so they may earn their living by committing crimies"}],"correct":"D"},{"num":10,"text":"Which groups of workers is typpically considered part of the lower middle class: Chọn đáp án đúng","answers":[{"letter":"A","text":"executives in corporate management"},{"letter":"B","text":"skilled professionals in technical fields"},{"letter":"C","text":"highly educated workers in creative industries"},{"letter":"D","text":"unskilled workers in manual labor"}],"correct":"D"}]},{"id":20,"title":"Although America's immigration ...","passage":"Although America's immigration policy now seems dominated by a desire\nto seal\n\nthe country's southern border, Donald Trump's administration has been\nsurprisingly\n\ntolerant of a certain type of crossing. Those by legal, temporary\nmigrants or guest\n\nworkers-in search of low-wage work have risen dramatically over the past\ndecade. The\n\ngovernment granted 408,000 visas for guest workers in 2019, up from\n103,000 in","questions":[{"num":2,"text":"What do labour advocates say about the current guests worker recruiment process: i Chọn đáp án đúng","answers":[{"letter":"A","text":"it guarantees job security for local workers"},{"letter":"B","text":"it simplifies the hiring process"},{"letter":"C","text":"it ensures fair wages for all workers"},{"letter":"D","text":"it may bring about labour exploitation"}],"correct":"D"},{"num":3,"text":"How many visas for guest workers were granted by the US governmet in 2010: Chọn đáp án đúng","answers":[{"letter":"A","text":"85000"},{"letter":"B","text":"125000"},{"letter":"C","text":"150000"},{"letter":"D","text":"103000"}],"correct":"D"},{"num":4,"text":"Chasm = Chọn đáp án đúng","answers":[{"letter":"A","text":"gap"},{"letter":"B","text":"finger"},{"letter":"C","text":"markov"},{"letter":"D","text":"rim"}],"correct":"A"},{"num":5,"text":"Which types of immigrants has witnessed a big increase over the last decade: Chọn đáp án đúng","answers":[{"letter":"A","text":"they don't pay transport and hosing"},{"letter":"B","text":"america's guest worker boom"},{"letter":"C","text":"employers"},{"letter":"D","text":"legal, temporary migrants"}],"correct":"D"},{"num":6,"text":"Which of the following would be the best title for the passage: Chọn đáp án đúng","answers":[{"letter":"A","text":"legal, temporary migrants"},{"letter":"B","text":"they don't pay transport and hosing"},{"letter":"C","text":"america's guest worker boom"},{"letter":"D","text":"agricultural workers could work longer hours with better pay"}],"correct":"C"},{"num":7,"text":"The following are changes that agricultural - labour reform bill could make ecxept: Chọn đáp án đúng","answers":[{"letter":"A","text":"agricultural workers could have more vacation time"},{"letter":"B","text":"agricultural workers could receive higher benefits"},{"letter":"C","text":"agricultural workers could work longer hours with better pay"},{"letter":"D","text":"agricultural workers could be guaranteed permanent employment"}],"correct":"C"},{"num":8,"text":"'they' in para 3 = Chọn đáp án đúng","answers":[{"letter":"A","text":"employers"},{"letter":"B","text":"neighbors"},{"letter":"C","text":"patients"},{"letter":"D","text":"customers"}],"correct":"A"},{"num":9,"text":"'lambasted' in para 4 = Chọn đáp án đúng","answers":[{"letter":"A","text":"outlawed"},{"letter":"B","text":"criticized"},{"letter":"C","text":"favoured"},{"letter":"D","text":"approved"}],"correct":"B"},{"num":10,"text":"The following discuss why guess workers are cheaper to hire, except: Chọn đáp án đúng","answers":[{"letter":"A","text":"they don't pay transport and hosing"},{"letter":"B","text":"they don't require benefits"},{"letter":"C","text":"they receive lower wages"},{"letter":"D","text":"they are exempt from taxes"}],"correct":"A"},{"num":11,"text":"According to the passage what is the TRUE about h-2b visas: Chọn đáp án đúng","answers":[{"letter":"A","text":"the number of h-2b visas varies annually"},{"letter":"B","text":"the minimum number of h-2b visas is fixed"},{"letter":"C","text":"h-2b visas are unlimited"},{"letter":"D","text":"the maximum number of h-2b visas granted per year in fixed"}],"correct":"D"}]},{"id":21,"title":"The Olympic Games have changed a lot","passage":"\\[Đề VSTEP B1-C2-C1\\]\n\nTen Events, One Champion\n\nTHE DECATHLON\n\nFay Webster Takes a look at the world of athletics and finds out what it\ntakes\n\nto be a true champion.\n\nThe Olympic Games have changed a lot since their origins in Ancient\nGreece.\n\nToday, athletes from countries all over the world take part and the\nOlympics\n\nare big business, watched by millions on television. Some things,\nthough,\n\nhave stayed the same. The athletes then could make a lot of money from\n\nwinning, just like today's competitors. In the ancient Games, a great\n\nchampion might have received as much as a year's pay for winning a race.\n\nAnother thing that hasn't changed is the search for an all-round\nchampion,\n\nsomebody who can defeat their opponents at a number of different\nsporting\n\nevents. In the ancient Olympics, athletes competed in the\n\npentathlon.\\$This\\$consisted of the long jump, the discus, the javelin,\na\n\nrunning race and wrestling. The first winner, in 708 BC, was Lampis of\n\nSparta, who must have been a great athlete to beat so many others from\nall\n\nover the Hellenic world. The pentathlon was an important part of the\n\nOlympics until Emperor Theodosius of Rome banned the Games in 393 AD.\n\nThe Stockholm Olympics of 1912 brought back this tradition of the search\nfor\n\nall around greatness. The modem pentathlon was included (shooting,\n\nswimming, fencing, riding and running) and so was the modem decathlon\n\n(ten events), with the heptathlon (seven events) for women being\nintroduced\n\nlater. So what drives someone to take on this running, throwing, jumping\n\nchallenge and push their body to its limits? I met American decathlete\nBruce\n\nThorpe in New York and told him he must have been crazy to take up the\n\ndecathlon. He laughed. \"Yes, I think I probably was. I could have done\nlots of\n\ndifferent sports, but I chose the decathlon. It's very tough and it\ndemands a\n\nlot of different skills. You have to train just as hard as other\nathletes, only\n\nyou have to do it in ten different events! I think we're probably all a\nlittle\n\ncrazy, but it's very satisfying in the end,\" he said. I asked him to\nexplain\n\nwhat happens in the decathlon.\n\n\"The way it works is you complete each event and you get points,\ndepending\n\non how well you do in that event. At the end of two days, the person\nwith the\n\nmost points is the champion and takes the gold medal, the second person\n\ngets the silver and the third the bronze medal. We start with the 100\nmetres,\n\nthe long jump, the shot put, the high jump and the 400 metres. The\nsecond\n\nday, it's the 110 metre hurdles, the discus, the javelin, the pole vault\nand the\n\none that we all dread, the 1500 metres.\" I asked him what made the 1500\n\nmetres such a struggle. 'All the other events demand speed or strength.\nWith\n\nthe long race, it's stamina. Really, decathletes aren't built for that\nevent.'\n\nSo what tips does Bruce have for those of you thinking of taking up the\n\ndecathlon? „Start as early as you can and join a good club, he said. \"It\ntakes\n\na long time to master ten different events, or seven for the heptathlon,\nand\n\nyou need expert help. And don't expect to have much free time!\"\n\nTen events, one champion. Think you might be the one? If you're\ninterested\n\nin finding out more about the decathlon, contact your local athletics\nclub.","questions":[{"num":1,"text":"In the first paragraph, the writer says that athletes today _____","answers":[{"letter":"A","text":"are more popular than in ancient times."},{"letter":"B","text":"are much better than in ancient times."},{"letter":"C","text":"treat the Olympics like a business."},{"letter":"D","text":"can become wealthy through sport."}],"correct":"D"},{"num":2,"text":"What does the word \"This\" refer to _____","answers":[{"letter":"A","text":"the champion"},{"letter":"B","text":"the running race"},{"letter":"C","text":"Greece"},{"letter":"D","text":"the pentathlon"}],"correct":"D"},{"num":3,"text":"The ancient pentathlon didn't test athletes' abilities to _____","answers":[{"letter":"A","text":"throw things."},{"letter":"B","text":"jump high."},{"letter":"C","text":"run fast."},{"letter":"D","text":"jump far."}],"correct":"D"},{"num":4,"text":"Lampis of Sparta was _____","answers":[{"letter":"A","text":"the organizer of the first ancient Olympics"},{"letter":"B","text":"Emperor Theodosius of Rome"},{"letter":"C","text":"the first winner of the ancient Olympics"},{"letter":"D","text":"the greatest athlete in history"}],"correct":"D"},{"num":5,"text":"According to the passage, the heptathlon for women _____","answers":[{"letter":"A","text":"became an Olympic event after 1912."},{"letter":"B","text":"similar to the ancient pentathlon."},{"letter":"C","text":"tests the ability to ride a horse."},{"letter":"D","text":"is much easier than the decathlon."}],"correct":"D"},{"num":6,"text":"How many sporting events were included in the modem decathlon of Stockholm Olympics in 1912?","answers":[{"letter":"A","text":"only one"},{"letter":"B","text":"five"},{"letter":"C","text":"seven"},{"letter":"D","text":"ten"}],"correct":"D"},{"num":7,"text":"What did Bruce Thorpe say about decathlon?","answers":[{"letter":"A","text":"It is challenging and requires athletes to have various skills."},{"letter":"B","text":"There's no need for participants to train hard."},{"letter":"C","text":"It has only seven events."},{"letter":"D","text":"It takes one day to decide the winner."}],"correct":"D"},{"num":8,"text":"What do you have to do to win a gold medal in the decathlon?","answers":[{"letter":"A","text":"Score more points than all the other competitors."},{"letter":"B","text":"Beat the other competitors in at least three events."},{"letter":"C","text":"Finish each event in the top three."},{"letter":"D","text":"Complete the events in the right order."}],"correct":"D"},{"num":9,"text":"What does Bruce say about the events?","answers":[{"letter":"A","text":"The 1500 metres should be on the first day."},{"letter":"B","text":"The first day is tougher than the second."},{"letter":"C","text":"The 1500 metres is different from the other events."},{"letter":"D","text":"It looks easier than it actually is."}],"correct":"D"},{"num":10,"text":"What is Bruce's advice for people thinking of becoming decathletes?","answers":[{"letter":"A","text":"Get a trainer to guide you."},{"letter":"B","text":"Get up early to start training"},{"letter":"C","text":"Take up the heptathlon instead."},{"letter":"D","text":"Try to have a good time in all the events"}],"correct":"D"}]},{"id":27,"title":"When he was younger,\\...","passage":"3\n\nChọn đáp án đúng\n\nA.  Hangout in shopping centres\n\nB.  Younger Singaporeans\n\nC.  Unethinic\n\nD.  Comfortable\n\n9\n\nChọn đáp án đúng\n\nA.  Comfortable\n\nB.  Younger Singaporeans\n\nC.  Hangout in shopping centres\n\nD.  Unethinic\n\nThingking about a bus driver from a diffrent perspective\n\nChọn đáp án đúng\n\nA.  4\n\nB.  1\n\nC.  7\n\nD.  8\n\nIt's challenging since it involves several tasks and skill\n\nChọn đáp án đúng\n\nA.  7\n\nB.  3\n\nC.  1\n\nD.  8\n\n7\n\nChọn đáp án đúng\n\nA.  Work five days on shirt for eight hours check the bus equipment\n    defects\n\nB.  It's challenging since it involves several tasks and skill\n\nC.  Hangout in shopping centres\n\nD.  Thingking about a bus driver from a diffrent perspective\n\n5\n\nChọn đáp án đúng\n\nA.  Comfortable\n\nB.  Younger Singaporeans\n\nC.  Unethinic\n\nD.  Hangout in shopping centres\n\nChọn đáp án đúng\n\nA.  Comfortable\n\nB.  Unethinic\n\nC.  Younger Singaporeans\n\n22\n\nHangout in shopping centres\n\nChọn đáp án đúng\n\nA.  4\n\nB.  9\n\nC.  5\n\nD.  1\n\nTo emphasize that what his parents said said earlier chooses\n\nChọn đáp án đúng\n\nA.  1\n\nB.  6\n\nC.  7\n\nD.  8\n\n10\n\nChọn đáp án đúng\n\nA.  Thingking about a bus driver from a diffrent perspective\n\nB.  Unethinic\n\nC.  Work five days on shirt for eight hours check the bus equipment\n    defects\n\nD.  D\n\nĐỀ SỐ 24: Sophie Sarin's living room ...\n\nKhu vực này không đẹp lắm\n\nChọn đáp án đúng\n\nA.  [Has two main colours in it]{.underline}\n\nB.  Slowly renovated the house\n\nC.  The area was not very nice\n\nD.  John told her keep the decoration simple\n\nSophie thỉnh thoảng - sang phòng khác\n\nChọn đáp án đúng\n\nA.  Is a nice room to be in the carly evening\n\nB.  [Is meant to be used as well as to look nice]{.underline}\n\nC.  John told her keep the decoration simple\n\nD.  Sophie sometimes - to another room\n\nRespect\n\nChọn đáp án đúng\n\nA.  Khu vực này không đẹp lắm\n\nB.  [Sophie thỉnh thoảng - sang phòng khác]{.underline}\n\nC.  Từ từ cải tạo ngôi nhà\n\nD.  Tôn trọng\n\nLà một căn phòng đẹp để thư giãn vào buổi tối\n\nChọn đáp án đúng\n\nA.  [Is a nice room to be in the carly evening]{.underline}\n\nB.  Is meant to be used as well as to look nice\n\nC.  Sophie sometimes - to another room\n\nD.  John told her keep the decoration simple\n\nShe did most of it herself to save money\n\nChọn đáp án đúng\n\nA.  Vừa để sử dụng vừa để trông đẹp mắt\n\nB.  Cô ấy tự mình làm hầu hết việc đó để tiết kiệm tiền\n\nC.  Sophie thỉnh thoảng - sang phòng khác\n\nD.  Là một căn phòng đẹp để thư giãn vào buổi tối\n\nIs meant to be used as well as to look nice\n\nChọn đáp án đúng\n\nA.  Vừa để sử dụng vừa để trông đẹp mắt\n\nB.  Sophie thỉnh thoảng - sang phòng khác\n\nC.  John bảo cô hãy trang trí đơn giản\n\nD.  Là một căn phòng đẹp để thư giãn vào buổi tối\n\nCó hai màu chính trong đó\n\nChọn đáp án đúng\n\nA.  Has two main colours in it\n\nB.  The area was not very nice\n\nC.  Is a nice room to be in the carly evening\n\nD.  Slowly renovated the house\n\nSlowly renovated the house\n\nChọn đáp án đúng\n\nA.  Khu vực này không đẹp lắm\n\nB.  Vừa để sử dụng vừa để trông đẹp mắt\n\nC.  Từ từ cải tạo ngôi nhà\n\nD.  Có hai màu chính trong đó\n\nJohn bảo cô hãy trang trí đơn giản\n\nChọn đáp án đúng\n\nA.  Is meant to be used as well as to look nice\n\nB.  Sophie sometimes - to another room\n\nC.  John told her keep the decoration simple\n\nD.  Is a nice room to be in the carly evening\n\nĐỀ SỐ 19: The liveihood\n\nThe livelihood of each species in the vast and intricate assemblage of\nliving things depends on the existences of other organisms. This\ninterdependence is sometimes subtle, sometimes obvious. Perhaps the most\nstraight forward dependence of one species on another occurs with\nparasites, organisms that live on or in other living things and derive\nnutrients directly from them. The parasitic way of life is widespread. A\nmultitude of microorganisms (including viruses and bacteria) and an army\nof invertebrates - or creatures lacking a spinal column (including\ncrustaceans, insects, and many different types of worms) - make their\nlivings directly at the expense of other creatures. In the face of this\nonslaught, living things have evolved a variety of defense mechanisms\nfor protecting their bodies from invasion by other organisms. Certain\nfungi and even some kinds of bacteria secrete substances known as\nantibiotics into their external environment. These substances are\ncapable of killing or inhibiting the growth of various kinds of bacteria\nthat also occupy the area, thereby eliminating or reducing the\ncompetition for nutrients. The same principle is used in defense against\ninvaders in other groups of organisms. For example, when attacked by\ndisease - causing fungi or bacteria, many kinds of plants produce\nchemicals that help to ward off the invaders. Members of the animal\nkingdom have developed a variety of defense mechanisms for dealing with\nparasites. Although these mechanisms vary considerably, all major groups\nof animals are capable of detecting and reacting to the presence of\n\"foreign\" cells. In fact, throughout the animal kingdom, from sponges\nto certain types of worms, shellfish, and all vertebrates (creatures\npossessing a spinal column), there is evidence that transplants of cells\nor fragments of tissues into an animal are accepted only if they come\nfrom genetically compatible or closely related individuals. The ability\nto distinguish between \"self\" and \"nonself\", while present in all\nanimals, is most efficient among vertebrates, which have developed an\nimmune system as their defense mechanism. The immune system recognizes\nand takes action against foreign invaders and transplanted tissues that\nare treated as foreign cells.\n\nCÂU HỎI TRẮC NGHIỆM (READING COMPREHENSION)","questions":[{"num":1,"text":"What does the passage mainly discuss? - A. how antibiotics work to cure disease - [B. how organisms react to invaders]{.underline} - C. how the immune systems of vertebrates developed - D. how parasites reproduce","answers":[{"letter":"A","text":"how antibiotics work to cure disease -"},{"letter":"B","text":"how organisms react to invaders -"},{"letter":"C","text":"how the immune systems of vertebrates developed -"},{"letter":"D","text":"how parasites reproduce"}],"correct":"B"},{"num":2,"text":"The word \"intricate\" in line 1 is closest in meaning to __________. - A. widespread - B. difficult - [C. complex]{.underline} - D. critical","answers":[{"letter":"A","text":"widespread -"},{"letter":"B","text":"difficult -"},{"letter":"C","text":"complex -"},{"letter":"D","text":"critical"}],"correct":"C"},{"num":3,"text":"The expression \"an army\" in line 5 most likely means __________. - A. an illness - B. an attack - [C. a large number]{.underline} - D. a distinct type","answers":[{"letter":"A","text":"an illness -"},{"letter":"B","text":"an attack -"},{"letter":"C","text":"a large number -"},{"letter":"D","text":"a distinct type"}],"correct":"C"},{"num":4,"text":"According to the passage, some organisms produce antibiotics in order to __________. - A. prevent disease in humans - B. aid digestion - [C. fight off other organisms]{.underline} - D. create new types of nutrients","answers":[{"letter":"A","text":"prevent disease in humans -"},{"letter":"B","text":"aid digestion -"},{"letter":"C","text":"fight off other organisms -"},{"letter":"D","text":"create new types of nutrients"}],"correct":"C"},{"num":5,"text":"The word \"vary\" in line 14 could best be replaced by \"__________\". - A. endure - [B. differ]{.underline} - C. balance - D. contribute","answers":[{"letter":"A","text":"endure -"},{"letter":"B","text":"differ -"},{"letter":"C","text":"balance -"},{"letter":"D","text":"contribute"}],"correct":"B"},{"num":6,"text":"The word \"they\" in line 17 refers to __________. - A. individuals - B. vertebrates - [C. transplants]{.underline} - D. sponges, worms and shellfish","answers":[{"letter":"A","text":"individuals -"},{"letter":"B","text":"vertebrates -"},{"letter":"C","text":"transplants -"},{"letter":"D","text":"sponges, worms and shellfish"}],"correct":"C"},{"num":7,"text":"According to the passage, a transplant of tissue between genetically incompatible organisms will result in the transplanted tissue __________. - A. becoming a parasite - [B. being treated as an invader]{.underline} - C. developing a new immune system - D. altering its genetic makeup","answers":[{"letter":"A","text":"becoming a parasite -"},{"letter":"B","text":"being treated as an invader -"},{"letter":"C","text":"developing a new immune system -"},{"letter":"D","text":"altering its genetic makeup"}],"correct":"B"},{"num":8,"text":"According to the passage, the ability to distinguish between \"self\" and \"nonself\" enables vertebrates to __________. - [A. detect and react to invasion]{.underline} - B. get rid of antibiotics - C. accept transplanted cells - D. weaken their immune system","answers":[{"letter":"A","text":"detect and react to invasion -"},{"letter":"B","text":"get rid of antibiotics -"},{"letter":"C","text":"accept transplanted cells -"},{"letter":"D","text":"weaken their immune system"}],"correct":"A"},{"num":9,"text":"All of the following are defined in the passage EXCEPT __________. - A. parasites (paragraph 1) - B. invertebrates (paragraph 1) - [C. nutrients (paragraph 2)]{.underline} - D. vertebrates (paragraph 3)","answers":[{"letter":"A","text":"parasites (paragraph 1) -"},{"letter":"B","text":"invertebrates (paragraph 1) -"},{"letter":"C","text":"nutrients (paragraph 2) -"},{"letter":"D","text":"vertebrates (paragraph 3)"}],"correct":"C"},{"num":10,"text":"The paragraph following the passage most probably discusses __________. - A[. how the immune system in vertebrates fights off foreign cells]{.underline} - B. different types of bacteria and lung - C. how vertebrates and invertebrates differ - D. examples of different groups of organisms ĐỀ SỐ 24: Travel can be ... Travel can be an amazing opportunity to open the minds of your kids (2), get them outside of their familiar area, and create a love of exploration (1). For families who want to take their first international trip to a different location, Southeast Asia should be the best choice for some reasons.(9) First of all, Southeast Asians generally love kids. Family is extremely important in Southeast Asian culture. So, tour guides, hotel staff, and strangers in the street will usually go out of their way to ensure your kids are having an enjoyable time. Secondly, Southeast Asia is home to several animals and fun ways for families to get close and personal with them. Have you ever wanted to be an elephant owner for a day? The Patara Elephant Farm in Chiang Mai, Thailand offers families the chance. You can help bathe, feed, and interact with elephants that have been rescued or born on-site in the farm's conservation programs. How about giving your kids the chance to visit a sea turtle hatchery and the cutest things ever, help take tiny baby sea turtles into the ocean? Vietnam's Con Dao National Park offers tours where guests get to both watch female sea turtles lay their eggs on the beaches and then help release baby turtles that have hatched in the park's nursery back into the wild. Thirdly, Southeast Asia has some of the greatest beaches in the world. You can take young kids to Khao Lak, Thailand, and relax with the warm water and soft sands. Or your older kids can take part in some activities, such as mini golf, and surfing, available at Kata Beach in Phuket, Thailand. If your teenagers like kiteboarding, you should take them to Mui Ne Beach in Vietnam. You'll find an amazing beach with fewer crowds than in more popular vacation destinations. Finally, Southeast Asian culture is truly unique. It will offer your family a look at traditions, foods, and celebrations that are very different from the Western world. Imaging spending a day around Angkor Wat and Angkor Thom with a guide. He can explain the history and stories on the temple walls. Or you can take a picture of your family amid thousands of other local families when you release flaming sky lanterns into the air for the Loi Krathong festival in Thailand each fall. Getting your family out of the typical Western traditions can be a life-changing experience for the good. If you want to have unforgettable trips with kids through Cambodia, Thailand, Laos, Myanmar, and Vietnam, visit Journeys-Within.com. 1\\. What is the purpose of the passage?","answers":[{"letter":"A","text":"To recommend Southeast Asian trips for families with children (gợi ý)"},{"letter":"B","text":"To provide information about Southeast Asian cultures and customs"},{"letter":"C","text":"To warn people about travel problems in Southeast Asia (cảnh báo)"},{"letter":"D","text":"To encourage people to travel abroad to Southeast Asia (khuyến khích) 2\\. According to the author, what benefit can travel bring to children?"},{"letter":"A","text":"It helps children familiarize their living area."},{"letter":"B","text":"It makes children take the best choice in life."},{"letter":"C","text":"It offers children an opportunity to broaden their knowledge."},{"letter":"D","text":"It creates a love of their familiar area. 3\\. In paragraph 2, which of the following statements best describes people in Southeast Asia?"},{"letter":"A","text":"They are always willing to help strangers."},{"letter":"B","text":"They usually love getting out of their way."},{"letter":"C","text":"They often have an enjoyable time."},{"letter":"D","text":"They normally show a preference to children. 4\\. The word \"them\" in paragraph 3 refers to ___________."},{"letter":"A","text":"animals"},{"letter":"B","text":"ways"},{"letter":"C","text":"families"},{"letter":"D","text":"kids 5\\. In paragraph 3, what activity can visitors do in Patara Elephant Farm?"},{"letter":"A","text":"Rescue elephants"},{"letter":"B","text":"Provide food for farm"},{"letter":"C","text":"Give baths to elephants"},{"letter":"D","text":"Join conservation programme 6\\. According to the author, what is the best thing to do in Con Dao National Park?"},{"letter":"A","text":"Take baby turles into the wild"},{"letter":"B","text":"Release female turles"},{"letter":"C","text":"Watch turles lay eggs"},{"letter":"D","text":"Hatch the baby turles 7\\. In paragraph 4, which place is suitable for the little children?"},{"letter":"A","text":"Khao Lak"},{"letter":"B","text":"Phuket"},{"letter":"C","text":"Mui Ne"},{"letter":"D","text":"Con Dao 8\\. The word \"unique\" in in paragraph 5 is closest in meaning to ____________."},{"letter":"A","text":"unusual (bất thường)"},{"letter":"B","text":"fantastic (tuyệt vời)"},{"letter":"C","text":"amazing"},{"letter":"D","text":"normal 9\\. Which of the following statements is supported in the passage?"},{"letter":"A","text":"Southeast Asian culture is different from Western culture"},{"letter":"B","text":"Southeast Asia has the most crowded beaches in the world"},{"letter":"C","text":"Travel to Southeast Asia is the best international trip"},{"letter":"D","text":"People in Southeast Asia love traveling 10\\. Which of the following best describes the author's tone in the passage?"},{"letter":"A","text":"Doubtful (nghi ngờ)"},{"letter":"B","text":"Friendly"},{"letter":"C","text":"Humourous (hài hước)"},{"letter":"D","text":"Pessimistic (bi quan) ĐỀ SỐ 19: A great deal can be A great deal can be learned from the actual traces of ancient human locomotion: the footprints of early hominids. The best-known specimens are the remarkable tracks discovered at Laetoli, Tanzania, by Mary Leakey. These were left by small hominids around 3.6 to 3.75 million years ago, according to potassium -- argon dates of the volcanic rocks above and below this level. These hominids walked across a stretch of moist volcanic ash, which was subsequently turned to mud by rain, and which then set like concrete. Examination of the shape of the prints revealed to Mary Leakey that the feet had a raised arch, a rounded heel, a pronounced ball, and a big toe that pointed forward. These features, together with the weight-bearing pressure patterns, resembled the prints of upright-walking modern humans. The pressures exerted along the foot, together with the length of stride, which averaged 87 centimeters, indicated that the hominids had been walking slowly. In short, all the detectable morphological features implied that the feet that left the footprints were very little different from those of contemporary humans. A detailed study has been made of the prints using photogrammetry, a technique for obtaining measurements through photographs, which created a drawing showing all the curves and contours of the prints. The result emphasized that there were at least seven points of similarity with modern bipedal prints, such as the depth of the heel impression, and the deep imprint of the big toe. M Day and E. Wickens also took stereophotographs of the Laetoli prints and compared them with modern prints made by men and women in similar soil conditions. Once again, the results furnished possible evidence of bipedalism. Footprints thus provide us not merely with rare impressions of the soft tissue of early hominids, but also with evidence of upright walking that in many ways is clearer than can be obtained from the analysis of bones. The study of fossil footprints is not restricted to examples from such remote periods. Hundreds of prints are known, for example, in French caves dating from the end of the last ice age, approximately 10,000 years ago. Research by Leon Pales, using detailed silicon resin molds of footprints mostly made by bare feet, has provided information about this period. CÂU HỎI TRẮC NGHIỆM (READING COMPREHENSION)"}],"correct":"D"},{"num":11,"text":"What does the passage mainly discuss? - A. The analysis of footprint fossils - B. Accurate dating of hominid remains - C. the career of Mary Leakey - D. Behavioral patterns of early humans - Đáp án đúng là: A","answers":[{"letter":"A","text":"The analysis of footprint fossils -"},{"letter":"B","text":"Accurate dating of hominid remains -"},{"letter":"C","text":"the career of Mary Leakey -"},{"letter":"D","text":"Behavioral patterns of early humans - Đáp án đúng là: A"}],"correct":"D"},{"num":12,"text":"The age of the Laetoli footprints was estimated by __________. - A. testing the fossilized bones of the hominids - B. studying the shape of the footprints - C. analyzing nearby rock layers - D. comparison with footprints from other locations - Đáp án đúng là: C","answers":[{"letter":"A","text":"testing the fossilized bones of the hominids -"},{"letter":"B","text":"studying the shape of the footprints -"},{"letter":"C","text":"analyzing nearby rock layers -"},{"letter":"D","text":"comparison with footprints from other locations - Đáp án đúng là: C"}],"correct":"D"},{"num":13,"text":"It can be inferred that the footprints in volcanic ash at Laetoli were well preserved because __________. - A. they were buried by a second volcanic eruption - B. the ash contained potassium anti argon - C. the ash was still warm from the volcanic eruptions - D. suitable conditions caused the ash harden - Đáp án đúng là: D","answers":[{"letter":"A","text":"they were buried by a second volcanic eruption -"},{"letter":"B","text":"the ash contained potassium anti argon -"},{"letter":"C","text":"the ash was still warm from the volcanic eruptions -"},{"letter":"D","text":"suitable conditions caused the ash harden - Đáp án đúng là: D"}],"correct":"D"},{"num":14,"text":"Which or the following is NOT mentioned as a characteristic of the feet in Mary Leakey's fossil find? - A. The shape or the heel - B. The number of toes - C. A raised arch - D. A pronounced ball - Đáp án đúng là: B","answers":[{"letter":"A","text":"The shape or the heel -"},{"letter":"B","text":"The number of toes -"},{"letter":"C","text":"A raised arch -"},{"letter":"D","text":"A pronounced ball - Đáp án đúng là: B"}],"correct":"D"},{"num":15,"text":"The word \"exerted\" in line 8 is closest in meaning to __________. - A. influenced - B. applied - C. returned - D. lessened - Đáp án đúng là: B","answers":[{"letter":"A","text":"influenced -"},{"letter":"B","text":"applied -"},{"letter":"C","text":"returned -"},{"letter":"D","text":"lessened - Đáp án đúng là: B"}],"correct":"D"},{"num":16,"text":"The figure of 87 centimeters mentioned in line 9 refers to the size of the __________. - A. objects carried by the hominids - B. steps taken by the hominids - C. hominids bodies - D. hominids feet - Đáp án đúng là: B","answers":[{"letter":"A","text":"objects carried by the hominids -"},{"letter":"B","text":"steps taken by the hominids -"},{"letter":"C","text":"hominids bodies -"},{"letter":"D","text":"hominids feet - Đáp án đúng là: B"}],"correct":"D"},{"num":17,"text":"Why does the author mention the \"heel impression\" in line 19? - A. To emphasize the size of the hominids foot - B. To speculate on a possible injury the hominid had suffered - C. To give an example of similarity to modern human footprints - D. To indicate the weight of early hominids - Đáp án đúng là: C","answers":[{"letter":"A","text":"To emphasize the size of the hominids foot -"},{"letter":"B","text":"To speculate on a possible injury the hominid had suffered -"},{"letter":"C","text":"To give an example of similarity to modern human footprints -"},{"letter":"D","text":"To indicate the weight of early hominids - Đáp án đúng là: C"}],"correct":"D"},{"num":18,"text":"What can be inferred about the footprints found in French caves mentioned in the last paragraph? - A. They show more detail than the Laetoli prints. - B. They are of more recent origin than the Laetoli prints. - C. They are not as informative as the Laetoli prints. - D. They are more difficult to study than the Laetoli prints. - Đáp án đúng là: B - 29. What can be inferred about the footprints found in French caves mentioned in the last paragraph? - (A)They show more detail than the Laetoli prints. - [(B)They are of more recent origin than the Laetoli prints.]{.underline} (C)They are not as informative as the Laetoli prints. - (D)They are more difficult to study than the Laetoli prints - 30. Which of the following terms is defined in the passage? - (A) \"hominids\" (line 3) - [ (B) \"arch\" (line 9)]{.underline} - (C) \"photogrammetry\" (line 16) - (D) \"silicon resin molds\" (line 29)","answers":[{"letter":"A","text":"They show more detail than the Laetoli prints. -"},{"letter":"B","text":"They are of more recent origin than the Laetoli prints. -"},{"letter":"C","text":"They are not as informative as the Laetoli prints. -"},{"letter":"D","text":"They are more difficult to study than the Laetoli prints. - Đáp án đúng là: B - 29. What can be inferred about the footprints found in French caves mentioned in the last paragraph? - (A)They show more detail than the Laetoli prints. - (B)They are of more recent origin than the Laetoli prints. (C)They are not as informative as the Laetoli prints. - (D)They are more difficult to study than the Laetoli prints - 30. Which of the following terms is defined in the passage? - (A) \"hominids\" (line 3) - (B) \"arch\" (line 9) - (C) \"photogrammetry\" (line 16) - (D) \"silicon resin molds\" (line 29)"}],"correct":"D"}]},{"id":28,"title":"As heath care costs","passage":"As health care costs continually rise in most developed countries, many\npeople are looking to alternative forms of health therapy. Two of the\nmost popular forms of alternative therapies in the West today are\nacupuncture and herbal medicine, both of which have been used for\ncenturies in Asia and are rooted in ancient Chinese medicine. In\nessence, they attempt to treat the source of the health problem rather\nthan simply get rid of symptoms, which is something that many argue is\nthe flawed crux of western medicinal techniques.\n\nAcupuncture is based on ancient Chinese medicine and the importance of\nki, a kind of life force that pulsates through every human's body. Ki\nruns through various pathways in the body and is fundamental in giving\nhuman strength and energy as well as bolstering the immune system. But,\nat times, these pathways might suffer blockage or be disrupted, so ki is\nunable to flow smoothly through the body. When this occurs, the body\nbecomes vulnerable to illness and pain. This is where acupuncture comes\nin. Acupuncturists are well versed in the mapping of the ki pathways\nthroughout the body and are able to locate and stimulate certain areas\non the surface of the body in order to relieve pressure and allow ki\nonce more to flow freely, eliminating pains and illnesses in the\nprocess.\n\nOne of the most common and successful methods of acupuncture is\ndescribed as ear acupuncture. This technique is involved solely with the\near and its numerous activation points. The ear is considered a highly\nsensitive area of the human body because it contains a strong, healthy\nflow of blood as well as numerous nerve points that connect it with the\nrest of the human body. Acupuncturists place tiny needles in the surface\nof the skin at certain points, depending on the desired result. In\ngeneral, ear acupuncture is considered an excellent therapy, especially\nfor treating individuals with psychological or physical dependency\nissues such as eating disorders and drug or alcohol abuse.\n\nA second form of alternative therapy based on Chinese traditional\nmedicine is herbal therapy, in which special herbs are prescribed by the\ndoctor to be taken in a hot liquid form, usually tea. Traditionally,\nherbal teas are imbibed to boost the immune system and prevent illnesses\nfrom being able to enter the body. Herbs also have a more direct\ninfluence than acupuncture on the body's physical system, as they can\naid in normalizing blood pressure. One excellent example of an herbal\nremedy is mushroom tea, which is an excellent antioxidant. Other\nbenefits attributed to the use of traditional Chinese herbs are that\nthey build stamina and are good for digestive purposes. Sometimes,\nherbal medicines are used in conjunction with acupuncture to magnify its\neffects.\n\nCÂU HỎI TRẮC NGHIỆM (MULTIPLE CHOICE QUESTIONS)","questions":[{"num":1,"text":"The word \"crux\" in paragraph 1 mostly means __________. - A. basis - B. relief - C. symptom - D. application - Đáp án đúng là: A","answers":[{"letter":"A","text":"basis -"},{"letter":"B","text":"relief -"},{"letter":"C","text":"symptom -"},{"letter":"D","text":"application - Đáp án đúng là: A"}],"correct":"D"},{"num":2,"text":"According to paragraph 2, which of the following is true of ki? - A. It constantly runs through the various blood vessels of the body (Lưu ý: Mặc dù đáp án A được chọn trong hình, nhưng theo văn bản \"ki\" là \"life force\" chạy qua \"various pathways\". Tuy nhiên, em trích xuất đúng theo ảnh chụp của mình ạ). - B. It is the basis upon which the method of acupuncture was devised - C. It is an invisible force that blocks the pathways of the body - D. It stimulates certain pathways in the body and relieves pain - Đáp án đúng là: A","answers":[{"letter":"A","text":"It constantly runs through the various blood vessels of the body (Lưu ý: Mặc dù đáp án A được chọn trong hình, nhưng theo văn bản \"ki\" là \"life force\" chạy qua \"various pathways\". Tuy nhiên, em trích xuất đúng theo ảnh chụp của mình ạ). -"},{"letter":"B","text":"It is the basis upon which the method of acupuncture was devised -"},{"letter":"C","text":"It is an invisible force that blocks the pathways of the body -"},{"letter":"D","text":"It stimulates certain pathways in the body and relieves pain - Đáp án đúng là: A"}],"correct":"D"},{"num":3,"text":"The word \"solely\" in paragraph 3 is CLOSEST in meaning to __________. - A. safely - B. barely - C. intentionally - D. exclusively - Đáp án đúng là: D","answers":[{"letter":"A","text":"safely -"},{"letter":"B","text":"barely -"},{"letter":"C","text":"intentionally -"},{"letter":"D","text":"exclusively - Đáp án đúng là: D"}],"correct":"D"},{"num":4,"text":"The word \"it\" in paragraph 3 refers to __________. - A. the ear - B. the activating point - C. the nerve point - D. the flow of blood - Đáp án đúng là: A","answers":[{"letter":"A","text":"the ear -"},{"letter":"B","text":"the activating point -"},{"letter":"C","text":"the nerve point -"},{"letter":"D","text":"the flow of blood - Đáp án đúng là: A"}],"correct":"D"},{"num":5,"text":"The author's description of herbal therapy mentions all of the following EXCEPT __________. - A. the reaction time is faster for acupuncture than for herbal therapy - B. herbs are excellent way of increasing a person's endurance - C. it is used as a preventative form of therapy for healthy people - D. it is beneficial to the circulatory system and blood pressure problems - Đáp án đúng là: A","answers":[{"letter":"A","text":"the reaction time is faster for acupuncture than for herbal therapy -"},{"letter":"B","text":"herbs are excellent way of increasing a person's endurance -"},{"letter":"C","text":"it is used as a preventative form of therapy for healthy people -"},{"letter":"D","text":"it is beneficial to the circulatory system and blood pressure problems - Đáp án đúng là: A"}],"correct":"D"},{"num":6,"text":"What's main idea of the passage? - A. Acupuncture -- the best therapy - B. People using plants for healing the injuries - C. Two forms of alternative therapies in the West - D. Western medical techniques are improved - Đáp án đúng là: C","answers":[{"letter":"A","text":"Acupuncture -- the best therapy -"},{"letter":"B","text":"People using plants for healing the injuries -"},{"letter":"C","text":"Two forms of alternative therapies in the West -"},{"letter":"D","text":"Western medical techniques are improved - Đáp án đúng là: C"}],"correct":"D"},{"num":7,"text":"What method of acupuncture is described effective and popular? - A. nose acupuncture - B. back acupuncture - C. foot acupuncture - D. ear acupuncture - Đáp án đúng là: D","answers":[{"letter":"A","text":"nose acupuncture -"},{"letter":"B","text":"back acupuncture -"},{"letter":"C","text":"foot acupuncture -"},{"letter":"D","text":"ear acupuncture - Đáp án đúng là: D"}],"correct":"D"},{"num":8,"text":"What is stated about the alternative therapies? - A. they get rid of symptoms - B. they treat the source of the health problem - C. they are flawed - D. they rooted from ancient Egypt - Đáp án đúng là: B","answers":[{"letter":"A","text":"they get rid of symptoms -"},{"letter":"B","text":"they treat the source of the health problem -"},{"letter":"C","text":"they are flawed -"},{"letter":"D","text":"they rooted from ancient Egypt - Đáp án đúng là: B"}],"correct":"D"}]},{"id":29,"title":"There are two basic","passage":"There are two basic types of glaciers: those that flow outward in all\ndirections with little regard for any underlying terrain and those that\nare confined by terrain to a particular path.\n\nThe first category of glaciers includes those massive blankets that\ncover whole continents, approximately called ice sheets. There must be\nover 50,000 square kilometers of land covered with ice for the glacier\nto qualify as an ice sheet. When portions of an ice sheet spread out\nover the ocean, they form ice shelves.\n\nAbout 20,000 years ago the Cordilleran Ice Sheet covered nearly all the\nmountains in Southern Alaska, western Canada, and the western United\nStates. It was about 3 kilometers deep in its thickest point in northern\nAlberta. Now there are only two sheets left on Earth, those covering\nGreenland and Antarctica.\n\nAny domelike body of ice that also flows out in all directions but\ncovers less than 50,000 square kilometers is called an ice cap. Although\nice caps are rare nowadays, there are a number in northeastern\nCanada, on Baffin Island, and on the Queen Elizabeth Islands.\n\nThe second category of glaciers includes those of a variety of shapes\nand sizes generally called mountain or alpine glaciers. Mountain\nglaciers are typically identified by the landform that controls their\nflow. One form of mountain glacier that resembles an ice cap in that it\nflows outward in several directions is called an ice field. The\ndifference between an ice field and an ice cap is subtle.\nEssentially, the flow of an ice field is somewhat controlled by\nsurrounding terrain and thus does not have the domelike shape of a cap.\nThere are several ice fields in the Wrangell, St. Elias, and Chugach\nmountains of Alaska and northern British Columbia.\n\nLess spectacular than large ice fields are the most common types of\nmountain glaciers: the cirque and valley glaciers. Cirque glaciers are\nfound in depressions in the surface of the land and have a\ncharacteristic circular shape. The ice of valley glaciers, bound by\nterrain, flows down valleys, curves around their corners, and falls over\ncliffs.","questions":[{"num":1,"text":"What does the passage mainly discuss?","answers":[{"letter":"A","text":"Where major glaciers are located."},{"letter":"B","text":"How glaciers shape the land."},{"letter":"C","text":"How glaciers are formed."},{"letter":"D","text":"The different kinds of glaciers."}],"correct":"D"},{"num":3,"text":"It can be inferred that ice sheets are so named for which of the following reasons?","answers":[{"letter":"A","text":"They are confined to mountain valleys."},{"letter":"B","text":"They cover large areas of land."},{"letter":"C","text":"They are thicker in some areas than in others."},{"letter":"D","text":"They have a characteristic circular shape."}],"correct":"B"},{"num":4,"text":"According to the passage, ice shelves can be found ________.","answers":[{"letter":"A","text":"covering an entire continent"},{"letter":"B","text":"buried within the mountains"},{"letter":"C","text":"spreading into the ocean"},{"letter":"D","text":"filling deep valleys"}],"correct":"C"},{"num":5,"text":"According to the passage, where was the Cordillera Ice Sheet thickest?","answers":[{"letter":"A","text":"Alaska"},{"letter":"B","text":"Greenland"},{"letter":"C","text":"Alberta"},{"letter":"D","text":"Antarctica"}],"correct":"C"},{"num":7,"text":"According to the passage, ice fields resemble ice caps in which of the following ways?","answers":[{"letter":"A","text":"Their shape"},{"letter":"B","text":"Their flow"},{"letter":"C","text":"Their texture"},{"letter":"D","text":"Their location"}],"correct":"B"}]},{"id":30,"title":"American Jazz","passage":"American jazz is a mixture of sounds borrowed from such varied sources\nas American and African folk music, European classical music, and\nChristian gospel songs. One of the recognizable characteristics of jazz\nis its use of improvisation: certain parts of the music are written out\nand played the same way by various performers, and other improvised\nparts are created spontaneously during a performance and vary widely\nfrom performer to performer.\n\nThe earliest form of jazz was ragtime, lively songs or rags performed on\nthe piano, and the best-known of the ragtime performers and composers\nwas Scott Joplin. Born in 1868 to former slaves, Scott Joplin earned his\nliving from a very early age playing the piano in bars along the\nMississippi. One of his regular jobs was in the Maple Leaf Club in\nSedalia, Missouri. It was there that he began writing the more than 500\ncompositions that he was to produce, the most famous of which was\n\"The Maple Leaf Rag.\"","questions":[{"num":1,"text":"This passage is about ________.","answers":[{"letter":"A","text":"the life of Scott Joplin"},{"letter":"B","text":"the major characteristics of jazz"},{"letter":"C","text":"jazz in general and one specific type of jazz"},{"letter":"D","text":"the various sources of jazz"}],"correct":"C"},{"num":2,"text":"Which of the following is NOT a source of American jazz?","answers":[{"letter":"A","text":"Christian gospel songs"},{"letter":"B","text":"European folk songs"},{"letter":"C","text":"European classical music"},{"letter":"D","text":"American and African folk music"}],"correct":"B"},{"num":3,"text":"According to the passage, ragtime was ________.","answers":[{"letter":"A","text":"performed only at the Maple Leaf Club in Sedalia"},{"letter":"B","text":"generally performed on a variety of instruments"},{"letter":"C","text":"the first type of jazz"},{"letter":"D","text":"extremely soothing and sedate"}],"correct":"C"},{"num":5,"text":"The word \"which\" in paragraph 2 refers to ________.","answers":[{"letter":"A","text":"the Maple Leaf club"},{"letter":"B","text":"regular jobs"},{"letter":"C","text":"over 500 compositions"},{"letter":"D","text":"Sedalia, Missouri"}],"correct":"C"},{"num":9,"text":"According to the passage, cellphones are especially popular with young people because _______.","answers":[{"letter":"A","text":"they are indispensable in everyday communications"},{"letter":"B","text":"they make them look more stylish"},{"letter":"C","text":"they keep the users alert all the time"},{"letter":"D","text":"they cannot be replaced by regular phones"}],"correct":"B"},{"num":10,"text":"The changes possibly caused by the cellphones are mainly concerned with _______.","answers":[{"letter":"A","text":"the mobility of the mind and the body"},{"letter":"B","text":"the smallest units of the brain"},{"letter":"C","text":"the arteries of the brain"},{"letter":"D","text":"the resident memory"}],"correct":"B"},{"num":11,"text":"The word \"means\" in the passage most closely means _______.","answers":[{"letter":"A","text":"\"meanings\""},{"letter":"B","text":"\"expression\""},{"letter":"C","text":"\"method\""},{"letter":"D","text":"\"transmission\""}],"correct":"C"},{"num":12,"text":"The word \"potentially\" in the passage most closely means _______.","answers":[{"letter":"A","text":"\"obviously\""},{"letter":"B","text":"\"possibly\""},{"letter":"C","text":"\"certainly\""},{"letter":"D","text":"\"privately\""}],"correct":"B"},{"num":13,"text":"\"negative publicity\" in the passage most likely means _______.","answers":[{"letter":"A","text":"information on the lethal effects of cellphones"},{"letter":"B","text":"widespread opinion about bad effects of cellphones"},{"letter":"C","text":"the negative public use of cellphones"},{"letter":"D","text":"poor ideas about the effects of cellphones"}],"correct":"B"},{"num":14,"text":"Doctors have tentatively concluded that cellphones may _______.","answers":[{"letter":"A","text":"damage their users' emotions"},{"letter":"B","text":"cause some mental malfunction"},{"letter":"C","text":"change their users' temperament"},{"letter":"D","text":"change their users' social behaviours"}],"correct":"B"},{"num":15,"text":"The man mentioned in the passage, who used his cellphone too often, _______.","answers":[{"letter":"A","text":"suffered serious loss of mental ability"},{"letter":"B","text":"could no longer think lucidly"},{"letter":"C","text":"abandoned his family"},{"letter":"D","text":"had a problem with memory"}],"correct":"D"},{"num":16,"text":"According to the passage, what makes mobile phones potentially harmful is _______.","answers":[{"letter":"A","text":"their radiant light"},{"letter":"B","text":"their power of attraction"},{"letter":"C","text":"their raiding power"},{"letter":"D","text":"their invisible rays"}],"correct":"D"},{"num":17,"text":"According to the writer, people should _______.","answers":[{"letter":"A","text":"only use mobile phones in urgent cases"},{"letter":"B","text":"only use mobile phones in medical emergencies"},{"letter":"C","text":"keep off mobile phones regularly"},{"letter":"D","text":"never use mobile phones in all cases"}],"correct":"A"},{"num":18,"text":"The most suitable title for the passage could be _______.","answers":[{"letter":"A","text":"\"The Reasons Why Mobile Phones Are Popular\""},{"letter":"B","text":"\"Technological Innovations and Their Price\""},{"letter":"C","text":"\"The Way Mobile Phones Work\""},{"letter":"D","text":"\"Mobile Phones: A Must of Our Time\""}],"correct":"B"}]},{"id":44,"title":"Many Folk cures","passage":"Many folk cures which have been around for centuries may be more\ntherapeutic than previously suspected. A case in point is that of\npenicillin: Alexander Fleming did not just randomly choose cheese molds\nto study when he discovered this very important bacteria-killing\nsubstance. Moldy cheese was frequently given to patients as a remedy for\nillness at one time Fleming just isolated what it was about the cheese\nwhich cured the patients.\n\nIn parts of South America, a powder obtained from grinding sugar cane is\nused for healing infections in wounds and ulcers. This usage may date\nback to pre-Colombian times. Experiments carried out on several hundred\npatients indicate that ordinary sugar in high concentrations is lethal\nto bacteria. Its suction effect eliminates dead cells and generates a\nglass like layer which protects the wound and ensures healing.Another\nexample of folk medicine which scientists are investigating is that of\nArab fishermen who rub their wounds with a venomous catfish to quicken\nhealing. This catfish excretes a gel-like slime which scientists found\nto contain antibiotics coagulant that helps close injured blood vessels,\nanti-inflammatory agents, and a chemical that directs production of a\nglue-like material that aids healing.\n\nIt is hoped that by documenting these folk remedies and experimenting to\nsee if results are indeed beneficial, an analysis of the substance be\nmade, and synthetic substances be developed for human consumption.\n\nQuestions & Answers","questions":[{"num":1,"text":"This passage is mainly about____\\","answers":[{"letter":"A","text":"antibiotics in the field of medicine"},{"letter":"B","text":"the validity of folk remedies and their use for advances in modern medicine"},{"letter":"C","text":"using folk medicines in place of modern medicines"},{"letter":"D","text":"isolating antibiotics in cheese, sugar, and slime 👉 Đáp án: B"}],"correct":"D"},{"num":2,"text":"The word \"therapeutic\" in paragraph 1 is closest in meaning to_____\\","answers":[{"letter":"A","text":"psychological"},{"letter":"B","text":"physiological"},{"letter":"C","text":"traditional"},{"letter":"D","text":"medicinal 👉 Đáp án: D"}],"correct":"D"},{"num":3,"text":"It can be inferred from the message that Alexander Fleming_____\\","answers":[{"letter":"A","text":"isolated infectious patients"},{"letter":"B","text":"discovered moldy cheese"},{"letter":"C","text":"suspected medicinal properties of mold"},{"letter":"D","text":"enjoyed eating cheese 👉 Đáp án: C"}],"correct":"D"},{"num":4,"text":"The word \"eliminates\" in paragraph 2 is closest in meaning to_____\\","answers":[{"letter":"A","text":"excretes"},{"letter":"B","text":"disposes of"},{"letter":"C","text":"kills off"},{"letter":"D","text":"cleanses 👉 Đáp án: B"}],"correct":"D"},{"num":5,"text":"According to the passage,_____\\","answers":[{"letter":"A","text":"sugar kills unhealthy cells"},{"letter":"B","text":"bacteria feed on sugar"},{"letter":"C","text":"sugar promotes healing"},{"letter":"D","text":"glass is formed from sugar 👉 Đáp án: C"}],"correct":"D"},{"num":6,"text":"The gel-like substance which promotes healing comes from_____\\","answers":[{"letter":"A","text":"Arab fishermen"},{"letter":"B","text":"coagulants"},{"letter":"C","text":"catfish bodies"},{"letter":"D","text":"catfish venom 👉 Đáp án: C"}],"correct":"D"},{"num":7,"text":"Which one of the following is NOT an important quality of the catfish slime?\\","answers":[{"letter":"A","text":"It produces mold."},{"letter":"B","text":"It fights bacteria."},{"letter":"C","text":"It stops bleeding."},{"letter":"D","text":"It prohibits inflammation. 👉 Đáp án: A"}],"correct":"D"},{"num":8,"text":"The word \"consumption\" in the last paragraph is closest in meaning to_____\\","answers":[{"letter":"A","text":"utilization"},{"letter":"B","text":"destruction"},{"letter":"C","text":"manipulation"},{"letter":"D","text":"experimentation 👉 Đáp án: A"}],"correct":"D"},{"num":9,"text":"In what way are cheese molds, sugar, and catfish slime similar?\\","answers":[{"letter":"A","text":"They eliminate dead cells."},{"letter":"B","text":"They cause blood clots."},{"letter":"C","text":"They heal wounds."},{"letter":"D","text":"They fight bacteria. 👉 Đáp án: B"}],"correct":"D"},{"num":10,"text":"According to the passage, why is it important to study folk medicine?\\","answers":[{"letter":"A","text":"To perpetuate superstitions."},{"letter":"B","text":"To document cultural heritages."},{"letter":"C","text":"To advance modern medical practices."},{"letter":"D","text":"To experiment with synthetic substances. 👉 Đáp án: A"}],"correct":"D"}]},{"id":45,"title":"We are descendants","passage":"We are descendents of the ice age. Periods of glaciation have spanned\nthe whole of human existence for the past 2 million years. The rapid\nmelting of the continental glaciers at the end of the last ice age\nspurred one of the most dramatic climate changes in the history of the\nplanet. During this interglacial time, people were caught up in a\ncataclysm of human accomplishment, including the development of\nagriculture and animal husbandry. Over the past few thousand years, the\nEarth's climate has been extraordinarily beneficial, and humans have\nprospered exceedingly well under a benign atmosphere.\n\nIce ages have dramatically affected life on Earth almost from the very\nbeginning. It is even possible that life itself significantly changed\nthe climate. All living organisms pull carbon dioxide out of the\natmosphere and eventually store it in sedimentary rocks within the\nEarth's crust. If too much carbon dioxide is lost, too much heat escapes\nout into the atmosphere. This can cause the Earth to cool enough for\nglacial ice to spread across the land.\n\nIn general the reduction of the level of carbon dioxide in the\natmosphere has been equalized by the input of carbon dioxide from such\nevents as volcanic eruptions. Man, however, is upsetting the equation by\nburning fossil fuels and destroying tropical rain forests, both of which\nreleased stored carbon dioxide. This energizes the greenhouse effect and\ncauses the Earth to warm. If the warming is significant enough, the\npolar ice caps eventually melt.\n\nThe polar ice caps drive the atmospheric and oceanic circulation\nsystems. Should the ice caps melt, warm tropical waters could circle the\nglobe and make this a very warm, inhospitable planet.\n\nOver the past century, the global sea level has apparently risen upward\nof 6 inches, mainly because of the melting of glacial ice. If present\nwarming trends continue, the seas could rise as much as 6 feet by the\nnext century. This could flood coastal cities and fertile river deltas,\nwhere half the human population lives. Delicate wetlands, where many\nmarine species breed, also would be reclaimed by the sea. In addition,\nmore frequent and severe storms would batter coastal areas, adding to\nthe disaster of the higher seas.\n\nThe continued melting of the great ice sheets in polar regions could\ncause massive amounts of ice to crash into the ocean. This would further\nraise the sea level and release more ice, which could more than double\nthe area of sea ice and increase correspondingly the amount of sunlight\nreflected back into space. The cycle would then be complete as this\ncould cause global temperatures to drop enough to initiate another ice\nage.\n\nQuestions & Answers","questions":[{"num":1,"text":"According to the passage, carbon dioxide is stored in each of the following EXCEPT\\","answers":[{"letter":"A","text":"polar ice caps"},{"letter":"B","text":"sedimentary rocks"},{"letter":"C","text":"rain forests"},{"letter":"D","text":"fossil fuel 👉 Đáp án: A"}],"correct":"D"},{"num":2,"text":"What does the final paragraph of the passage mainly discuss?\\","answers":[{"letter":"A","text":"The relationship between the ocean and the sun"},{"letter":"B","text":"The amount of sunlight reflected into space"},{"letter":"C","text":"A rise in global temperatures"},{"letter":"D","text":"The conditions that could lead to an ice age 👉 Đáp án: D"}],"correct":"D"},{"num":3,"text":"Which of the following does the author NOT mention as a consequence of a large rise in global sea level?\\","answers":[{"letter":"A","text":"The destruction of wetlands"},{"letter":"B","text":"The flooding of cities"},{"letter":"C","text":"A more diverse marine population"},{"letter":"D","text":"Severe storms 👉 Đáp án: C"}],"correct":"D"},{"num":4,"text":"According to the passage, what is the relationship between carbon dioxide and the Earth's climate?\\","answers":[{"letter":"A","text":"Carbon dioxide, which is trapped in glacial ice, is released when warm temperatures cause the ice to melt."},{"letter":"B","text":"The greenhouse effect, which leads to the warming of the climate, is result of too much carbon stored in the Earth's crust."},{"letter":"C","text":"Rain causes carbon dioxide to be washed out of the atmosphere and into the ocean."},{"letter":"D","text":"An increase in atmospheric carbon dioxide results in the warming of the climate. 👉 Đáp án: D"}],"correct":"D"},{"num":5,"text":"The word \"beneficial\" in the first paragraph is closest in meaning to\\","answers":[{"letter":"A","text":"calm"},{"letter":"B","text":"inviting"},{"letter":"C","text":"thoughtful"},{"letter":"D","text":"favorable 👉 Đáp án: D"}],"correct":"D"},{"num":6,"text":"The word \"massive\" can be replaced by\\","answers":[{"letter":"A","text":"wide"},{"letter":"B","text":"huge"},{"letter":"C","text":"dense"},{"letter":"D","text":"thick 👉 Đáp án: B"}],"correct":"D"},{"num":7,"text":"It can be inferred from the passage that the development of agriculture\\","answers":[{"letter":"A","text":"preceded the development of animal husbandry"},{"letter":"B","text":"withstood vast changes in the Earth's climate"},{"letter":"C","text":"did not take place during an ice age"},{"letter":"D","text":"was unaffected by the greenhouse effect 👉 Đáp án: C"}],"correct":"D"},{"num":8,"text":"The word \"this\" in the third paragraph refers to\\","answers":[{"letter":"A","text":"man's upsetting the equation"},{"letter":"B","text":"the reduction of the level of carbon dioxide"},{"letter":"C","text":"a volcanic eruption"},{"letter":"D","text":"the melting of the polar ice caps 👉 Đáp án: A"}],"correct":"D"},{"num":9,"text":"The word \"inhospitable\" is closest in meaning to\\","answers":[{"letter":"A","text":"imperfect"},{"letter":"B","text":"uninhabitable"},{"letter":"C","text":"unlikable"},{"letter":"D","text":"cruel 👉 Đáp án: B"}],"correct":"D"},{"num":10,"text":"What is the main topic of the passage?\\","answers":[{"letter":"A","text":"The possibility that the polar ice caps will melt"},{"letter":"B","text":"The coming of another ice age"},{"letter":"C","text":"Man's effect on the carbon dioxide level in the atmosphere"},{"letter":"D","text":"The climate of the Earth over the years 👉 Đáp án: A"}],"correct":"D"}]},{"id":46,"title":"Perhaps it was","passage":"Perhaps it was his own lack of adequate schooling that inspired Horace\nMann to work so hard for the important reforms in education that he\naccomplished. While he was still a boy, his father and older brother\ndied, and he became responsible for supporting his family. Like most of\nthe children in his town, he attended school only two or three months a\nyear. Later, with the help of several teachers, he was able to study law\nand became a member of the Massachusetts bar, but he never forgot those\nearly struggles.\n\nWhile serving in the Massachusetts legislature, he signed a historic\neducation bill that set up a state board of education. Without regret,\nhe gave up his successful legal practice and political career to become\nthe first secretary of the board. There he exercised an enormous\ninfluence during the critical period of reconstruction that brought into\nexistence the American graded elementary school as substitute for the\nolder district school system. Under his leadership, the curriculum was\nrestructured, the school year was increased to a minimum of six months,\nand mandatory schooling was extended to age sixteen. Other important\nreforms included the establishment of state normal schools for teacher\ntraining, institutes for in-service teacher education, and lyceums for\nadult education. He was also instrumental in improving salaries for\nteachers and creating school libraries.\n\nMann's ideas about school reform were developed and distributed in\ntwelve annual reports to the state of Massachusetts that he wrote during\nhis tenure as secretary of education. Considered quite radical at the\ntime, the Massachusetts reforms later served as a model for the nation.\nMann was recognized as the father of public education.\n\nQuestions & Answers","questions":[{"num":1,"text":"Which of the following titles would best express the main topic of the passage?\\","answers":[{"letter":"A","text":"The Father of American Public Education"},{"letter":"B","text":"Philosophy of Education"},{"letter":"C","text":"The Massachusetts State Board of Education"},{"letter":"D","text":"Politics of Educational Institutions 👉 Đáp án: A"}],"correct":"D"},{"num":2,"text":"Which of the following describes Horace Mann's early life?\\","answers":[{"letter":"A","text":"He attended school six months a year."},{"letter":"B","text":"He had to study alone, without help."},{"letter":"C","text":"He supported his family after his father died."},{"letter":"D","text":"He was an only child. 👉 Đáp án: C"}],"correct":"D"},{"num":3,"text":"The word \"struggles\" in line 5 could best be replaced by ______\\","answers":[{"letter":"A","text":"valuable experiences"},{"letter":"B","text":"happy situations"},{"letter":"C","text":"influential people"},{"letter":"D","text":"difficult times 👉 Đáp án: D"}],"correct":"D"},{"num":4,"text":"What did Horace Mann advocate?\\","answers":[{"letter":"A","text":"The state board school system"},{"letter":"B","text":"The district school system"},{"letter":"C","text":"The substitute school system"},{"letter":"D","text":"The graded school system 👉 Đáp án: D"}],"correct":"D"},{"num":5,"text":"How were Mann's educational reforms distributed?\\","answers":[{"letter":"A","text":"In twelve annual reports to the state of Massachusetts"},{"letter":"B","text":"In reports that he wrote for national distribution"},{"letter":"C","text":"In speeches that he made throughout the country"},{"letter":"D","text":"In books that could be found in school libraries 👉 Đáp án: A"}],"correct":"D"}]}];
+
+let state = {
+  mode: 'practice',
+  selectedExam: null,
+  examData: null,
+  currentQ: 0,
+  answers: {},     // {qIndex: letter}
+  timerInterval: null,
+  elapsed: 0,
+  quizStarted: false,
+  scores: {}       // {examId: {score, total, date}}
+};
+
+// Load saved data
+try {
+  const saved = JSON.parse(localStorage.getItem('b1_scores') || '{}');
+  state.scores = saved;
+} catch(e) {}
+
+// ---- INIT ----
+function init() {
+  renderExamList();
+  updateHomeStats();
+  updateStreak();
+}
+
+function updateHomeStats() {
+  const total = QUIZ_DATA.length;
+  const totalQ = QUIZ_DATA.reduce((s, e) => s + e.questions.length, 0);
+  const done = Object.keys(state.scores).length;
+  document.getElementById('stat-exams').textContent = total;
+  document.getElementById('stat-questions').textContent = totalQ;
+  document.getElementById('stat-done').textContent = done;
+}
+
+function updateStreak() {
+  const streak = parseInt(localStorage.getItem('b1_streak') || '0');
+  document.getElementById('header-streak').textContent = '🔥 ' + streak + ' ngày';
+}
+
+function renderExamList() {
+  const list = document.getElementById('exam-list');
+  list.innerHTML = QUIZ_DATA.map(exam => {
+    const saved = state.scores[exam.id];
+    const scoreHtml = saved
+      ? `<div class="score-badge">✓ ${saved.score}/${saved.total} (${Math.round(saved.score/saved.total*100)}%)</div>`
+      : '';
+    return `<div class="exam-card" id="card-${exam.id}" onclick="selectExam(${exam.id})">
+      <span class="exam-num-badge">Đề ${exam.id}</span>
+      <h3>${exam.title}</h3>
+      <div class="q-count">📝 ${exam.questions.length} câu hỏi</div>
+      ${scoreHtml}
+    </div>`;
+  }).join('');
+}
+
+function selectMode(m) {
+  state.mode = m;
+  document.getElementById('mode-practice').classList.toggle('selected', m === 'practice');
+  document.getElementById('mode-exam').classList.toggle('selected', m === 'exam');
+}
+
+function selectExam(id) {
+  state.selectedExam = id;
+  document.querySelectorAll('.exam-card').forEach(c => c.classList.remove('selected'));
+  const card = document.getElementById('card-' + id);
+  if (card) card.classList.add('selected');
+  
+  const exam = QUIZ_DATA.find(e => e.id === id);
+  const btn = document.getElementById('start-btn');
+  btn.disabled = false;
+  btn.textContent = `Bắt đầu Đề ${id}: ${exam.title.substring(0,30)}... →`;
+}
+
+function startQuiz() {
+  if (!state.selectedExam) return;
+  const exam = QUIZ_DATA.find(e => e.id === state.selectedExam);
+  if (!exam) return;
+  
+  state.examData = exam;
+  state.currentQ = 0;
+  state.answers = {};
+  state.elapsed = 0;
+  
+  document.getElementById('home-screen').style.display = 'none';
+  document.getElementById('quiz-screen').style.display = 'block';
+  document.getElementById('result-screen').style.display = 'none';
+  
+  // Set passage
+  document.getElementById('passage-text').textContent = exam.passage || '(Không có bài đọc cho đề này)';
+  document.getElementById('quiz-title-bar').textContent = 'Đề ' + exam.id + ': ' + exam.title;
+  
+  renderQNav();
+  renderQuestion(0);
+  startTimer();
+}
+
+function startTimer() {
+  if (state.timerInterval) clearInterval(state.timerInterval);
+  state.elapsed = 0;
+  state.timerInterval = setInterval(() => {
+    state.elapsed++;
+    updateTimer();
+  }, 1000);
+}
+
+function updateTimer() {
+  const m = Math.floor(state.elapsed / 60).toString().padStart(2, '0');
+  const s = (state.elapsed % 60).toString().padStart(2, '0');
+  const el = document.getElementById('timer');
+  el.textContent = m + ':' + s;
+  el.className = 'timer';
+  if (state.elapsed > 900) el.className = 'timer warning';
+  if (state.elapsed > 1800) el.className = 'timer danger';
+}
+
+function renderQNav() {
+  const exam = state.examData;
+  const nav = document.getElementById('q-nav');
+  nav.innerHTML = exam.questions.map((q, i) => {
+    let cls = 'q-dot';
+    if (i === state.currentQ) cls += ' current';
+    if (state.answers[i] !== undefined) cls += ' answered';
+    return `<div class="${cls}" onclick="jumpTo(${i})">${i+1}</div>`;
+  }).join('');
+}
+
+function renderQuestion(idx) {
+  const exam = state.examData;
+  const q = exam.questions[idx];
+  state.currentQ = idx;
+  
+  // Update progress
+  const pct = ((idx + 1) / exam.questions.length * 100).toFixed(0);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('quiz-progress-text').textContent = 
+    `Câu ${idx+1} / ${exam.questions.length}`;
+  
+  document.getElementById('q-number').textContent = `CÂU HỎI ${idx+1}`;
+  document.getElementById('q-text').textContent = q.text;
+  
+  const answered = state.answers[idx];
+  const isPractice = state.mode === 'practice';
+  const showResult = isPractice && answered !== undefined;
+  
+  const html = q.answers.map(a => {
+    let cls = 'answer-btn';
+    if (answered === a.letter) cls += ' selected';
+    if (showResult) {
+      if (a.letter === q.correct) cls += ' correct';
+      else if (answered === a.letter) cls += ' wrong';
+    }
+    const disabled = (answered !== undefined && isPractice) ? 'disabled' : '';
+    return `<button class="${cls}" ${disabled} onclick="selectAnswer('${a.letter}', ${idx})">
+      <span class="letter">${a.letter}</span>
+      <span>${a.text}</span>
+    </button>`;
+  }).join('');
+  
+  document.getElementById('answers').innerHTML = html;
+  
+  // Feedback
+  const fb = document.getElementById('feedback-bar');
+  if (showResult) {
+    fb.className = 'feedback-bar show ' + (answered === q.correct ? 'correct' : 'wrong');
+    fb.innerHTML = answered === q.correct
+      ? '✅ Chính xác! Đáp án đúng là <strong>' + q.correct + '</strong>'
+      : '❌ Sai rồi! Đáp án đúng là <strong>' + q.correct + '</strong>';
+  } else {
+    fb.className = 'feedback-bar';
+  }
+  
+  // Nav buttons
+  document.getElementById('prev-btn').disabled = idx === 0;
+  
+  const isLast = idx === exam.questions.length - 1;
+  const nextBtn = document.getElementById('next-btn');
+  if (isLast) {
+    nextBtn.textContent = '📊 Xem kết quả';
+    nextBtn.style.background = 'linear-gradient(135deg, #16a34a, #15803d)';
+  } else {
+    nextBtn.textContent = 'Tiếp →';
+    nextBtn.style.background = '';
+  }
+  
+  renderQNav();
+}
+
+function selectAnswer(letter, idx) {
+  if (state.mode === 'practice' && state.answers[idx] !== undefined) return;
+  state.answers[idx] = letter;
+  renderQuestion(idx);
+}
+
+function prevQuestion() {
+  if (state.currentQ > 0) renderQuestion(state.currentQ - 1);
+}
+
+function nextQuestion() {
+  const exam = state.examData;
+  if (state.currentQ < exam.questions.length - 1) {
+    renderQuestion(state.currentQ + 1);
+  } else {
+    // Check if all answered
+    const unanswered = exam.questions.filter((q, i) => state.answers[i] === undefined).length;
+    if (unanswered > 0 && state.mode === 'exam') {
+      if (!confirm(`Bạn còn ${unanswered} câu chưa trả lời. Vẫn nộp bài?`)) return;
+    }
+    showResult();
+  }
+}
+
+function jumpTo(idx) {
+  renderQuestion(idx);
+}
+
+function showResult() {
+  if (state.timerInterval) clearInterval(state.timerInterval);
+  
+  const exam = state.examData;
+  let correct = 0, wrong = 0, skip = 0;
+  
+  exam.questions.forEach((q, i) => {
+    const ans = state.answers[i];
+    if (ans === undefined) skip++;
+    else if (ans === q.correct) correct++;
+    else wrong++;
+  });
+  
+  const total = exam.questions.length;
+  const pct = Math.round(correct / total * 100);
+  
+  // Save score
+  state.scores[exam.id] = { score: correct, total, date: new Date().toLocaleDateString('vi-VN') };
+  try { localStorage.setItem('b1_scores', JSON.stringify(state.scores)); } catch(e) {}
+  
+  // Update streak
+  const today = new Date().toDateString();
+  const lastDay = localStorage.getItem('b1_last_day');
+  if (lastDay !== today) {
+    const streak = parseInt(localStorage.getItem('b1_streak') || '0');
+    const yesterday = new Date(Date.now() - 86400000).toDateString();
+    localStorage.setItem('b1_streak', lastDay === yesterday ? streak + 1 : 1);
+    localStorage.setItem('b1_last_day', today);
+  }
+  
+  // Show screen
+  document.getElementById('quiz-screen').style.display = 'none';
+  document.getElementById('result-screen').style.display = 'block';
+  
+  const emoji = pct >= 80 ? '🏆' : pct >= 60 ? '😊' : pct >= 40 ? '😐' : '😓';
+  const label = pct >= 80 ? 'Xuất sắc! Bạn nắm vững bài rất tốt!' 
+              : pct >= 60 ? 'Khá tốt! Tiếp tục cố gắng nhé!' 
+              : pct >= 40 ? 'Cần ôn luyện thêm!' 
+              : 'Hãy đọc lại bài và thử lại!';
+  const meterColor = pct >= 80 ? '#16a34a' : pct >= 60 ? '#2563eb' : pct >= 40 ? '#d97706' : '#dc2626';
+  
+  document.getElementById('result-emoji').textContent = emoji;
+  document.getElementById('result-score').textContent = correct + '/' + total;
+  document.getElementById('result-label').textContent = label + ' (' + pct + '%)';
+  document.getElementById('res-correct').textContent = correct;
+  document.getElementById('res-wrong').textContent = wrong;
+  document.getElementById('res-skip').textContent = skip;
+  
+  const fill = document.getElementById('result-meter-fill');
+  fill.style.background = meterColor;
+  setTimeout(() => { fill.style.width = pct + '%'; }, 100);
+  
+  // Review
+  const reviewList = document.getElementById('review-list');
+  reviewList.innerHTML = exam.questions.map((q, i) => {
+    const ans = state.answers[i];
+    const isCorrect = ans === q.correct;
+    const cls = ans === undefined ? '' : (isCorrect ? 'correct' : 'wrong');
+    
+    const answersHtml = q.answers.map(a => {
+      let acls = 'review-ans';
+      if (a.letter === q.correct) acls += ' correct';
+      else if (a.letter === ans) acls += ' wrong-chosen';
+      const icon = a.letter === q.correct ? '✅' : (a.letter === ans ? '❌' : '○');
+      return `<div class="${acls}"><span class="r-letter">${icon} ${a.letter}.</span> ${a.text}</div>`;
+    }).join('');
+    
+    return `<div class="review-item ${cls}">
+      <div class="review-q">Câu ${i+1}: ${q.text}</div>
+      <div class="review-answers">${answersHtml}</div>
+    </div>`;
+  }).join('');
+  
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function retryQuiz() {
+  startQuiz();
+}
+
+function goHome() {
+  if (state.timerInterval) clearInterval(state.timerInterval);
+  document.getElementById('home-screen').style.display = 'block';
+  document.getElementById('quiz-screen').style.display = 'none';
+  document.getElementById('result-screen').style.display = 'none';
+  renderExamList();
+  updateHomeStats();
+  updateStreak();
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+init();
+</script>
+</body>
+</html>

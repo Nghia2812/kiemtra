@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B1 English Writing Practice</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@300;400;500&family=DM+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #181c27;
+    --surface2: #1e2235;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #e8eaf0;
+    --muted: #7c8099;
+    --accent: #6c7dff;
+    --accent2: #4af0b0;
+    --accent3: #ff7c7c;
+    --gold: #f0c060;
+    --warn: #ff9d5c;
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Background stars ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background-image:
+      radial-gradient(1px 1px at 20% 15%, rgba(255,255,255,0.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 40%, rgba(255,255,255,0.12) 0%, transparent 100%),
+      radial-gradient(1px 1px at 80% 70%, rgba(255,255,255,0.15) 0%, transparent 100%),
+      radial-gradient(1px 1px at 35% 80%, rgba(255,255,255,0.1) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 25%, rgba(255,255,255,0.18) 0%, transparent 100%),
+      radial-gradient(200px 200px at 10% 90%, rgba(108,125,255,0.05) 0%, transparent 70%),
+      radial-gradient(300px 300px at 90% 10%, rgba(74,240,176,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* ── Screens ── */
+  .screen { position: relative; z-index: 1; min-height: 100vh; }
+
+  /* ── HOME SCREEN ── */
+  #home-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 24px; }
+  .logo-area { text-align: center; margin-bottom: 48px; }
+  .logo-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(108,125,255,0.12); border: 1px solid rgba(108,125,255,0.25);
+    border-radius: 100px; padding: 6px 16px; margin-bottom: 20px;
+    font-size: 13px; color: #a0aaff; font-weight: 500;
+  }
+  .logo-badge span { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; display: inline-block; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+  h1.hero {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 6vw, 58px);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+    margin-bottom: 16px;
+  }
+  h1.hero .hl { color: var(--accent2); }
+  .hero-sub { font-size: 15px; color: var(--muted); max-width: 440px; margin: 0 auto; line-height: 1.7; }
+
+  /* Stats row */
+  .stats-row { display: flex; gap: 24px; margin: 36px 0; flex-wrap: wrap; justify-content: center; }
+  .stat-pill {
+    background: var(--surface); border: 1px solid var(--border2);
+    border-radius: 100px; padding: 10px 20px;
+    font-size: 13px; display: flex; align-items: center; gap: 8px;
+  }
+  .stat-pill .num { font-weight: 600; color: var(--text); font-size: 15px; }
+  .stat-pill .lbl { color: var(--muted); }
+
+  /* Topic cards */
+  .section-label {
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 16px; text-align: center;
+  }
+  .topic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+    width: 100%;
+    max-width: 900px;
+    margin-bottom: 48px;
+  }
+  .topic-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    cursor: pointer;
+    transition: border-color .2s, transform .2s, background .2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .topic-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: var(--card-color, var(--accent));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .3s;
+  }
+  .topic-card:hover { border-color: var(--border2); transform: translateY(-2px); background: var(--surface2); }
+  .topic-card:hover::before { transform: scaleX(1); }
+  .topic-card.selected { border-color: var(--accent); background: rgba(108,125,255,0.08); }
+  .topic-card.selected::before { transform: scaleX(1); }
+  .card-icon {
+    width: 38px; height: 38px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; margin-bottom: 12px;
+    background: rgba(255,255,255,0.05);
+  }
+  .topic-card h3 { font-size: 15px; font-weight: 500; margin-bottom: 4px; color: var(--text); }
+  .topic-card p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .card-meta {
+    display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap;
+  }
+  .tag {
+    font-size: 10px; padding: 3px 9px; border-radius: 100px; font-weight: 500;
+    background: rgba(255,255,255,0.06); color: var(--muted); border: 1px solid var(--border);
+  }
+
+  /* Mode selector */
+  .mode-row { display: flex; gap: 10px; margin-bottom: 28px; background: var(--surface); border: 1px solid var(--border); border-radius: 100px; padding: 4px; }
+  .mode-btn {
+    flex: 1; padding: 8px 20px; border: none; background: transparent; cursor: pointer;
+    color: var(--muted); font-size: 13px; font-family: inherit; border-radius: 100px;
+    transition: all .2s; white-space: nowrap;
+  }
+  .mode-btn.active { background: var(--surface2); color: var(--text); font-weight: 500; border: 1px solid var(--border2); }
+
+  /* Start button */
+  .start-btn {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--accent); color: #fff;
+    border: none; padding: 14px 32px; border-radius: 100px;
+    font-size: 15px; font-weight: 500; font-family: inherit;
+    cursor: pointer; transition: all .2s;
+  }
+  .start-btn:hover { transform: translateY(-1px); filter: brightness(1.1); }
+  .start-btn:active { transform: scale(.98); }
+  .start-btn svg { width: 16px; height: 16px; }
+
+  /* ── WRITING SCREEN ── */
+  #write-screen { display: none; flex-direction: column; min-height: 100vh; }
+  .top-bar {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(15,17,23,0.9);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    display: flex; align-items: center; gap: 16px; height: 58px;
+  }
+  .back-btn {
+    background: transparent; border: 1px solid var(--border2);
+    color: var(--muted); padding: 6px 14px; border-radius: 100px;
+    font-size: 12px; cursor: pointer; font-family: inherit;
+    transition: all .2s; display: flex; align-items: center; gap: 6px;
+  }
+  .back-btn:hover { color: var(--text); border-color: var(--border2); }
+  .bar-title { font-size: 14px; font-weight: 500; flex: 1; }
+  .bar-title span { color: var(--muted); font-weight: 400; margin-left: 6px; font-size: 12px; }
+
+  /* Timer */
+  .timer-wrap { display: flex; align-items: center; gap: 8px; }
+  .timer-ring { position: relative; width: 36px; height: 36px; }
+  .timer-ring svg { transform: rotate(-90deg); }
+  .timer-ring .bg-ring { fill: none; stroke: var(--surface2); stroke-width: 3; }
+  .timer-ring .fg-ring { fill: none; stroke: var(--accent2); stroke-width: 3; stroke-linecap: round; transition: stroke-dashoffset .5s, stroke .5s; }
+  .timer-text {
+    font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 500;
+    min-width: 46px; text-align: right;
+  }
+  .timer-text.warn { color: var(--warn); }
+  .timer-text.danger { color: var(--accent3); }
+  .timer-btn {
+    background: transparent; border: 1px solid var(--border2);
+    color: var(--muted); width: 30px; height: 30px; border-radius: 50%;
+    cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center;
+    transition: all .2s;
+  }
+  .timer-btn:hover { color: var(--text); }
+
+  /* Main layout */
+  .write-body { display: flex; flex: 1; gap: 0; overflow: hidden; }
+  .prompt-panel {
+    width: 320px; min-width: 280px;
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    padding: 24px 20px;
+    display: flex; flex-direction: column; gap: 20px;
+    scrollbar-width: thin; scrollbar-color: var(--surface2) transparent;
+  }
+  .prompt-box {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden;
+  }
+  .prompt-header {
+    padding: 12px 16px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .prompt-header .label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
+  .prompt-type-badge {
+    font-size: 10px; padding: 2px 8px; border-radius: 100px; font-weight: 500;
+  }
+  .prompt-text { padding: 16px; font-size: 14px; line-height: 1.7; color: var(--text); }
+  .prompt-text strong { color: var(--accent2); font-weight: 500; }
+
+  /* Hints */
+  .hints-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+  .hints-header {
+    padding: 12px 16px; border-bottom: 1px solid var(--border);
+    font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted);
+    cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+    user-select: none;
+  }
+  .hints-list { padding: 12px 16px; display: flex; flex-direction: column; gap: 8px; }
+  .hint-item {
+    display: flex; gap: 10px; align-items: flex-start;
+    font-size: 12px; color: var(--muted); line-height: 1.5;
+  }
+  .hint-dot { width: 5px; height: 5px; background: var(--accent); border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+
+  /* Vocab box */
+  .vocab-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+  .vocab-header {
+    padding: 12px 16px; border-bottom: 1px solid var(--border);
+    font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted);
+  }
+  .vocab-list { padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .vocab-chip {
+    font-size: 11px; padding: 4px 10px; border-radius: 100px;
+    background: rgba(108,125,255,0.1); color: #a0aaff;
+    border: 1px solid rgba(108,125,255,0.2); cursor: pointer; transition: all .15s;
+    font-family: 'DM Mono', monospace;
+  }
+  .vocab-chip:hover { background: rgba(108,125,255,0.2); }
+
+  /* Editor area */
+  .editor-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+  .editor-toolbar {
+    padding: 10px 20px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  }
+  .tb-btn {
+    background: transparent; border: 1px solid var(--border);
+    color: var(--muted); padding: 5px 12px; border-radius: var(--radius-sm);
+    font-size: 12px; cursor: pointer; font-family: inherit; transition: all .15s;
+  }
+  .tb-btn:hover { color: var(--text); border-color: var(--border2); }
+  .tb-sep { width: 1px; height: 20px; background: var(--border); margin: 0 4px; }
+
+  textarea#writing-area {
+    flex: 1; background: transparent; border: none; outline: none; resize: none;
+    color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.85;
+    padding: 32px 40px; caret-color: var(--accent);
+    scrollbar-width: thin; scrollbar-color: var(--surface2) transparent;
+    min-height: 0;
+  }
+  textarea#writing-area::placeholder { color: var(--muted); font-style: italic; }
+
+  /* Bottom status bar */
+  .status-bar {
+    border-top: 1px solid var(--border); padding: 10px 24px;
+    display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+  }
+  .word-count-wrap { display: flex; align-items: center; gap: 10px; }
+  .wc-label { font-size: 12px; color: var(--muted); }
+  .wc-bar { width: 140px; height: 4px; background: var(--surface2); border-radius: 2px; overflow: hidden; }
+  .wc-fill { height: 100%; background: var(--accent2); border-radius: 2px; transition: width .3s; }
+  .wc-val { font-size: 12px; font-family: 'DM Mono', monospace; font-weight: 500; }
+  .wc-val .target { color: var(--muted); font-weight: 400; }
+  .spacer { flex: 1; }
+  .submit-btn {
+    background: var(--accent); color: #fff; border: none;
+    padding: 8px 22px; border-radius: 100px; font-size: 13px; font-weight: 500;
+    font-family: inherit; cursor: pointer; transition: all .2s; display: flex; align-items: center; gap: 8px;
+  }
+  .submit-btn:hover { filter: brightness(1.1); }
+  .clear-btn {
+    background: transparent; border: 1px solid var(--border);
+    color: var(--muted); padding: 8px 16px; border-radius: 100px;
+    font-size: 12px; cursor: pointer; font-family: inherit; transition: all .2s;
+  }
+  .clear-btn:hover { border-color: var(--accent3); color: var(--accent3); }
+
+  /* ── RESULT SCREEN ── */
+  #result-screen {
+    display: none; min-height: 100vh; align-items: center; justify-content: center;
+    padding: 40px 24px; flex-direction: column; gap: 32px;
+  }
+  .result-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 20px; padding: 32px; max-width: 640px; width: 100%;
+  }
+  .result-header { text-align: center; margin-bottom: 28px; }
+  .score-ring {
+    width: 100px; height: 100px; margin: 0 auto 16px;
+    position: relative; display: flex; align-items: center; justify-content: center;
+  }
+  .score-ring svg { position: absolute; top: 0; left: 0; transform: rotate(-90deg); }
+  .score-num { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; color: var(--text); position: relative; z-index: 1; }
+  .score-label { font-size: 13px; color: var(--muted); position: relative; z-index: 1; }
+  .result-title { font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 4px; }
+  .result-sub { color: var(--muted); font-size: 14px; }
+  .criteria-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+  .crit-item {
+    background: var(--surface2); border-radius: var(--radius-sm); padding: 14px;
+    border: 1px solid var(--border);
+  }
+  .crit-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .crit-bar-wrap { display: flex; align-items: center; gap: 8px; }
+  .crit-bar { flex: 1; height: 5px; background: var(--surface); border-radius: 3px; overflow: hidden; }
+  .crit-fill { height: 100%; border-radius: 3px; transition: width 1s .3s; }
+  .crit-val { font-size: 13px; font-weight: 500; font-family: 'DM Mono', monospace; }
+  .feedback-box {
+    background: var(--surface2); border-radius: var(--radius-sm); padding: 16px;
+    border-left: 3px solid var(--accent); margin-bottom: 20px;
+  }
+  .feedback-box p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+  .result-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+  .ra-btn {
+    padding: 10px 24px; border-radius: 100px; font-size: 13px; font-weight: 500;
+    font-family: inherit; cursor: pointer; transition: all .2s;
+  }
+  .ra-btn.primary { background: var(--accent); color: #fff; border: none; }
+  .ra-btn.secondary { background: transparent; border: 1px solid var(--border2); color: var(--text); }
+  .ra-btn:hover { transform: translateY(-1px); filter: brightness(1.1); }
+
+  /* Scroll animations */
+  @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+  .fade-up { animation: fadeUp .4s ease forwards; }
+
+  /* Responsive */
+  @media (max-width: 720px) {
+    .write-body { flex-direction: column; }
+    .prompt-panel { width: 100%; min-width: 0; border-right: none; border-bottom: 1px solid var(--border); max-height: 280px; }
+    textarea#writing-area { padding: 20px; }
+    .criteria-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 500px) {
+    .topic-grid { grid-template-columns: 1fr; }
+    .mode-row { flex-direction: column; padding: 4px; gap: 4px; border-radius: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ HOME SCREEN ══════════════════ -->
+<div id="home-screen" class="screen">
+  <div class="logo-area fade-up">
+    <div class="logo-badge"><span></span> B1 Writing Exam Practice</div>
+    <h1 class="hero">Luyện viết tiếng Anh<br><span class="hl">B1 chuẩn thi</span></h1>
+    <p class="hero-sub">Chọn dạng đề, luyện tập với bộ đếm giờ thực tế, từ vựng gợi ý và chấm điểm tự động.</p>
+  </div>
+
+  <div class="stats-row fade-up">
+    <div class="stat-pill"><span class="num">45</span><span class="lbl">phút / bài thi</span></div>
+    <div class="stat-pill"><span class="num">100–150</span><span class="lbl">từ tối thiểu</span></div>
+    <div class="stat-pill"><span class="num">4</span><span class="lbl">dạng đề B1</span></div>
+  </div>
+
+  <p class="section-label">Chọn dạng bài</p>
+  <div class="topic-grid" id="topic-grid">
+    <!-- cards injected by JS -->
+  </div>
+
+  <div class="mode-row">
+    <button class="mode-btn active" onclick="setMode('exam')">⏱ Thi thật (45 phút)</button>
+    <button class="mode-btn" onclick="setMode('practice')">📖 Luyện tập (không giới hạn)</button>
+    <button class="mode-btn" onclick="setMode('speed')">⚡ Tốc độ (20 phút)</button>
+  </div>
+
+  <button class="start-btn" onclick="startWriting()">
+    <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Bắt đầu luyện tập
+  </button>
+</div>
+
+<!-- ══════════════════ WRITE SCREEN ══════════════════ -->
+<div id="write-screen" class="screen">
+  <div class="top-bar">
+    <button class="back-btn" onclick="goHome()">← Trở về</button>
+    <div class="bar-title" id="bar-title">Writing Task <span id="bar-type"></span></div>
+
+    <div class="timer-wrap">
+      <div class="timer-ring">
+        <svg width="36" height="36" viewBox="0 0 36 36">
+          <circle class="bg-ring" cx="18" cy="18" r="15"/>
+          <circle class="fg-ring" id="timer-ring-fg" cx="18" cy="18" r="15" stroke-dasharray="94.25" stroke-dashoffset="0"/>
+        </svg>
+      </div>
+      <div class="timer-text" id="timer-display">45:00</div>
+      <button class="timer-btn" id="pause-btn" onclick="toggleTimer()" title="Pause">⏸</button>
+    </div>
+  </div>
+
+  <div class="write-body">
+    <!-- LEFT: Prompt -->
+    <div class="prompt-panel">
+      <div class="prompt-box">
+        <div class="prompt-header">
+          <span class="label">Đề bài</span>
+          <span class="prompt-type-badge" id="prompt-badge" style="background:rgba(108,125,255,.15);color:#a0aaff">Task 1</span>
+        </div>
+        <div class="prompt-text" id="prompt-text"></div>
+      </div>
+
+      <div class="hints-box">
+        <div class="hints-header" onclick="toggleHints()">
+          <span>Gợi ý cấu trúc</span><span id="hint-toggle">▾</span>
+        </div>
+        <div class="hints-list" id="hints-list"></div>
+      </div>
+
+      <div class="vocab-box">
+        <div class="vocab-header">Từ vựng hữu ích (click để chèn)</div>
+        <div class="vocab-list" id="vocab-list"></div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Editor -->
+    <div class="editor-area">
+      <div class="editor-toolbar">
+        <button class="tb-btn" onclick="insertTemplate()">✦ Chèn khung bài</button>
+        <div class="tb-sep"></div>
+        <button class="tb-btn" onclick="insertPhrase('Dear ...,')">Lời mở (thư)</button>
+        <button class="tb-btn" onclick="insertPhrase('I am writing to ...')">I am writing to</button>
+        <button class="tb-btn" onclick="insertPhrase('In my opinion, ...')">In my opinion</button>
+        <button class="tb-btn" onclick="insertPhrase('To sum up, ...')">To sum up</button>
+        <div class="tb-sep"></div>
+        <button class="tb-btn" onclick="insertPhrase('Furthermore, ...')">Furthermore</button>
+        <button class="tb-btn" onclick="insertPhrase('However, ...')">However</button>
+      </div>
+
+      <textarea id="writing-area" placeholder="Bắt đầu viết bài của bạn ở đây...
+
+💡 Mẹo: Đọc kỹ đề bài, lên dàn ý trong 3 phút trước khi viết."></textarea>
+
+      <div class="status-bar">
+        <div class="word-count-wrap">
+          <span class="wc-label">Số từ:</span>
+          <div class="wc-bar"><div class="wc-fill" id="wc-fill" style="width:0%"></div></div>
+          <span class="wc-val"><span id="word-count">0</span><span class="target"> / <span id="wc-target">100</span></span></span>
+        </div>
+        <div style="font-size:12px;color:var(--muted)" id="wc-status">Cần thêm từ...</div>
+        <div class="spacer"></div>
+        <button class="clear-btn" onclick="clearText()">Xoá tất cả</button>
+        <button class="submit-btn" onclick="submitWriting()">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Nộp bài
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ RESULT SCREEN ══════════════════ -->
+<div id="result-screen" class="screen">
+  <div class="result-card fade-up">
+    <div class="result-header">
+      <div class="score-ring">
+        <svg width="100" height="100" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8"/>
+          <circle id="score-arc" cx="50" cy="50" r="42" fill="none" stroke="var(--accent2)"
+            stroke-width="8" stroke-linecap="round"
+            stroke-dasharray="263.9" stroke-dashoffset="263.9"/>
+        </svg>
+        <div>
+          <div class="score-num" id="score-num">0</div>
+          <div class="score-label">/100</div>
+        </div>
+      </div>
+      <div class="result-title" id="result-title">Bài viết của bạn</div>
+      <div class="result-sub" id="result-sub">Đang chấm...</div>
+    </div>
+
+    <div class="criteria-grid">
+      <div class="crit-item">
+        <div class="crit-label">Task Achievement</div>
+        <div class="crit-bar-wrap">
+          <div class="crit-bar"><div class="crit-fill" id="cr-1" style="width:0%;background:var(--accent)"></div></div>
+          <div class="crit-val" id="crv-1">0</div>
+        </div>
+      </div>
+      <div class="crit-item">
+        <div class="crit-label">Coherence & Cohesion</div>
+        <div class="crit-bar-wrap">
+          <div class="crit-bar"><div class="crit-fill" id="cr-2" style="width:0%;background:var(--accent2)"></div></div>
+          <div class="crit-val" id="crv-2">0</div>
+        </div>
+      </div>
+      <div class="crit-item">
+        <div class="crit-label">Vocabulary Range</div>
+        <div class="crit-bar-wrap">
+          <div class="crit-bar"><div class="crit-fill" id="cr-3" style="width:0%;background:var(--gold)"></div></div>
+          <div class="crit-val" id="crv-3">0</div>
+        </div>
+      </div>
+      <div class="crit-item">
+        <div class="crit-label">Grammar Accuracy</div>
+        <div class="crit-bar-wrap">
+          <div class="crit-bar"><div class="crit-fill" id="cr-4" style="width:0%;background:var(--warn)"></div></div>
+          <div class="crit-val" id="crv-4">0</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feedback-box">
+      <p id="feedback-text">Đang phân tích bài viết...</p>
+    </div>
+
+    <div class="result-actions">
+      <button class="ra-btn primary" onclick="tryAgain()">✦ Thử lại đề này</button>
+      <button class="ra-btn secondary" onclick="goHome()">← Chọn đề khác</button>
+      <button class="ra-btn secondary" onclick="showAnswer()">📄 Xem bài mẫu</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ────────────── DATA ──────────────
+const TOPICS = [
+  {
+    id: 'informal-email',
+    icon: '✉️',
+    color: '#6c7dff',
+    title: 'Email / Thư không trang trọng',
+    desc: 'Viết email cho bạn bè hoặc người thân về một chủ đề hàng ngày.',
+    tags: ['100–150 từ', 'Informal', 'Task 1'],
+    prompts: [
+      {
+        text: `Your English friend <strong>Emma</strong> has invited you to her birthday party next weekend, but you cannot attend.<br><br>
+Write an email to Emma. In your email:<br>
+• <strong>apologise</strong> for not being able to come<br>
+• <strong>explain</strong> why you cannot attend<br>
+• <strong>suggest</strong> another time to meet`,
+        type: 'Informal Email',
+        hints: ['Mở đầu: Dear Emma,', 'Đoạn 1: Lời xin lỗi + cảm ơn lời mời', 'Đoạn 2: Giải thích lý do không đến được', 'Đoạn 3: Đề xuất gặp mặt lần khác', 'Kết thúc: Love/Best wishes, [Tên]'],
+        vocab: ['I\'m so sorry', 'unfortunately', 'due to', 'I was wondering if', 'How about', 'would suit you', 'I really hope'],
+        template: 'Dear Emma,\n\nThank you so much for inviting me to your birthday party. I\'m really sorry, but unfortunately I won\'t be able to come.\n\n[Explain reason here...]\n\n[Suggest another time to meet...]\n\nI hope you have a wonderful birthday!\n\nBest wishes,\n[Your name]'
+      },
+      {
+        text: `You recently stayed with your English friend <strong>Tom</strong> for a week. He showed you around the city and helped you a lot.<br><br>
+Write an email to Tom. In your email:<br>
+• <strong>thank him</strong> for his help during your stay<br>
+• <strong>mention</strong> something you enjoyed<br>
+• <strong>invite him</strong> to visit you in the future`,
+        type: 'Informal Email',
+        hints: ['Mở đầu: Dear Tom,', 'Đoạn 1: Cảm ơn và nói chung về chuyến đi', 'Đoạn 2: Kể 1 điều thích nhất', 'Đoạn 3: Mời bạn đến thăm bạn', 'Kết: Best wishes / Love,'],
+        vocab: ['I had a great time', 'I especially enjoyed', 'I was really impressed by', 'It was so kind of you', 'You must come and visit', 'I would love to show you around'],
+        template: 'Dear Tom,\n\nI wanted to write to say a huge thank you for having me to stay last week.\n\n[Mention something you enjoyed...]\n\n[Invite him to visit you...]\n\nI hope to see you soon!\n\nBest wishes,\n[Your name]'
+      }
+    ]
+  },
+  {
+    id: 'formal-letter',
+    icon: '📋',
+    color: '#4af0b0',
+    title: 'Thư trang trọng / Email chính thức',
+    desc: 'Gửi thư cho công ty, tổ chức hoặc người không quen để khiếu nại, xin việc hoặc hỏi thông tin.',
+    tags: ['100–150 từ', 'Formal', 'Task 1'],
+    prompts: [
+      {
+        text: `You recently bought a <strong>laptop</strong> from an electronics shop, but it stopped working after one week.<br><br>
+Write a letter to the shop manager. In your letter:<br>
+• <strong>describe</strong> the problem with the laptop<br>
+• <strong>explain</strong> how this has affected you<br>
+• <strong>say what</strong> you would like the shop to do`,
+        type: 'Formal Complaint',
+        hints: ['Mở đầu: Dear Sir/Madam,', 'Đoạn 1: Giới thiệu mục đích viết thư', 'Đoạn 2: Mô tả vấn đề chi tiết', 'Đoạn 3: Ảnh hưởng đến bạn như thế nào', 'Đoạn 4: Yêu cầu giải quyết', 'Kết: Yours faithfully,'],
+        vocab: ['I am writing to complain about', 'I purchased', 'On [date]', 'To my disappointment', 'I would be grateful if', 'a full refund', 'a replacement', 'at your earliest convenience'],
+        template: 'Dear Sir/Madam,\n\nI am writing to complain about a laptop I purchased from your shop on [date].\n\n[Describe the problem...]\n\n[Explain how it has affected you...]\n\n[State what you want the shop to do...]\n\nI look forward to hearing from you.\n\nYours faithfully,\n[Your name]'
+      },
+      {
+        text: `You saw an advertisement for a <strong>part-time job</strong> at a local café. You are interested in applying.<br><br>
+Write a letter to the café owner. In your letter:<br>
+• <strong>explain</strong> why you are interested in the job<br>
+• <strong>describe</strong> your relevant experience<br>
+• <strong>ask</strong> for more information about the hours and pay`,
+        type: 'Formal Letter',
+        hints: ['Mở đầu: Dear Sir/Madam,', 'Đoạn 1: Thấy quảng cáo ở đâu, muốn ứng tuyển', 'Đoạn 2: Tại sao bạn muốn làm công việc này', 'Đoạn 3: Kinh nghiệm liên quan', 'Đoạn 4: Hỏi thêm thông tin', 'Kết: Yours faithfully,'],
+        vocab: ['I am writing with regard to', 'I saw your advertisement', 'I believe I am a suitable candidate', 'I have experience in', 'I would like to enquire about', 'Could you please inform me', 'working hours'],
+        template: 'Dear Sir/Madam,\n\nI am writing with regard to the part-time position advertised at your café.\n\n[Explain why you are interested...]\n\n[Describe your experience...]\n\n[Ask about hours and pay...]\n\nI look forward to your reply.\n\nYours faithfully,\n[Your name]'
+      }
+    ]
+  },
+  {
+    id: 'essay',
+    icon: '📝',
+    color: '#f0c060',
+    title: 'Bài luận / Ý kiến cá nhân',
+    desc: 'Trình bày quan điểm, so sánh ưu nhược điểm hoặc thảo luận về một vấn đề xã hội.',
+    tags: ['120–180 từ', 'Opinion', 'Task 2'],
+    prompts: [
+      {
+        text: `<strong>Some people think that social media has more positive effects on young people, while others think it has more negative effects.</strong><br><br>
+Write an essay about this topic. In your essay:<br>
+• <strong>discuss</strong> the positive effects of social media<br>
+• <strong>discuss</strong> the negative effects of social media<br>
+• <strong>give your own opinion</strong>`,
+        type: 'Discussion Essay',
+        hints: ['Đoạn 1 (Intro): Giới thiệu chủ đề + thesis statement', 'Đoạn 2 (Body 1): Mặt tích cực (2–3 điểm)', 'Đoạn 3 (Body 2): Mặt tiêu cực (2–3 điểm)', 'Đoạn 4 (Conclusion): Tổng kết + quan điểm cá nhân'],
+        vocab: ['There is no doubt that', 'On the one hand', 'On the other hand', 'Furthermore', 'However', 'In contrast', 'In my opinion', 'To sum up', 'outweigh'],
+        template: 'In recent years, social media has become a major part of everyday life for young people.\n\nOn the one hand, [positive effects...]. Furthermore, [another benefit...].\n\nHowever, on the other hand, [negative effects...]. In addition, [another drawback...].\n\nIn my opinion, [your view...]. Therefore, I believe that [conclusion...].'
+      },
+      {
+        text: `<strong>"It is better to live in the city than in the countryside."</strong><br><br>
+Do you agree or disagree with this statement?<br><br>
+Write an essay. Give <strong>reasons</strong> for your answer and include any <strong>relevant examples</strong> from your own experience.`,
+        type: 'Opinion Essay',
+        hints: ['Đoạn 1: Giới thiệu + nêu rõ quan điểm đồng ý hay không', 'Đoạn 2: Lý do 1 + ví dụ', 'Đoạn 3: Lý do 2 + ví dụ', 'Đoạn 4: Thừa nhận quan điểm đối lập ngắn gọn', 'Đoạn 5: Kết luận khẳng định lại quan điểm'],
+        vocab: ['I strongly agree/disagree', 'There are several reasons for this', 'Firstly', 'Secondly', 'For example', 'For instance', 'In contrast', 'Nevertheless', 'All things considered'],
+        template: 'Many people debate whether city life is superior to living in the countryside.\n\nI [agree/disagree] with this statement for several reasons.\n\nFirstly, [reason 1 with example...]. Secondly, [reason 2 with example...].\n\nHowever, [acknowledge the other view briefly...].\n\nAll things considered, I believe that [restate your opinion...] because [main reason].'
+      }
+    ]
+  },
+  {
+    id: 'article',
+    icon: '🗞️',
+    color: '#ff9d5c',
+    title: 'Bài viết / Mô tả sự kiện',
+    desc: 'Viết bài cho tạp chí, mô tả một sự kiện hoặc kể về trải nghiệm cá nhân.',
+    tags: ['100–150 từ', 'Narrative', 'Task 1'],
+    prompts: [
+      {
+        text: `A <strong>student magazine</strong> is asking students to write an article about a <strong>memorable journey</strong> or trip they have taken.<br><br>
+Write an article for the magazine. In your article:<br>
+• <strong>describe</strong> where you went and what you did<br>
+• <strong>explain</strong> what made the journey memorable<br>
+• <strong>say what</strong> you would recommend to others`,
+        type: 'Magazine Article',
+        hints: ['Tiêu đề: Viết tiêu đề hấp dẫn', 'Đoạn 1 (Hook): Mở đầu thu hút độc giả', 'Đoạn 2: Mô tả chuyến đi + hoạt động', 'Đoạn 3: Điều gì làm chuyến đi đáng nhớ', 'Đoạn 4: Lời khuyên cho người đọc'],
+        vocab: ['unforgettable', 'breathtaking', 'stunning scenery', 'I would highly recommend', 'The highlight of the trip', 'I was amazed by', 'It was worth every penny', 'local cuisine'],
+        template: '[Catchy Title Here]\n\nHave you ever been on a trip that you will never forget? Last [time], I visited [place] and it was truly an unforgettable experience.\n\nDuring my trip, I [describe activities...]. The highlight was [memorable moment...].\n\nWhat made this journey truly special was [explain...].\n\nIf you ever get the chance to visit [place], I would highly recommend [suggestion...]. You won\'t be disappointed!'
+      }
+    ]
+  }
+];
+
+const MODES = { exam: 45*60, practice: 0, speed: 20*60 };
+
+let selectedTopic = 0;
+let selectedPromptIdx = 0;
+let mode = 'exam';
+let timerInterval = null;
+let timeLeft = 45*60;
+let totalTime = 45*60;
+let isPaused = false;
+let isRunning = false;
+
+// ────────────── INIT ──────────────
+function init() {
+  const grid = document.getElementById('topic-grid');
+  TOPICS.forEach((t, i) => {
+    const c = document.createElement('div');
+    c.className = 'topic-card' + (i===0?' selected':'');
+    c.style.setProperty('--card-color', t.color);
+    c.onclick = () => selectTopic(i);
+    c.innerHTML = `
+      <div class="card-icon">${t.icon}</div>
+      <h3>${t.title}</h3>
+      <p>${t.desc}</p>
+      <div class="card-meta">${t.tags.map(g=>`<span class="tag">${g}</span>`).join('')}</div>`;
+    grid.appendChild(c);
+  });
+}
+
+function selectTopic(i) {
+  selectedTopic = i;
+  document.querySelectorAll('.topic-card').forEach((c,j) => c.classList.toggle('selected', j===i));
+}
+
+function setMode(m) {
+  mode = m;
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// ────────────── START ──────────────
+function startWriting() {
+  const topic = TOPICS[selectedTopic];
+  selectedPromptIdx = Math.floor(Math.random() * topic.prompts.length);
+  const prompt = topic.prompts[selectedPromptIdx];
+
+  document.getElementById('bar-type').textContent = prompt.type;
+  document.getElementById('bar-title').querySelector('span').textContent = '— ' + topic.title;
+  document.getElementById('prompt-badge').textContent = prompt.type;
+  document.getElementById('prompt-text').innerHTML = prompt.text;
+
+  const hints = document.getElementById('hints-list');
+  hints.innerHTML = prompt.hints.map(h => `<div class="hint-item"><div class="hint-dot"></div><span>${h}</span></div>`).join('');
+
+  const vocab = document.getElementById('vocab-list');
+  vocab.innerHTML = prompt.vocab.map(v => `<span class="vocab-chip" onclick="insertPhrase('${v} ')">${v}</span>`).join('');
+
+  const wct = document.getElementById('wc-target');
+  wct.textContent = topic.id === 'essay' ? '150' : '100';
+
+  document.getElementById('writing-area').value = '';
+  updateWordCount();
+
+  if (mode !== 'practice') {
+    timeLeft = MODES[mode];
+    totalTime = MODES[mode];
+    updateTimerDisplay();
+    startTimer();
+  } else {
+    document.getElementById('timer-display').textContent = '∞';
+    document.getElementById('pause-btn').style.display = 'none';
+  }
+
+  document.getElementById('home-screen').style.display = 'none';
+  document.getElementById('write-screen').style.display = 'flex';
+}
+
+// ────────────── TIMER ──────────────
+function startTimer() {
+  isRunning = true; isPaused = false;
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    if (!isPaused) {
+      timeLeft--;
+      updateTimerDisplay();
+      if (timeLeft <= 0) { clearInterval(timerInterval); submitWriting(); }
+    }
+  }, 1000);
+}
+
+function toggleTimer() {
+  isPaused = !isPaused;
+  document.getElementById('pause-btn').textContent = isPaused ? '▶' : '⏸';
+}
+
+function updateTimerDisplay() {
+  const m = Math.floor(timeLeft/60), s = timeLeft%60;
+  const txt = `${m}:${s.toString().padStart(2,'0')}`;
+  const el = document.getElementById('timer-display');
+  el.textContent = txt;
+  el.className = 'timer-text' + (timeLeft < 120 ? ' danger' : timeLeft < 300 ? ' warn' : '');
+  const progress = totalTime > 0 ? timeLeft/totalTime : 1;
+  const circ = 94.25;
+  document.getElementById('timer-ring-fg').style.strokeDashoffset = circ*(1-progress);
+  document.getElementById('timer-ring-fg').style.stroke = timeLeft < 120 ? 'var(--accent3)' : timeLeft < 300 ? 'var(--warn)' : 'var(--accent2)';
+}
+
+// ────────────── WORD COUNT ──────────────
+document.addEventListener('DOMContentLoaded', () => {
+  init();
+  document.getElementById('writing-area').addEventListener('input', updateWordCount);
+});
+
+function updateWordCount() {
+  const text = document.getElementById('writing-area').value;
+  const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+  const target = parseInt(document.getElementById('wc-target').textContent);
+  document.getElementById('word-count').textContent = words;
+  const pct = Math.min(100, (words/target)*100);
+  document.getElementById('wc-fill').style.width = pct+'%';
+  document.getElementById('wc-fill').style.background = words >= target ? 'var(--accent2)' : 'var(--accent)';
+  const st = document.getElementById('wc-status');
+  if (words === 0) { st.textContent = 'Bắt đầu viết...'; st.style.color='var(--muted)'; }
+  else if (words < target) { st.textContent = `Cần thêm ${target-words} từ nữa`; st.style.color='var(--warn)'; }
+  else if (words <= target+50) { st.textContent = '✓ Đủ số từ yêu cầu'; st.style.color='var(--accent2)'; }
+  else { st.textContent = `Hơi dài (${words-target} từ thừa)`; st.style.color='var(--gold)'; }
+}
+
+// ────────────── EDITOR ──────────────
+function insertPhrase(phrase) {
+  const ta = document.getElementById('writing-area');
+  const s = ta.selectionStart, e = ta.selectionEnd;
+  ta.value = ta.value.substring(0,s) + phrase + ta.value.substring(e);
+  ta.selectionStart = ta.selectionEnd = s + phrase.length;
+  ta.focus(); updateWordCount();
+}
+
+function insertTemplate() {
+  const topic = TOPICS[selectedTopic];
+  const prompt = topic.prompts[selectedPromptIdx];
+  if (!document.getElementById('writing-area').value.trim() ||
+      confirm('Chèn khung bài sẽ xoá nội dung hiện tại. Tiếp tục?')) {
+    document.getElementById('writing-area').value = prompt.template;
+    updateWordCount();
+  }
+}
+
+function clearText() {
+  if (confirm('Xoá toàn bộ bài viết?')) {
+    document.getElementById('writing-area').value = ''; updateWordCount();
+  }
+}
+
+function toggleHints() {
+  const list = document.getElementById('hints-list');
+  const tog = document.getElementById('hint-toggle');
+  const hidden = list.style.display === 'none';
+  list.style.display = hidden ? 'flex' : 'none';
+  tog.textContent = hidden ? '▾' : '▸';
+}
+
+// ────────────── SUBMIT & SCORE ──────────────
+function submitWriting() {
+  clearInterval(timerInterval);
+  const text = document.getElementById('writing-area').value;
+  const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+  const target = parseInt(document.getElementById('wc-target').textContent);
+
+  // Simple heuristic scoring (since we're not using AI APIs here)
+  let task = 0, cohe = 0, vocab = 0, gram = 0;
+
+  // Task Achievement (completeness, word count)
+  if (words >= target) task += 30;
+  else task += Math.floor((words/target)*30);
+  if (words >= target+20) task = Math.min(35, task+5);
+
+  // Coherence (basic structure signals)
+  const lc = text.toLowerCase();
+  const connectors = ['however','furthermore','therefore','in addition','on the other hand','firstly','secondly','finally','in conclusion','to sum up','for example','for instance','in my opinion','i believe'];
+  const found = connectors.filter(c => lc.includes(c)).length;
+  cohe = Math.min(25, 10 + found*3);
+  if (text.includes('\n\n')) cohe = Math.min(25, cohe+3);
+
+  // Vocab (unique word ratio)
+  const wordsArr = lc.replace(/[^a-z\s]/g,'').split(/\s+/).filter(w=>w.length>3);
+  const unique = new Set(wordsArr).size;
+  const ratio = wordsArr.length > 0 ? unique/wordsArr.length : 0;
+  vocab = Math.round(Math.min(20, ratio*28));
+
+  // Grammar (sentence structure signals)
+  const sentences = text.split(/[.!?]/).filter(s=>s.trim().length>10).length;
+  gram = Math.min(20, 8 + sentences*2);
+  if (text.match(/,\s*which|,\s*who|although|because|while|since|unless/i)) gram = Math.min(20, gram+3);
+
+  const total = task + cohe + vocab + gram;
+
+  document.getElementById('write-screen').style.display = 'none';
+  const rs = document.getElementById('result-screen');
+  rs.style.display = 'flex';
+
+  // Animate score
+  let displayed = 0;
+  const scoreEl = document.getElementById('score-num');
+  const arcEl = document.getElementById('score-arc');
+  const interval = setInterval(() => {
+    displayed = Math.min(displayed+2, total);
+    scoreEl.textContent = displayed;
+    arcEl.style.strokeDashoffset = 263.9 * (1 - displayed/100);
+    if (displayed >= total) clearInterval(interval);
+  }, 20);
+
+  // Criteria
+  setTimeout(() => {
+    animateCrit('cr-1','crv-1', task, 35);
+    animateCrit('cr-2','crv-2', cohe, 25);
+    animateCrit('cr-3','crv-3', vocab, 20);
+    animateCrit('cr-4','crv-4', gram, 20);
+  }, 300);
+
+  // Feedback
+  let title, sub, fb;
+  if (total >= 80) {
+    title = '🌟 Xuất sắc!'; sub = 'Bài viết rất tốt cho chuẩn B1.';
+    fb = `Bài viết của bạn đạt chất lượng cao. Cấu trúc rõ ràng, sử dụng ${found} từ nối liên kết tốt, và độ dài phù hợp (${words} từ). Hãy duy trì phong cách này trong kỳ thi thật!`;
+  } else if (total >= 65) {
+    title = '👍 Khá tốt!'; sub = 'Bài viết đạt yêu cầu B1 cơ bản.';
+    fb = `Bài viết ${words >= target ? 'đủ độ dài' : 'hơi ngắn'}. ${found > 2 ? 'Việc dùng từ nối khá tốt' : 'Hãy dùng thêm từ nối như "However", "Furthermore", "Therefore"'}. Cố gắng viết thêm các câu phức để nâng điểm Grammar.`;
+  } else if (total >= 45) {
+    title = '📚 Cần luyện thêm'; sub = 'Bài viết chưa đạt đủ yêu cầu B1.';
+    fb = `${words < target ? `Bài viết chỉ có ${words} từ, cần thêm ${target-words} từ nữa. ` : ''}Hãy chú ý sử dụng từ nối, viết theo đoạn rõ ràng, và đa dạng từ vựng hơn.`;
+  } else {
+    title = '✏️ Hãy cố lên!'; sub = 'Tiếp tục luyện tập bạn sẽ tiến bộ nhanh thôi!';
+    fb = `Bài viết cần cải thiện nhiều. Trước tiên, hãy dùng nút "Chèn khung bài" để có cấu trúc cơ bản, sau đó điền nội dung vào từng đoạn.`;
+  }
+  document.getElementById('result-title').textContent = title;
+  document.getElementById('result-sub').textContent = sub;
+  document.getElementById('feedback-text').textContent = fb;
+  arcEl.style.stroke = total >= 80 ? 'var(--accent2)' : total >= 65 ? 'var(--accent)' : total >= 45 ? 'var(--gold)' : 'var(--accent3)';
+}
+
+function animateCrit(barId, valId, val, max) {
+  document.getElementById(barId).style.width = (val/max*100)+'%';
+  document.getElementById(valId).textContent = val + '/' + max;
+}
+
+// ────────────── NAVIGATION ──────────────
+function goHome() {
+  clearInterval(timerInterval); isRunning = false;
+  document.getElementById('write-screen').style.display = 'none';
+  document.getElementById('result-screen').style.display = 'none';
+  document.getElementById('home-screen').style.display = 'flex';
+  document.getElementById('pause-btn').style.display = 'flex';
+}
+
+function tryAgain() {
+  document.getElementById('result-screen').style.display = 'none';
+  document.getElementById('writing-area').value = '';
+  updateWordCount();
+  if (mode !== 'practice') { timeLeft = MODES[mode]; totalTime = MODES[mode]; updateTimerDisplay(); startTimer(); }
+  document.getElementById('write-screen').style.display = 'flex';
+}
+
+function showAnswer() {
+  const topic = TOPICS[selectedTopic];
+  const prompt = topic.prompts[selectedPromptIdx];
+  document.getElementById('writing-area').value = prompt.template.replace(/\[.*?\]/g, '[Đây là gợi ý - hãy tự viết phần này]');
+  document.getElementById('result-screen').style.display = 'none';
+  document.getElementById('write-screen').style.display = 'flex';
+}
+</script>
+</body>
+</html>

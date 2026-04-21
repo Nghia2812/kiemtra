@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B1 Writing – Bí kíp viết thư</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#faf8f3; --card:#fff; --border:#e8e2d5;
+  --txt:#2c2a25; --muted:#7a7568; --light:#f0ece3;
+  --blue:#3b6fd4; --blue-bg:#eef3fd; --blue-bd:#c5d6f8;
+  --green:#2e7d52; --green-bg:#edf7f1; --green-bd:#b5dfc7;
+  --orange:#c05c1a; --orange-bg:#fdf0e8; --orange-bd:#f4c9a3;
+  --red:#b83232; --red-bg:#fdeeed; --red-bd:#f3b8b8;
+  --purple:#6641c5; --purple-bg:#f2eefb; --purple-bd:#c9baee;
+  --teal:#1a7a72; --teal-bg:#e8f7f5; --teal-bd:#9ed9d3;
+  --gold:#8a6200; --gold-bg:#fdf7e3; --gold-bd:#f0d98a;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:var(--txt);font-size:14px;line-height:1.65;}
+/* HEADER */
+.header{background:var(--txt);color:#fff;padding:28px 32px 22px;position:relative;overflow:hidden;}
+.header::before{content:'';position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.04);}
+.header::after{content:'';position:absolute;right:40px;bottom:-60px;width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,0.03);}
+.header h1{font-family:'Playfair Display',serif;font-size:22px;font-weight:600;margin-bottom:4px;}
+.header p{color:rgba(255,255,255,0.55);font-size:12px;font-weight:300;}
+.tag-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+.tag{font-size:10px;padding:3px 10px;border-radius:20px;font-weight:500;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.15);}
+/* LAYOUT */
+.container{max-width:860px;margin:0 auto;padding:20px 16px 40px;}
+/* SECTION TITLE */
+.sec-title{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin:24px 0 10px;font-weight:600;}
+/* STRUCTURE CARD */
+.structure-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:8px;}
+.struct-row{display:flex;align-items:flex-start;gap:0;border-bottom:1px solid var(--border);}
+.struct-row:last-child{border-bottom:none;}
+.struct-label{width:120px;min-width:120px;padding:12px 14px;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;background:var(--light);border-right:1px solid var(--border);}
+.struct-body{padding:12px 16px;flex:1;}
+.struct-body .main{font-size:13px;font-weight:500;color:var(--txt);margin-bottom:4px;}
+.struct-body .note{font-size:11px;color:var(--muted);}
+.struct-body code{font-size:12px;background:var(--light);padding:2px 7px;border-radius:4px;color:var(--orange);font-family:monospace;}
+/* PHRASE BOXES */
+.phrase-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;}
+@media(max-width:600px){.phrase-grid{grid-template-columns:1fr;}}
+.phrase-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;}
+.phrase-card.blue{border-color:var(--blue-bd);background:var(--blue-bg);}
+.phrase-card.green{border-color:var(--green-bd);background:var(--green-bg);}
+.phrase-card.orange{border-color:var(--orange-bd);background:var(--orange-bg);}
+.phrase-card.red{border-color:var(--red-bd);background:var(--red-bg);}
+.phrase-card.purple{border-color:var(--purple-bd);background:var(--purple-bg);}
+.phrase-card.teal{border-color:var(--teal-bd);background:var(--teal-bg);}
+.phrase-card.gold{border-color:var(--gold-bd);background:var(--gold-bg);}
+.pc-head{display:flex;align-items:center;gap:6px;margin-bottom:8px;}
+.pc-icon{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;}
+.blue .pc-icon{background:var(--blue);color:#fff;}
+.green .pc-icon{background:var(--green);color:#fff;}
+.orange .pc-icon{background:var(--orange);color:#fff;}
+.red .pc-icon{background:var(--red);color:#fff;}
+.purple .pc-icon{background:var(--purple);color:#fff;}
+.teal .pc-icon{background:var(--teal);color:#fff;}
+.gold .pc-icon{background:var(--gold);color:#fff;}
+.pc-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;}
+.blue .pc-title{color:var(--blue);}
+.green .pc-title{color:var(--green);}
+.orange .pc-title{color:var(--orange);}
+.red .pc-title{color:var(--red);}
+.purple .pc-title{color:var(--purple);}
+.teal .pc-title{color:var(--teal);}
+.gold .pc-title{color:var(--gold);}
+.phrase-list{list-style:none;display:flex;flex-direction:column;gap:4px;}
+.phrase-list li{font-size:12px;padding:4px 8px;background:rgba(255,255,255,0.7);border-radius:5px;border-left:2px solid currentColor;line-height:1.5;}
+.blue .phrase-list li{border-color:var(--blue-bd);color:var(--txt);}
+.green .phrase-list li{border-color:var(--green-bd);color:var(--txt);}
+.orange .phrase-list li{border-color:var(--orange-bd);color:var(--txt);}
+.red .phrase-list li{border-color:var(--red-bd);color:var(--txt);}
+.purple .phrase-list li{border-color:var(--purple-bd);color:var(--txt);}
+.teal .phrase-list li{border-color:var(--teal-bd);color:var(--txt);}
+.gold .phrase-list li{border-color:var(--gold-bd);color:var(--txt);}
+.highlight{background:rgba(255,230,0,.4);border-radius:2px;padding:0 2px;}
+em{font-style:italic;color:var(--muted);}
+/* TOPIC TEMPLATES */
+.topic-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+.tab-btn{font-size:11px;padding:5px 13px;border-radius:20px;border:1px solid var(--border);background:var(--card);cursor:pointer;font-family:inherit;font-weight:500;color:var(--muted);transition:all .15s;}
+.tab-btn:hover,.tab-btn.active{background:var(--txt);color:#fff;border-color:var(--txt);}
+.topic-template{display:none;}
+.topic-template.active{display:block;}
+.template-box{background:var(--card);border:1.5px dashed var(--border);border-radius:10px;padding:18px 20px;font-size:12.5px;line-height:2;}
+.template-box .blank{display:inline-block;min-width:80px;border-bottom:1.5px solid var(--blue);color:var(--blue);font-style:italic;padding:0 4px;font-weight:500;}
+.template-box .fixed{color:var(--txt);}
+.template-box p{margin-bottom:6px;}
+.template-box .para-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:2px;margin-top:10px;}
+/* TIPS */
+.tips-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+@media(max-width:600px){.tips-row{grid-template-columns:1fr 1fr;}}
+.tip-item{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:11px 13px;}
+.tip-num{font-size:18px;font-weight:700;color:var(--blue);line-height:1;}
+.tip-text{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.5;}
+/* AVOID BOX */
+.avoid-box{background:var(--red-bg);border:1px solid var(--red-bd);border-radius:10px;padding:14px 16px;margin-bottom:8px;}
+.avoid-box h4{color:var(--red);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;}
+.avoid-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+@media(max-width:500px){.avoid-grid{grid-template-columns:1fr;}}
+.avoid-item{font-size:11px;display:flex;gap:6px;align-items:flex-start;}
+.avoid-item .x{color:var(--red);font-weight:700;flex-shrink:0;}
+.avoid-item .ok{color:var(--green);font-weight:700;flex-shrink:0;}
+/* SCORE TABLE */
+.score-table{width:100%;border-collapse:collapse;background:var(--card);border-radius:10px;overflow:hidden;border:1px solid var(--border);}
+.score-table th{background:var(--light);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);padding:9px 14px;text-align:left;border-bottom:1px solid var(--border);}
+.score-table td{padding:9px 14px;font-size:12px;border-bottom:1px solid var(--border);}
+.score-table tr:last-child td{border-bottom:none;}
+.score-table .pct{font-weight:700;color:var(--blue);}
+.progress{height:5px;border-radius:3px;background:var(--light);margin-top:4px;}
+.progress-fill{height:100%;border-radius:3px;background:var(--blue);}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>✉️ Bí kíp viết thư B1 — Từ đề thật</h1>
+  <p>Tổng hợp từ 29+ đề thi thực tế • Công thức + câu mẫu sẵn để điền vào</p>
+  <div class="tag-row">
+    <span class="tag">Informal Letter / Email</span>
+    <span class="tag">100–150 từ</span>
+    <span class="tag">8 chủ đề chính</span>
+    <span class="tag">Gửi bạn bè người Anh</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ══ KHUNG BÀI TỔNG QUÁT ══ -->
+  <div class="sec-title">Khung bài — áp dụng cho MỌI đề</div>
+  <div class="structure-card">
+    <div class="struct-row">
+      <div class="struct-label">Lời chào</div>
+      <div class="struct-body">
+        <div class="main">Dear <code>Ann / Mary / Jane / tên bạn</code>,</div>
+        <div class="note">Luôn dùng tên riêng, không dùng "Dear friend"</div>
+      </div>
+    </div>
+    <div class="struct-row">
+      <div class="struct-label">Mở đầu<br><span style="font-weight:300;font-size:10px">(2–3 câu)</span></div>
+      <div class="struct-body">
+        <div class="main">Câu 1: Vui khi nhận thư / hỏi thăm</div>
+        <div class="main" style="margin-top:4px">Câu 2: Nêu lý do viết thư → dẫn vào thân bài</div>
+        <div class="note" style="margin-top:4px">Cố định, học thuộc → tiết kiệm thời gian</div>
+      </div>
+    </div>
+    <div class="struct-row">
+      <div class="struct-label">Thân bài<br><span style="font-weight:300;font-size:10px">(3 ý, 3 đoạn)</span></div>
+      <div class="struct-body">
+        <div class="main">Đoạn 1: Ý thứ nhất của đề (gạch đầu dòng 1)</div>
+        <div class="main" style="margin-top:4px">Đoạn 2: Ý thứ hai của đề (gạch đầu dòng 2)</div>
+        <div class="main" style="margin-top:4px">Đoạn 3: Ý thứ ba của đề (gạch đầu dòng 3)</div>
+        <div class="note" style="margin-top:4px">Mỗi đoạn: 1 câu mở + 1–2 câu giải thích + 1 câu kết</div>
+      </div>
+    </div>
+    <div class="struct-row">
+      <div class="struct-label">Kết thư<br><span style="font-weight:300;font-size:10px">(2 câu)</span></div>
+      <div class="struct-body">
+        <div class="main">Câu kết cố định + lời chúc</div>
+        <div class="note">Học thuộc 1 câu dùng mãi: "Bye for now, I look forward to hearing from you soon."</div>
+      </div>
+    </div>
+    <div class="struct-row">
+      <div class="struct-label">Chữ ký</div>
+      <div class="struct-body">
+        <div class="main"><code>Warm wishes,</code> / <code>Love,</code> / <code>Best regards,</code> &nbsp;+&nbsp; tên của bạn</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ CÂU CỐ ĐỊNH ══ -->
+  <div class="sec-title">Câu cố định — học thuộc, dùng cho mọi đề</div>
+  <div class="phrase-grid">
+    <div class="phrase-card blue">
+      <div class="pc-head"><div class="pc-icon">①</div><div class="pc-title">Mở đầu (chọn 1)</div></div>
+      <ul class="phrase-list">
+        <li>I am so glad to hear from you after such a long time.</li>
+        <li>I hope this letter finds you well.</li>
+        <li>It was lovely to receive your letter.</li>
+        <li>How are you and your family? I hope everything is going well.</li>
+      </ul>
+    </div>
+    <div class="phrase-card green">
+      <div class="pc-head"><div class="pc-icon">②</div><div class="pc-title">Dẫn vào chủ đề</div></div>
+      <ul class="phrase-list">
+        <li>Today, I'm writing this letter to tell you some information about <em>[chủ đề]</em>.</li>
+        <li>I'm writing in response to your question about <em>[chủ đề]</em>.</li>
+        <li>I'm so happy to know that <em>[tin tức từ bạn]</em>.</li>
+        <li>Thank you for inviting me / asking me about <em>[chủ đề]</em>.</li>
+      </ul>
+    </div>
+    <div class="phrase-card orange">
+      <div class="pc-head"><div class="pc-icon">③</div><div class="pc-title">Từ nối giữa các ý</div></div>
+      <ul class="phrase-list">
+        <li><span class="highlight">Firstly,</span> … / <span class="highlight">Secondly,</span> … / <span class="highlight">Finally,</span> …</li>
+        <li><span class="highlight">Moreover,</span> … / <span class="highlight">In addition,</span> …</li>
+        <li><span class="highlight">To be honest,</span> … / <span class="highlight">Actually,</span> …</li>
+        <li><span class="highlight">Regarding</span> [chủ đề], … / <span class="highlight">Concerning</span> [chủ đề], …</li>
+      </ul>
+    </div>
+    <div class="phrase-card teal">
+      <div class="pc-head"><div class="pc-icon">④</div><div class="pc-title">Kết thư (chọn 1)</div></div>
+      <ul class="phrase-list">
+        <li>Bye for now, I <span class="highlight">look forward to</span> hearing from you soon.</li>
+        <li>That's all for now, please write back to me soon.</li>
+        <li>I hope to hear from you soon. Take care!</li>
+        <li>Please let me know if you have any questions.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ══ 8 CHỦ ĐỀ CHÍNH ══ -->
+  <div class="sec-title">8 chủ đề hay thi — câu mẫu theo từng loại</div>
+  <div class="phrase-grid">
+    <div class="phrase-card blue">
+      <div class="pc-head"><div class="pc-icon">✈</div><div class="pc-title">1. Bạn đến thăm VN / TP của tôi</div></div>
+      <ul class="phrase-list">
+        <li>I'm really happy to know you're coming to visit <em>[city]</em> next month.</li>
+        <li><b>Chỗ ở:</b> You can stay with my family / at a hotel near my house.</li>
+        <li><b>Hoạt động:</b> You can visit <em>[địa điểm]</em> and enjoy a lot of local food.</li>
+        <li><b>Thời tiết:</b> The weather is hot and sunny in summer, so remember to bring T-shirts, shorts and sunscreen.</li>
+        <li>I'm sure you will love it here!</li>
+      </ul>
+    </div>
+    <div class="phrase-card purple">
+      <div class="pc-head"><div class="pc-icon">🌍</div><div class="pc-title">2. Tôi đến thăm nước bạn</div></div>
+      <ul class="phrase-list">
+        <li>I've never been to <em>[country]</em> before and I'm really excited!</li>
+        <li><b>Quà:</b> I would like to bring a gift for your family — can you suggest something suitable?</li>
+        <li><b>Hoạt động:</b> What activities can I do there? Can you give me some suggestions?</li>
+        <li><b>Đồ ăn:</b> I'm keen on food — can you recommend some local dishes I should try?</li>
+        <li><b>Thời tiết:</b> I'm also wondering about the weather and what clothes to bring.</li>
+      </ul>
+    </div>
+    <div class="phrase-card green">
+      <div class="pc-head"><div class="pc-icon">💼</div><div class="pc-title">3. Tìm việc làm thêm / việc cho bạn</div></div>
+      <ul class="phrase-list">
+        <li>I've been accepted to <em>[university]</em> in London — I'm so excited!</li>
+        <li>Life in <em>[city]</em> is expensive, so I'm planning to find a part-time job.</li>
+        <li>Having a part-time job means I can earn money and gain valuable work experience.</li>
+        <li><b>Nhờ bạn:</b> Since you have a wide social network, could you help me find a job as a <em>[cashier / waitress / salesperson]</em>?</li>
+        <li><b>Giới thiệu việc cho bạn:</b> I found a job at <em>[company]</em> that might be suitable for you. To apply, visit <em>[website]</em>.</li>
+      </ul>
+    </div>
+    <div class="phrase-card orange">
+      <div class="pc-head"><div class="pc-icon">🏠</div><div class="pc-title">4. Nhà mới / Chuyển thành phố</div></div>
+      <ul class="phrase-list">
+        <li>I have recently moved to <em>[city/flat]</em> to work and study.</li>
+        <li>It's a small but comfortable flat, about <em>[20]</em> square metres.</li>
+        <li>It's painted <em>[blue/pink]</em> and has <em>[3]</em> rooms: a living room, a bedroom and a kitchen.</li>
+        <li><em>[City]</em> is a bustling city with many job opportunities. People here are friendly and hardworking.</li>
+        <li>Why don't you come and visit? I'm sure you will love it!</li>
+      </ul>
+    </div>
+    <div class="phrase-card red">
+      <div class="pc-head"><div class="pc-icon">📚</div><div class="pc-title">5. Học đại học / Khóa học</div></div>
+      <ul class="phrase-list">
+        <li>I started studying at <em>[university]</em> <em>[3 months]</em> ago — it's a great experience!</li>
+        <li>I feel happy because I can make new friends and get a good degree.</li>
+        <li><b>Về khóa học:</b> The lessons are well-designed and the teachers are experienced.</li>
+        <li>You can take part in many activities such as games, group work and role play.</li>
+        <li><b>Học hay đi làm:</b> I think getting a job is better because it saves time and you earn money while learning real skills.</li>
+      </ul>
+    </div>
+    <div class="phrase-card teal">
+      <div class="pc-head"><div class="pc-icon">🏖</div><div class="pc-title">6. Kỳ nghỉ / Địa điểm du lịch</div></div>
+      <ul class="phrase-list">
+        <li>Last summer, I had a wonderful <em>[3-day]</em> trip to <em>[Nha Trang / Da Lat]</em>.</li>
+        <li>I stayed at a <em>[4-star]</em> hotel by the sea — it was fully equipped and reasonably priced.</li>
+        <li>I had a chance to walk along the beach, see the sunrise and enjoy lots of local food.</li>
+        <li>My favourite was seafood — it was absolutely delicious!</li>
+        <li>I would highly recommend visiting <em>[destination]</em> — you won't be disappointed!</li>
+      </ul>
+    </div>
+    <div class="phrase-card gold">
+      <div class="pc-head"><div class="pc-icon">🙏</div><div class="pc-title">7. Cảm ơn / Mời ăn tối</div></div>
+      <ul class="phrase-list">
+        <li><b>Cảm ơn:</b> Thank you so much for having me at your house for a week.</li>
+        <li>Without your help, I would have found it very difficult to manage.</li>
+        <li>I really liked the food your mum cooked — it was so delicious!</li>
+        <li>During my stay, I felt like a part of your family. I miss you all!</li>
+        <li><b>Mời ăn tối:</b> Would you like to come to my house for dinner on <em>[Sunday the 20th]</em> at 7pm? My mum is a great cook!</li>
+        <li>I live about <em>[15 minutes]</em> from your hotel at <em>[address]</em>. You can take a taxi.</li>
+      </ul>
+    </div>
+    <div class="phrase-card purple">
+      <div class="pc-head"><div class="pc-icon">💬</div><div class="pc-title">8. Kết nối lại / Tin tức bản thân</div></div>
+      <ul class="phrase-list">
+        <li>I can't believe it's been so long since we last met!</li>
+        <li>Lately, I have been keeping busy with <em>[work / study / new projects]</em>.</li>
+        <li>I recently moved to <em>[city]</em> and started working as a <em>[teacher / guide]</em>.</li>
+        <li>Everything has changed quite a lot, but I'm happy with my life here.</li>
+        <li>Are you free to meet up sometime? I would love to catch up with you!</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ══ TEMPLATE ĐIỀN VÀO ══ -->
+  <div class="sec-title">Template điền vào theo đề — chọn chủ đề</div>
+  <div class="topic-tabs">
+    <button class="tab-btn active" onclick="showTab('visit')">✈ Bạn đến VN</button>
+    <button class="tab-btn" onclick="showTab('mytrip')">🌍 Tôi đến nước bạn</button>
+    <button class="tab-btn" onclick="showTab('job')">💼 Tìm việc làm thêm</button>
+    <button class="tab-btn" onclick="showTab('newplace')">🏠 Nhà / TP mới</button>
+    <button class="tab-btn" onclick="showTab('holiday')">🏖 Kỳ nghỉ hè</button>
+    <button class="tab-btn" onclick="showTab('thanks')">🙏 Cảm ơn</button>
+  </div>
+
+  <div id="tpl-visit" class="topic-template active">
+    <div class="template-box">
+      <span class="para-label">Lời chào + mở đầu</span>
+      <p>Dear <span class="blank">tên bạn</span>,</p>
+      <p>I am so glad to hear from you after such a long time. I'm really happy to know that you are coming to visit <span class="blank">Vinh / Vietnam</span> next month!</p>
+      <p>Today, I'm writing this letter to give you some useful information for your trip.</p>
+      <span class="para-label">Đoạn 1 — Chỗ ở</span>
+      <p>Firstly, regarding accommodation, you can stay with my family. My parents will be very happy to meet you. If you prefer more privacy, I can book a cheap and comfortable hotel nearby.</p>
+      <span class="para-label">Đoạn 2 — Hoạt động</span>
+      <p>Concerning activities, there are many things to do here. You can visit <span class="blank">HCM Square</span>, which is famous for its <span class="blank">stunning architecture</span>. Moreover, you can walk along <span class="blank">Cua Lo beach</span> and enjoy a lot of delicious local food.</p>
+      <span class="para-label">Đoạn 3 — Thời tiết / Quần áo</span>
+      <p>Finally, regarding the weather, it is <span class="blank">hot and sunny</span> in <span class="blank">summer</span>, so I recommend you bring <span class="blank">T-shirts, shorts and sunscreen</span>. Don't forget to bring a camera too!</p>
+      <span class="para-label">Kết thư</span>
+      <p>I'm sure you will love it here. Bye for now, I look forward to hearing from you soon.</p>
+      <p>Warm wishes,<br><span class="blank">Tên bạn</span></p>
+    </div>
+  </div>
+
+  <div id="tpl-mytrip" class="topic-template">
+    <div class="template-box">
+      <span class="para-label">Lời chào + mở đầu</span>
+      <p>Dear <span class="blank">tên bạn</span>,</p>
+      <p>I am so glad to hear from you. I've never been to <span class="blank">England</span> before, so I'm really excited about this trip!</p>
+      <p>Today, I'm writing this letter to ask you for some information before I arrive.</p>
+      <span class="para-label">Đoạn 1 — Quà tặng</span>
+      <p>Firstly, I would like to bring a gift for you and your family, but I'm not sure what would be suitable. Can you give me some suggestions? Something representative of my country might be a good idea.</p>
+      <span class="para-label">Đoạn 2 — Hoạt động + đồ mặc</span>
+      <p>Secondly, I'm wondering about the weather and what clothes I should bring. Should I pack coats or just T-shirts? Also, what activities can I do there? I would love to try some outdoor activities and explore the city.</p>
+      <span class="para-label">Đoạn 3 — Ẩm thực</span>
+      <p>Finally, I'm really keen on food and would love to try as many local dishes as possible. Can you recommend some typical food in your country that I shouldn't miss?</p>
+      <span class="para-label">Kết thư</span>
+      <p>Bye for now, I look forward to hearing from you soon.</p>
+      <p>Warm wishes,<br><span class="blank">Tên bạn</span></p>
+    </div>
+  </div>
+
+  <div id="tpl-job" class="topic-template">
+    <div class="template-box">
+      <span class="para-label">Lời chào + mở đầu</span>
+      <p>Dear <span class="blank">tên bạn</span>,</p>
+      <p>I hope this letter finds you well. I'm so excited because I've just been accepted to <span class="blank">the University of London</span> to study <span class="blank">Marketing Management</span>!</p>
+      <p>I'm writing to ask for your help in finding a part-time job while I'm studying.</p>
+      <span class="para-label">Đoạn 1 — Kế hoạch học</span>
+      <p>I will be starting a full-time Master's course next <span class="blank">September</span> and the programme will last <span class="blank">2 years</span>. I'm really looking forward to improving my skills and meeting new people.</p>
+      <span class="para-label">Đoạn 2 — Lý do cần việc</span>
+      <p>As you know, life in <span class="blank">London</span> is quite expensive. To help cover my living costs and gain some work experience, I'm planning to get a part-time job alongside my studies.</p>
+      <span class="para-label">Đoạn 3 — Nhờ bạn</span>
+      <p>Since you have been living in <span class="blank">London</span> for many years and have a wide social network, I was wondering if you could help me find a suitable position — perhaps as a <span class="blank">cashier or waitress</span>. I would be very grateful for any help you can offer.</p>
+      <span class="para-label">Kết thư</span>
+      <p>Bye for now, I look forward to hearing from you soon.</p>
+      <p>Warm wishes,<br><span class="blank">Tên bạn</span></p>
+    </div>
+  </div>
+
+  <div id="tpl-newplace" class="topic-template">
+    <div class="template-box">
+      <span class="para-label">Lời chào + mở đầu</span>
+      <p>Dear <span class="blank">tên bạn</span>,</p>
+      <p>I'm very pleased to receive your letter. I'm sorry I haven't written for so long — I've been really busy recently!</p>
+      <p>Today, I'm writing to tell you about my new <span class="blank">house / city</span>.</p>
+      <span class="para-label">Đoạn 1 — Mô tả nơi ở</span>
+      <p>I have recently moved to a new <span class="blank">flat / apartment</span>. It's about <span class="blank">20</span> square metres — not very big, but it has everything I need for a comfortable life. It's painted <span class="blank">blue</span> and has <span class="blank">3</span> rooms: a living room, a bedroom and a kitchen.</p>
+      <span class="para-label">Đoạn 2 — Thành phố</span>
+      <p>I've moved to <span class="blank">Vinh City</span>, which is located in the <span class="blank">centre</span> of my country. It's a bustling city with many job opportunities. People here are very friendly and hardworking, which I really like.</p>
+      <span class="para-label">Đoạn 3 — Mời bạn</span>
+      <p>There are also many famous places to visit here, such as <span class="blank">HCM Square and the Central Park</span>. Why don't you come and visit me sometime? I'm sure you will love it!</p>
+      <span class="para-label">Kết thư</span>
+      <p>That's all for now. Please write back to me soon!</p>
+      <p>Your friend,<br><span class="blank">Tên bạn</span></p>
+    </div>
+  </div>
+
+  <div id="tpl-holiday" class="topic-template">
+    <div class="template-box">
+      <span class="para-label">Lời chào + mở đầu</span>
+      <p>Dear <span class="blank">tên bạn</span>,</p>
+      <p>I'm so glad to hear from you! You asked me about a holiday I've really enjoyed — let me tell you about my trip to <span class="blank">Nha Trang</span> last summer!</p>
+      <span class="para-label">Đoạn 1 — Đi đâu, ở đâu</span>
+      <p>Last summer, I had a wonderful <span class="blank">one-week</span> vacation in <span class="blank">Nha Trang</span>, which is one of the most beautiful beaches in Vietnam. I stayed at a <span class="blank">4-star</span> hotel by the sea — it was fully equipped and very reasonably priced.</p>
+      <span class="para-label">Đoạn 2 — Hoạt động</span>
+      <p>During my stay, I had a chance to walk along the beach and watch the sunrise every morning. In the evening, I hung out with my friends at a pavement café and went shopping. There were also many interesting boat trips and water sports to enjoy.</p>
+      <span class="para-label">Đoạn 3 — Đồ ăn + lời khuyên</span>
+      <p>The food was absolutely amazing — my favourite was the fresh seafood, which was delicious and very affordable. I would highly recommend visiting <span class="blank">Nha Trang</span>. I'm sure you will have a wonderful time!</p>
+      <span class="para-label">Kết thư</span>
+      <p>Bye for now, I look forward to hearing from you soon.</p>
+      <p>Love,<br><span class="blank">Tên bạn</span></p>
+    </div>
+  </div>
+
+  <div id="tpl-thanks" class="topic-template">
+    <div class="template-box">
+      <span class="para-label">Lời chào + mở đầu</span>
+      <p>Dear <span class="blank">tên bạn</span>,</p>
+      <p>How are you and your family? I hope this letter finds you well. Although it's only been a short time since we last saw each other, it feels much longer!</p>
+      <span class="para-label">Đoạn 1 — Lời cảm ơn chính</span>
+      <p>I just wanted to say a huge thank you for having me at your house for a week. Without your help, I would have found it very hard to find suitable accommodation during my training course in <span class="blank">New York</span>.</p>
+      <span class="para-label">Đoạn 2 — Điều cụ thể bạn thích</span>
+      <p>I am also really grateful for the kindness and hospitality that you and your family showed me. I especially loved the food that your mum cooked — it was absolutely delicious! I felt so welcome the entire time.</p>
+      <span class="para-label">Đoạn 3 — Cảm xúc / Mời lại</span>
+      <p>During that week, I truly felt like a part of your family, and I miss you all very much. If you ever visit Vietnam, please don't hesitate to stay with me — I would love to return the favour!</p>
+      <span class="para-label">Kết thư</span>
+      <p>Take care and write back soon!</p>
+      <p>Warm wishes,<br><span class="blank">Tên bạn</span></p>
+    </div>
+  </div>
+
+  <!-- ══ ĐIỂM SỐ ══ -->
+  <div class="sec-title">Tiêu chí chấm điểm B1 Writing</div>
+  <table class="score-table">
+    <thead><tr><th>Tiêu chí</th><th>Bạn cần làm gì</th><th style="width:80px">Tỉ trọng</th></tr></thead>
+    <tbody>
+      <tr><td><b>Task Achievement</b><br><span style="font-size:11px;color:var(--muted)">Hoàn thành yêu cầu đề</span></td><td>Viết đủ 3 ý theo gạch đầu dòng, đủ 100–150 từ</td><td><span class="pct">25%</span><div class="progress"><div class="progress-fill" style="width:25%"></div></div></td></tr>
+      <tr><td><b>Coherence & Cohesion</b><br><span style="font-size:11px;color:var(--muted)">Liên kết & mạch lạc</span></td><td>Chia đoạn rõ ràng, dùng từ nối: However, Moreover, Firstly…</td><td><span class="pct">25%</span><div class="progress"><div class="progress-fill" style="width:25%"></div></div></td></tr>
+      <tr><td><b>Lexical Resource</b><br><span style="font-size:11px;color:var(--muted)">Từ vựng</span></td><td>Đa dạng từ, không lặp nhiều, dùng cụm động từ tự nhiên</td><td><span class="pct">25%</span><div class="progress"><div class="progress-fill" style="width:25%"></div></div></td></tr>
+      <tr><td><b>Grammatical Range</b><br><span style="font-size:11px;color:var(--muted)">Ngữ pháp</span></td><td>Dùng câu phức: which, because, although, so that…</td><td><span class="pct">25%</span><div class="progress"><div class="progress-fill" style="width:25%"></div></div></td></tr>
+    </tbody>
+  </table>
+
+  <!-- ══ LỖI THƯỜNG GẶP ══ -->
+  <div class="sec-title" style="margin-top:20px">Lỗi thường gặp — tránh để không mất điểm</div>
+  <div class="avoid-box">
+    <h4>❌ Không nên → ✅ Nên dùng</h4>
+    <div class="avoid-grid">
+      <div class="avoid-item"><span class="x">✗</span><span>I look <b>for work</b> to hearing → </span><span class="ok">✓</span><span>I look <b>forward</b> to hearing</span></div>
+      <div class="avoid-item"><span class="x">✗</span><span>Dear <b>friend</b> / Dear <b>my friend</b> → </span><span class="ok">✓</span><span>Dear <b>Ann</b> / Dear <b>Mary</b></span></div>
+      <div class="avoid-item"><span class="x">✗</span><span>I writing this letter → </span><span class="ok">✓</span><span>I <b>am writing</b> this letter</span></div>
+      <div class="avoid-item"><span class="x">✗</span><span>he teached me → </span><span class="ok">✓</span><span>she <b>taught</b> me</span></div>
+      <div class="avoid-item"><span class="x">✗</span><span>I <b>miss</b> to see you → </span><span class="ok">✓</span><span>I <b>look forward to</b> seeing you</span></div>
+      <div class="avoid-item"><span class="x">✗</span><span>the weather is <b>cool</b> (muốn nói lạnh) → </span><span class="ok">✓</span><span>the weather is <b>cold / chilly</b></span></div>
+      <div class="avoid-item"><span class="x">✗</span><span>I <b>hung</b> out / <b>hanged</b> out → </span><span class="ok">✓</span><span>I <b>hung</b> out (đúng rồi ✓)</span></div>
+      <div class="avoid-item"><span class="x">✗</span><span>Viết 1 đoạn liền không xuống dòng → </span><span class="ok">✓</span><span>Chia 3–4 đoạn rõ ràng</span></div>
+    </div>
+  </div>
+
+  <!-- ══ TIPS ══ -->
+  <div class="sec-title">Mẹo làm bài nhanh</div>
+  <div class="tips-row">
+    <div class="tip-item"><div class="tip-num">3'</div><div class="tip-text">Đọc đề, gạch 3 ý cần viết trước khi bắt đầu</div></div>
+    <div class="tip-item"><div class="tip-num">2'</div><div class="tip-text">Mở đầu + kết thúc viết trước — học thuộc sẵn</div></div>
+    <div class="tip-item"><div class="tip-num">15'</div><div class="tip-text">Viết thân bài — mỗi ý 3–4 câu là đủ</div></div>
+    <div class="tip-item"><div class="tip-num">120</div><div class="tip-text">Mục tiêu 120 từ — không cần dài, cần đủ ý</div></div>
+    <div class="tip-item"><div class="tip-num">3+</div><div class="tip-text">Dùng ít nhất 3 từ nối khác nhau trong bài</div></div>
+    <div class="tip-item"><div class="tip-num">1</div><div class="tip-text">Ít nhất 1 câu phức (which / because / although)</div></div>
+  </div>
+
+</div>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.topic-template').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tpl-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>

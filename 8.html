@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B1 Reading — VSTEP Practice</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f5f0;
+  --surface:#ffffff;
+  --surface2:#f0ede6;
+  --border:#e4dfd5;
+  --text:#1a1714;
+  --muted:#7a736a;
+  --accent:#c0392b;
+  --accent2:#e67e22;
+  --green:#1a6b45;
+  --green-bg:#e6f4ed;
+  --red:#c0392b;
+  --red-bg:#fdecea;
+  --yellow-bg:#fef9e7;
+  --yellow:#b7860b;
+  --sidebar:280px;
+  --radius:14px;
+  --shadow:0 2px 16px rgba(0,0,0,.07);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* ── LAYOUT ── */
+.app{display:flex;min-height:100vh}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:var(--sidebar);flex-shrink:0;
+  background:var(--surface);
+  border-right:1.5px solid var(--border);
+  display:flex;flex-direction:column;
+  position:fixed;top:0;left:0;height:100vh;
+  overflow:hidden;z-index:100;
+  transition:transform .3s ease;
+}
+.sidebar-header{
+  padding:22px 20px 16px;
+  border-bottom:1.5px solid var(--border);
+  background:var(--surface);
+}
+.logo{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.logo-icon{
+  width:40px;height:40px;border-radius:10px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;flex-shrink:0;
+}
+.logo-text{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;line-height:1.2}
+.logo-sub{font-size:.7rem;color:var(--muted);font-weight:400;margin-top:1px}
+.sidebar-search{
+  width:100%;padding:9px 13px;border-radius:9px;
+  border:1.5px solid var(--border);background:var(--surface2);
+  font-family:'DM Sans',sans-serif;font-size:.83rem;color:var(--text);outline:none;
+  transition:.2s;
+}
+.sidebar-search:focus{border-color:var(--accent);background:#fff}
+
+.sidebar-stats{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;
+  padding:14px 20px;border-bottom:1.5px solid var(--border);
+}
+.s-stat{background:var(--surface2);border-radius:9px;padding:9px 10px;text-align:center}
+.s-stat .n{font-size:1.3rem;font-weight:700;color:var(--accent)}
+.s-stat .l{font-size:.67rem;color:var(--muted);font-weight:500;margin-top:1px}
+
+.exam-list{flex:1;overflow-y:auto;padding:10px 12px}
+.exam-list::-webkit-scrollbar{width:4px}
+.exam-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+
+.exam-item{
+  padding:11px 12px;border-radius:10px;cursor:pointer;
+  margin-bottom:4px;transition:all .15s;
+  border:1.5px solid transparent;
+  display:flex;align-items:center;gap:10px;
+}
+.exam-item:hover{background:var(--surface2);border-color:var(--border)}
+.exam-item.active{background:var(--red-bg);border-color:var(--accent)}
+.exam-item.done{border-color:#c8e6c9}
+.exam-num-badge{
+  width:32px;height:32px;border-radius:7px;flex-shrink:0;
+  background:var(--surface2);display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;font-weight:700;color:var(--muted);transition:.15s;
+}
+.exam-item.active .exam-num-badge{background:var(--accent);color:#fff}
+.exam-item.done .exam-num-badge{background:var(--green-bg);color:var(--green)}
+.exam-item-info{flex:1;min-width:0}
+.exam-item-title{font-size:.8rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.exam-item-meta{display:flex;align-items:center;gap:6px;margin-top:2px}
+.item-q-count{font-size:.68rem;color:var(--muted)}
+.item-score{font-size:.68rem;font-weight:700;padding:1px 7px;border-radius:20px}
+.item-score.high{background:var(--green-bg);color:var(--green)}
+.item-score.mid{background:var(--yellow-bg);color:var(--yellow)}
+.item-score.low{background:var(--red-bg);color:var(--red)}
+
+.btn-random-side{
+  margin:12px;padding:11px;border-radius:10px;border:none;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.85rem;
+  cursor:pointer;width:calc(100% - 24px);
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  transition:all .15s;box-shadow:0 3px 12px rgba(192,57,43,.25);
+}
+.btn-random-side:hover{transform:translateY(-1px);box-shadow:0 5px 16px rgba(192,57,43,.35)}
+
+/* ── MAIN ── */
+.main{
+  margin-left:var(--sidebar);flex:1;
+  display:flex;flex-direction:column;min-height:100vh;
+}
+
+/* ── WELCOME SCREEN ── */
+#welcomeScreen{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:40px 32px;text-align:center;
+}
+.welcome-illo{
+  width:200px;height:200px;margin:0 auto 28px;
+  position:relative;
+}
+.welcome-illo svg{width:100%;height:100%}
+.welcome-title{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;margin-bottom:10px}
+.welcome-sub{color:var(--muted);font-size:.95rem;max-width:380px;line-height:1.7}
+.welcome-hint{
+  margin-top:24px;padding:14px 22px;background:var(--surface);border-radius:12px;
+  border:1.5px solid var(--border);font-size:.85rem;color:var(--muted);
+  display:flex;align-items:center;gap:8px;
+}
+
+/* ── QUIZ SCREEN ── */
+#quizScreen{display:none;flex:1;flex-direction:column}
+
+.quiz-topbar{
+  background:var(--surface);border-bottom:1.5px solid var(--border);
+  padding:14px 28px;display:flex;align-items:center;gap:16px;
+  position:sticky;top:0;z-index:50;
+}
+.quiz-topbar .exam-label{
+  font-size:.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  color:var(--accent);
+}
+.quiz-topbar .exam-name{
+  font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;
+  flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.progress-pill{
+  background:var(--surface2);border-radius:20px;padding:5px 14px;
+  font-size:.78rem;font-weight:600;color:var(--muted);white-space:nowrap;
+}
+.btn-back{
+  padding:7px 14px;border-radius:8px;border:1.5px solid var(--border);
+  background:transparent;color:var(--muted);font-size:.82rem;font-weight:600;
+  cursor:pointer;transition:.15s;font-family:'DM Sans',sans-serif;
+}
+.btn-back:hover{border-color:var(--accent);color:var(--accent)}
+
+.progress-track{height:3px;background:var(--border)}
+.progress-fill{height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .3s ease}
+
+.quiz-body{flex:1;display:flex;gap:0;overflow:hidden}
+
+/* passage panel */
+.passage-panel{
+  width:42%;border-right:1.5px solid var(--border);
+  overflow-y:auto;padding:28px 28px;background:var(--surface);
+  flex-shrink:0;
+}
+.passage-panel::-webkit-scrollbar{width:5px}
+.passage-panel::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.passage-label{
+  font-size:.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--accent);margin-bottom:12px;display:flex;align-items:center;gap:6px;
+}
+.passage-img{
+  width:100%;height:160px;object-fit:cover;border-radius:10px;margin-bottom:16px;
+  border:1.5px solid var(--border);
+}
+.passage-img-placeholder{
+  width:100%;height:140px;border-radius:10px;margin-bottom:16px;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+  border:1.5px solid var(--border);
+}
+.passage-text{font-size:.88rem;line-height:1.9;color:#2c2520}
+.passage-text p{margin-bottom:.9em}
+
+/* questions panel */
+.questions-panel{
+  flex:1;overflow-y:auto;padding:28px 32px 40px;background:var(--bg);
+}
+.questions-panel::-webkit-scrollbar{width:5px}
+.questions-panel::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+
+.q-block{
+  background:var(--surface);border:1.5px solid var(--border);
+  border-radius:var(--radius);padding:20px 22px;margin-bottom:14px;
+  transition:border-color .2s;
+}
+.q-block.answered{border-color:#c5bfb5}
+.q-block.correct-final{border-color:var(--green);background:var(--green-bg)}
+.q-block.wrong-final{border-color:var(--red);background:var(--red-bg)}
+
+.q-num{font-size:.7rem;font-weight:700;color:var(--accent);letter-spacing:.5px;margin-bottom:6px}
+.q-text{font-size:.9rem;font-weight:600;line-height:1.65;margin-bottom:14px;color:var(--text)}
+
+.options{display:flex;flex-direction:column;gap:8px}
+.opt{
+  padding:11px 15px;border-radius:9px;border:1.5px solid var(--border);
+  background:#faf9f7;color:var(--text);text-align:left;cursor:pointer;
+  font-size:.86rem;line-height:1.5;font-family:'DM Sans',sans-serif;
+  display:flex;align-items:flex-start;gap:10px;transition:all .15s;
+}
+.opt:hover:not(:disabled){border-color:var(--accent);background:var(--red-bg)}
+.opt .ol{font-weight:700;color:var(--accent);min-width:18px;flex-shrink:0;font-size:.82rem}
+.opt.selected{border-color:#9b6600;background:var(--yellow-bg)}
+.opt.selected .ol{color:#9b6600}
+.opt.correct-show{border-color:var(--green);background:var(--green-bg);font-weight:600}
+.opt.correct-show .ol{color:var(--green)}
+.opt.wrong-show{border-color:var(--red);background:var(--red-bg)}
+.opt.wrong-show .ol{color:var(--red)}
+.opt.reveal-correct{border-color:var(--green);background:var(--green-bg)}
+.opt.reveal-correct .ol{color:var(--green)}
+.opt:disabled{cursor:default}
+
+.answer-indicator{display:none;align-items:center;gap:6px;margin-top:10px;font-size:.8rem;font-weight:600;padding:8px 12px;border-radius:7px}
+.answer-indicator.show{display:flex}
+.answer-indicator.ok{background:var(--green-bg);color:var(--green)}
+.answer-indicator.err{background:var(--red-bg);color:var(--red)}
+
+/* SUBMIT BAR */
+.submit-bar{
+  background:var(--surface);border-top:1.5px solid var(--border);
+  padding:16px 32px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;bottom:0;
+}
+.answered-count{font-size:.85rem;color:var(--muted);font-weight:500}
+.answered-count strong{color:var(--text)}
+.btn-submit{
+  padding:12px 32px;border-radius:10px;border:none;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.9rem;
+  cursor:pointer;transition:all .15s;box-shadow:0 3px 12px rgba(192,57,43,.25);
+  display:flex;align-items:center;gap:8px;
+}
+.btn-submit:hover{transform:translateY(-1px);box-shadow:0 5px 16px rgba(192,57,43,.35)}
+.btn-submit:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+
+/* ── RESULT OVERLAY ── */
+#resultOverlay{
+  display:none;position:fixed;inset:0;background:rgba(26,23,20,.55);
+  z-index:200;align-items:center;justify-content:center;
+  backdrop-filter:blur(4px);padding:20px;
+}
+#resultOverlay.show{display:flex}
+.result-card{
+  background:var(--surface);border-radius:20px;max-width:480px;width:100%;
+  padding:40px 36px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.15);
+  animation:popIn .35s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes popIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+
+.result-donut{
+  width:120px;height:120px;margin:0 auto 20px;position:relative;
+}
+.result-donut svg{transform:rotate(-90deg)}
+.result-score-text{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+}
+.result-score-text .pct{font-size:1.8rem;font-weight:800}
+.result-score-text .frac{font-size:.72rem;color:var(--muted);font-weight:500}
+.result-title{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:6px}
+.result-sub{color:var(--muted);font-size:.88rem;margin-bottom:24px;line-height:1.6}
+.result-breakdown{
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:24px;
+}
+.rb-item{background:var(--surface2);border-radius:10px;padding:12px 8px;text-align:center}
+.rb-item .rn{font-size:1.3rem;font-weight:800}
+.rb-item .rl{font-size:.7rem;color:var(--muted);margin-top:2px}
+.result-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.btn-outline{
+  padding:10px 20px;border-radius:9px;border:1.5px solid var(--border);
+  background:transparent;color:var(--text);font-family:'DM Sans',sans-serif;
+  font-weight:600;font-size:.85rem;cursor:pointer;transition:.15s;
+}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+.btn-filled{
+  padding:10px 22px;border-radius:9px;border:none;
+  background:var(--accent);color:#fff;font-family:'DM Sans',sans-serif;
+  font-weight:700;font-size:.85rem;cursor:pointer;transition:.15s;
+}
+.btn-filled:hover{background:#a93226}
+
+/* ── SPINNER OVERLAY ── */
+#spinOverlay{
+  display:none;position:fixed;inset:0;background:rgba(26,23,20,.6);
+  z-index:300;align-items:center;justify-content:center;backdrop-filter:blur(3px);
+}
+#spinOverlay.show{display:flex}
+.spin-card{
+  background:#fff;border-radius:18px;padding:36px 44px;text-align:center;
+  box-shadow:0 16px 50px rgba(0,0,0,.2);
+}
+.spin-card p{font-size:.8rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+.spin-big{font-family:'Playfair Display',serif;font-size:3rem;font-weight:700;color:var(--accent);min-height:60px;line-height:1}
+.spin-ttl{font-size:.82rem;color:var(--muted);margin-top:8px;font-style:italic;max-width:220px;min-height:36px}
+
+/* ── MOBILE TOGGLE ── */
+.mob-toggle{display:none;position:fixed;bottom:20px;right:20px;z-index:150;
+  width:50px;height:50px;border-radius:50%;background:var(--accent);color:#fff;
+  border:none;font-size:1.3rem;cursor:pointer;box-shadow:0 4px 16px rgba(192,57,43,.4);
+  align-items:center;justify-content:center;
+}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:99}
+
+@media(max-width:900px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0}
+  .mob-toggle{display:flex}
+  .sidebar-overlay.show{display:block}
+  .quiz-body{flex-direction:column}
+  .passage-panel{width:100%;border-right:none;border-bottom:1.5px solid var(--border);max-height:300px}
+}
+@media(max-width:600px){
+  .quiz-topbar{padding:12px 16px}
+  .passage-panel,.questions-panel{padding:18px 16px}
+  .submit-bar{padding:12px 16px;flex-direction:column;gap:10px}
+  .btn-submit{width:100%;justify-content:center}
+  .result-card{padding:28px 22px}
+  .welcome-title{font-size:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="sideOverlay" onclick="closeSidebar()"></div>
+
+<div class="app">
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="logo">
+      <div class="logo-icon">📖</div>
+      <div>
+        <div class="logo-text">B1 Reading</div>
+        <div class="logo-sub">VSTEP Practice</div>
+      </div>
+    </div>
+    <input class="sidebar-search" type="text" id="searchInput" placeholder="🔍 Tìm đề thi..." oninput="filterExams()">
+  </div>
+  <div class="sidebar-stats">
+    <div class="s-stat"><div class="n" id="stTotal">0</div><div class="l">Đề thi</div></div>
+    <div class="s-stat"><div class="n" id="stDone">0</div><div class="l">Đã làm</div></div>
+    <div class="s-stat"><div class="n" id="stAvg">—</div><div class="l">Điểm TB</div></div>
+    <div class="s-stat"><div class="n" id="stQs">0</div><div class="l">Câu hỏi</div></div>
+  </div>
+  <div class="exam-list" id="examList"></div>
+  <button class="btn-random-side" onclick="startRandom()">🎲 Quay ngẫu nhiên</button>
+</aside>
+
+<!-- MAIN -->
+<main class="main" id="mainArea">
+
+  <!-- WELCOME -->
+  <div id="welcomeScreen">
+    <div class="welcome-illo">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="30" width="160" height="140" rx="14" fill="#fff" stroke="#e4dfd5" stroke-width="2"/>
+        <rect x="34" y="50" width="132" height="10" rx="4" fill="#f0ede6"/>
+        <rect x="34" y="68" width="110" height="8" rx="4" fill="#f0ede6"/>
+        <rect x="34" y="82" width="120" height="8" rx="4" fill="#f0ede6"/>
+        <rect x="34" y="96" width="90" height="8" rx="4" fill="#f0ede6"/>
+        <rect x="34" y="116" width="132" height="7" rx="3" fill="#fdecea"/>
+        <rect x="34" y="129" width="100" height="7" rx="3" fill="#fdecea"/>
+        <rect x="34" y="142" width="115" height="7" rx="3" fill="#fdecea"/>
+        <circle cx="150" cy="50" r="26" fill="linear" />
+        <circle cx="150" cy="50" r="26" fill="#c0392b" opacity=".12"/>
+        <text x="150" y="57" font-size="22" text-anchor="middle" fill="#c0392b">📚</text>
+      </svg>
+    </div>
+    <div class="welcome-title">Luyện Kỹ Năng Đọc B1</div>
+    <div class="welcome-sub">Chọn một đề thi từ danh sách bên trái hoặc nhấn <strong>Quay ngẫu nhiên</strong> để bắt đầu luyện tập ngay!</div>
+    <div class="welcome-hint">
+      <span>💡</span>
+      <span>Trả lời tất cả câu hỏi rồi nộp bài — kết quả & đáp án sẽ hiện ra sau cùng</span>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quizScreen">
+    <div class="quiz-topbar">
+      <button class="btn-back" onclick="goHome()">← Trang chủ</button>
+      <div style="display:flex;flex-direction:column;min-width:0;flex:1">
+        <div class="exam-label" id="examLabel">ĐỀ —</div>
+        <div class="exam-name" id="examName"></div>
+      </div>
+      <div class="progress-pill" id="progPill">0 / 0 câu</div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
+
+    <div class="quiz-body" id="quizBody">
+      <!-- passage + questions injected here -->
+    </div>
+
+    <div class="submit-bar">
+      <div class="answered-count" id="answeredCount">Đã trả lời <strong>0</strong> / 0 câu</div>
+      <button class="btn-submit" id="submitBtn" onclick="submitExam()">
+        <span>Nộp bài &amp; Xem kết quả</span> <span>→</span>
+      </button>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<!-- RESULT OVERLAY -->
+<div id="resultOverlay">
+  <div class="result-card">
+    <div class="result-donut">
+      <svg width="120" height="120" viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="50" fill="none" stroke="#f0ede6" stroke-width="12"/>
+        <circle id="donutArc" cx="60" cy="60" r="50" fill="none" stroke="#c0392b" stroke-width="12"
+          stroke-dasharray="314" stroke-dashoffset="314" stroke-linecap="round" style="transition:stroke-dashoffset 1s ease"/>
+      </svg>
+      <div class="result-score-text">
+        <div class="pct" id="resPct" style="color:var(--accent)">0%</div>
+        <div class="frac" id="resFrac">0/0</div>
+      </div>
+    </div>
+    <div class="result-title" id="resTitle">—</div>
+    <div class="result-sub" id="resSub">—</div>
+    <div class="result-breakdown">
+      <div class="rb-item"><div class="rn" style="color:var(--green)" id="rbCorrect">0</div><div class="rl">✅ Đúng</div></div>
+      <div class="rb-item"><div class="rn" style="color:var(--red)" id="rbWrong">0</div><div class="rl">❌ Sai</div></div>
+      <div class="rb-item"><div class="rn" style="color:var(--yellow)" id="rbSkip">0</div><div class="rl">⏭ Bỏ qua</div></div>
+    </div>
+    <div class="result-actions">
+      <button class="btn-outline" onclick="closeResult()">Xem lại bài</button>
+      <button class="btn-outline" onclick="goHome()">← Trang chủ</button>
+      <button class="btn-filled" onclick="retryExam()">🔄 Làm lại</button>
+    </div>
+  </div>
+</div>
+
+<!-- SPINNER -->
+<div id="spinOverlay">
+  <div class="spin-card">
+    <p>🎲 Quay ngẫu nhiên</p>
+    <div class="spin-big" id="spinBig">—</div>
+    <div class="spin-ttl" id="spinTtl"></div>
+  </div>
+</div>
+
+<button class="mob-toggle" onclick="toggleSidebar()">☰</button>
+
+<script>
+const EXAMS=[
+{id:1,title:"Brendan's best friend is Tip",topic:"Animals & Children",
+passage:`Brendan's best friend is Tip. Tip and Brendan are inseparable. They teach each other things and they look after each other. Tip has helped Brendan become more responsible, more caring, and a better friend. Brendan is a nine-year-old boy, and Tip is a ten-year-old dog.\n\nHaving a dog helps a child learn how to act responsibly. As a dog owner, the child must take care of the animal's daily needs. The dog must be fed and exercised every day. A dog is completely dependent on its owner for all its needs. Therefore, being responsible for a dog also means taking care of the dog so that it stays healthy.\n\nAnother lesson that a child can learn from having a dog is how to be empathetic. A dog cannot express itself with speech, so its owner must learn how to interpret its behaviour. The child must learn to understand what the dog's behaviour means. Understanding a situation from the dog's perspective helps the child understand why the dog is behaving in a certain way.\n\nOne of the most significant benefits of owning a dog is the example of true friendship that a dog provides. A dog gives unconditional love to its owner. A dog will not stop loving its owner because of a little anger, indifference, or neglect.`,
+emoji:"🐕",
+questions:[
+{q:"The word 'its' in paragraph 2 refers to:",opts:["A horse","A rabbit","A pig","A dog"],ans:3},
+{q:"What does the author say about empathy?",opts:["It makes children more competitive","It makes children more considerate and caring","It leads children to become more independent","It encourages children to be more reserved"],ans:1},
+{q:"All of the following is true of learning to take care of a dog EXCEPT:",opts:["It teaches children about independence","It is a simple task for children","It is a minor role in children's development","It is an important responsibility"],ans:3},
+{q:"What does the author say about the dog's behaviour?",opts:["They express the dog's mind","They show the dog's training","They indicate the dog's breed","They reflect the dog's health"],ans:0},
+{q:"In which paragraph does the author mention dog owners' responsibilities?",opts:["Paragraph 3","Paragraph 2","Paragraph 4","Paragraph 1"],ans:1},
+{q:"What can we say about Tip and Brendan?",opts:["Tip is five years old","Tip is a newborn","Tip is three years old","Tip is older than Brendan"],ans:3},
+{q:"What is the main idea of paragraph 3?",opts:["How dogs enhance children's intelligence","How dogs teach children about discipline","How dogs improve children's physical health","How dogs teach children about empathy"],ans:3},
+{q:"What is the best title for the passage?",opts:["Responsibilities of dog ownership for children","Positive effects on children of owning a dog","Challenges of owning a dog for children","Negative effects on children of owning a dog"],ans:1},
+]},
+{id:2,title:"New Zealand's South Island Road Trip",topic:"Travel & Geography",emoji:"🗺️",
+passage:`New Zealand's South Island is the best place for road trips. You can see sea creatures along the Kaikoura Coast, explore the Abel Tasman National Park for beaches, visit Waipara Valley famous for its vineyards and local wines, and enjoy winter sports in the mountains.\n\nThe Kaikoura Coast is home to whales, dolphins, and seals that can be spotted close to shore. Abel Tasman National Park offers golden beaches and turquoise waters perfect for kayaking. Waipara Valley is renowned for its Riesling and Pinot Noir. Mountain areas such as Queenstown are ideal for skiing and snowboarding.\n\nPegasus Bay Winery in Waipara Valley produces some of the finest bottles in the country. Visitors can taste award-winning wines while enjoying panoramic views of the vineyards.`,
+questions:[
+{q:"You may have a chance to see sea creatures in:",opts:["Kaikoura Coast","Waipara Valley","Christchurch city","Wellington harbour"],ans:0},
+{q:"Which place would probably give you the best time at the beach?",opts:["Kaikoura Coast","Abel Tasman","Waipara Valley","Christchurch"],ans:1},
+{q:"'Majestic' most nearly means:",opts:["Harmonious","Dilapidated","Uncommon","Magnificent"],ans:3},
+{q:"What activities can tourists do at Pegasus Bay Winery?",opts:["See sea creatures","Enjoy beaches","Taste wine","Road trips"],ans:2},
+{q:"All of the following is true, EXCEPT:",opts:["It is the best place for road trips","Waipara Valley produces one of the best bottles globally","Waipara Valley is famous for its vineyards","Waipara Valley is renowned for its local wines"],ans:1},
+{q:"What does the author say about New Zealand's South Island?",opts:["It is the center of economy","It is known for urban life","It is the most populated area","It is the best place for road trips"],ans:3},
+{q:"Main Idea:",opts:["Best place in New Zealand's South Island for road trips","Most affordable destination in New Zealand","Busiest tourist spot in New Zealand","Quietest region in New Zealand"],ans:0},
+]},
+{id:3,title:"Floods — Causes and Effects",topic:"Natural Disasters",emoji:"🌊",
+passage:`Flood is a term used to denote an enormous amount of water. When there is an outflow of water in a place, it is said to be flooded. Floods lead to an overfull and huge spread of water and bring diseases such as typhoid, cholera. Flood may be caused by massive rainfall, overflowing rivers, collapsed dams, snowmelt, deforestation, climate change, and emission of greenhouse gases. A flood can be caused both due to natural causes as well as it can be a human-made flood. Flood causes a huge loss of life and property. Waterborne diseases spread as a result of floods causing health problems.\n\nFloods caused by overflowing rivers occur when water levels rise beyond the riverbank. Dam collapses release enormous volumes of water with destructive force. Deforestation reduces the land's ability to absorb rainwater, making floods more likely. Climate change increases the frequency of extreme rainfall events worldwide.`,
+questions:[
+{q:"How does melting snow cause flooding?",opts:["It decreases the flow of rivers","It makes the level of the river rise","It lowers the temperature of the river","It changes the course of the river"],ans:1},
+{q:"Which statement is true?",opts:["Flooding can be caused by both nature and human activity","Flooding is entirely prevented by modern technology","Flooding is solely a natural phenomenon","Flooding is only caused by human activities"],ans:0},
+{q:"'Widespread' most nearly means:",opts:["Exact","Overall","Relative","Partial"],ans:1},
+{q:"According to the passage, flows of unleashed dam waters can:",opts:["Destroy everything on their paths","Create new habitats for wildlife","Enhance the surrounding environment","Improve water quality downstream"],ans:0},
+{q:"Which of the following would be the best title for the passage?",opts:["Causes of floods","Effects of floods","Types of floods","Prevention of floods"],ans:0},
+{q:"All of the following are natural disasters EXCEPT?",opts:["Floods","Tsunami","Earthquake","Airplane crash"],ans:3},
+]},
+{id:4,title:"Baseball — America's National Pastime",topic:"Sports",emoji:"⚾",
+passage:`Baseball is sometimes called a national pastime in America. It has been played for many years in countries of South America and is very popular in Japan. Since baseball is an Olympic sport, more and more countries are putting together teams and joining the game.\n\nModern baseball began about 150 years ago in New York, USA. Baseball is played with a bat about 100 cm long made of metal or wood, and a small hard ball. Each player also wears one heavy leather glove.\n\nBaseball is played on a special outdoor field with an infield and outfield. In the infield is an area shaped like a diamond with three bases. The game of baseball is divided into nine innings. The team that scores the most runs by the end of the ninth inning wins.`,
+questions:[
+{q:"The writer says that baseball:",opts:["Is played only in America","Is not popular in Japan","Started in South America","Is becoming more popular all over the world"],ans:3},
+{q:"Baseball is played in more and more countries because:",opts:["It is an exciting game","It is included in the Olympic Games","Many American people live there","It is easy to play"],ans:1},
+{q:"Which sentence isn't true about baseball?",opts:["It was first played during the 1850s","It is an Olympic sport","The rules have changed quite a lot over the years","It started in New York"],ans:2},
+{q:"Which piece of equipment is NOT mentioned in the text?",opts:["Bat","Ball","Glove","Mask"],ans:3},
+{q:"What is the baseball field like?",opts:["It has an infield, outfield, and middle field","There are three diamonds on the ground","There are three bases on the diamond","It is usually in an indoor stadium"],ans:2},
+{q:"The game is divided into:",opts:["Two halves","Nine innings","Three bases","An infield and outfield"],ans:1},
+{q:"The object of the game is to:",opts:["Catch as many balls as you can","Hit the ball the farthest","Score the most runs","Bat as often as you can"],ans:2},
+]},
+{id:5,title:"Brenda Ann Spencer",topic:"Society & Crime",emoji:"📰",
+passage:`Brenda Ann Spencer grew up opposite the Cleveland Elementary School in a broken, disadvantaged family. Her father drank quite a lot of alcohol. Doctors had suggested that Brenda should be hospitalized, but instead her father gave her a gun as a Christmas present. She shot at students and school employees. When asked why she did it, she said: "I don't like Mondays." Two people were killed.\n\nExperts who studied the case noted that Brenda showed signs of depression and social withdrawal long before the incident. Her troubled home environment and lack of proper mental health care were cited as major contributing factors.`,
+questions:[
+{q:"Main idea of the passage:",opts:["A story about a school shooting and the reasons behind","The shooting accident location","Opposite the Cleveland Elementary School","The suggestion that Brenda should be hospitalized"],ans:0},
+{q:"Where did Brenda Ann Spencer live?",opts:["Near the Cleveland High School","Opposite the Cleveland Elementary School","Across from the Cleveland Library","Beside the Cleveland Community Center"],ans:1},
+{q:"Which statement describes Brenda's background?",opts:["She grew up in a broken disadvantaged family","She came from a highly educated family","She was raised in a stable supportive family","She grew up in a wealthy privileged family"],ans:0},
+{q:"What did Brenda's father do when doctors suggested she be hospitalized?",opts:["He enrolled her in sports","He took her on vacation","He gave her a gun as a Christmas present","He bought her a bicycle"],ans:2},
+{q:"How many people were killed by Brenda?",opts:["2","3","4","5"],ans:0},
+{q:"'Introverted' most nearly means:",opts:["Outspoken","Neutral","Reserved","Aggressive"],ans:2},
+{q:"According to Spencer, why did she shoot the students?",opts:["She grew up in a broken family","Her father gave her a gun","She detested Mondays","Her father drank alcohol"],ans:2},
+]},
+{id:7,title:"A Pancake is a Flat Cake",topic:"Food & Culture",emoji:"🥞",
+passage:`A pancake is a flat cake, often thin and round, prepared from a starch-based batter that may contain eggs, milk and butter and cooked on a hot surface. Archaeological evidence suggests that pancakes were probably eaten in prehistoric societies.\n\nIn the United Kingdom, pancakes are often unleavened and resemble a crêpe. In North America, a leavening agent is used creating a thick fluffy pancake. The Ancient Greeks made pancakes called tagenias, made with wheat flour, olive oil, honey, and curdled milk, served for breakfast.\n\nPancake Day (Shrove Tuesday) is celebrated in many countries the day before Lent begins. Traditionally, pancake bells were rung to call people to confession before the fasting period.`,
+questions:[
+{q:"What is the main ingredient that gives pancakes their structure?",opts:["Starch-based batter","Lemon","Chocolate","Honey"],ans:0},
+{q:"Pancake Day relates to:",opts:["Crimes","Pancake bells","Shrove Tuesday and Lent","Summer festivals"],ans:2},
+{q:"In which paragraph does the author describe pancake varieties?",opts:["Paragraph 1","Paragraph 2","Paragraph 3","Paragraph 4"],ans:1},
+{q:"What type of pancake does North America use a leavening agent for?",opts:["Thin crêpe","Thick fluffy","Chocolate","Savoury"],ans:1},
+]},
+{id:8,title:"The Story of Coffee",topic:"Food & History",emoji:"☕",
+passage:`Coffee trees are native to eastern Africa and areas of the Arabian Peninsula. Coffee was first grown and traded in the 15th century. Most coffee came from Yemen. By the 17th century coffee had been introduced to Europe. The Dutch brought coffee to Indonesia. By the 20th century, most of the world's production came from Central and South America. Today, Brazil is the largest producer of coffee in the world.\n\nThe two most important kinds of coffee plants are arabica and robusta. Arabica makes up around 70% of the world's production. Robusta has more caffeine than arabica and is grown in Central and Western Africa. Robusta is less costly to grow because it is more resistant to diseases.`,
+questions:[
+{q:"The word 'it' in para 1 refers to:",opts:["Coffee","The story","Brazil","Dealers"],ans:0},
+{q:"It can be inferred from para 2 that:",opts:["Arabian Peninsula is still the top producer","It is expensive to grow plants attacked by diseases","Same type produces similar taste","A comparison between arabica and robusta"],ans:1},
+{q:"Where do coffee trees originally come from?",opts:["Brazil","Arabian Peninsula / Eastern Africa","Indonesia","Europe"],ans:1},
+{q:"Which country makes the most coffee in the world?",opts:["Colombia","Vietnam","Ethiopia","Brazil"],ans:3},
+{q:"Which part of the coffee plant is used for coffee drinks?",opts:["The coffee bean","The leaf","The root","The flower"],ans:0},
+{q:"What would be the best title?",opts:["The story of coffee","Arabian Peninsula","Types of coffee plants","The coffee bean"],ans:0},
+{q:"All of the following is TRUE, EXCEPT:",opts:["Coffee trees of the same type produce similar taste","Types differ in caffeine content","Robusta is more disease resistant","Arabica has more caffeine than Robusta"],ans:3},
+]},
+{id:17,title:"Esperanto — A Planned Language",topic:"Language & Culture",emoji:"🌐",
+passage:`Esperanto is a planned, or artificial, language. It was created by Polish eye doctor Ludwik Lazar Zamenhof. Zamenhof believed that a common language would help to alleviate some of the misunderstandings among cultures.\n\nIn Zamenhof's first attempt, he tried to create a language that was as uncomplicated as possible. He then tried a different way: making words sound like words people already knew but simplifying the grammar. All nouns end in -o (e.g. amiko = friend), all adjectives end in -a (e.g. bela = pretty). The prefix mal- makes a word opposite: malamiko = enemy.\n\nIn 1887, Zamenhof published a description using the pen name Dr. Esperanto, which means "a person who hopes." The First World Congress of Esperanto took place in 1905 in France, with 700 attendees from 20 countries. Today, it is estimated that perhaps a quarter of a million people are fluent in it.`,
+questions:[
+{q:"The topic of this passage is:",opts:["One man's efforts to create a universal language","How language can be improved","Using language to communicate internationally","A language developed in the last few years"],ans:0},
+{q:"Zamenhof wanted to create a universal language:",opts:["To build a name for himself","To provide a more complex language","To resolve cultural differences","To create one world culture"],ans:2},
+{q:"It can be inferred that the Esperanto word 'malespera' means:",opts:["Hopeless","Hope","Hopelessness","Hopeful"],ans:0},
+{q:"The Third World Congress of Esperanto took place:",opts:["In 1905","In 1909","In 1907","In 1913"],ans:2},
+{q:"Which paragraph describes the predecessor to Esperanto?",opts:["The first paragraph","The second paragraph","The third paragraph","The fourth paragraph"],ans:1},
+{q:"The passage would most likely be assigned reading in a course on:",opts:["European history","English grammar","World government","Applied linguistics"],ans:3},
+]},
+{id:19,title:"Social Classes in the United States",topic:"Society & Sociology",emoji:"🏛️",
+passage:`Taken together, income, occupation, and education are good measures of people's social standing. Using a layered model of stratification, most sociologists describe the class system in the United States as: upper, upper middle, middle, lower middle, and lower class.\n\nIn the United States, the upper class owns the major share of corporate and personal wealth. They are the most powerful group and influence the economy and politics of the country. The upper class is primarily characterized by inherited wealth passed down across multiple generations.\n\nThe term "old money" is used to refer to a particular group of rich people whose families have been wealthy for generations, as opposed to those who are newly rich.\n\nThe upper-middle class consists of highly educated professionals such as doctors, lawyers, and corporate executives who earn high incomes but do not own major shares of corporate wealth.\n\nThe middle class is the most difficult to define because people in this class vary widely in lifestyle and resources.\n\nThe lower-middle class consists largely of unskilled workers in manual labor. Quite a few of them think that they don't belong to this class and many actively seek upward mobility.\n\nThe lower class includes both the working poor and the underclass. Some people in the lower class don't have any jobs so they may earn their living by committing crimes.`,
+questions:[
+{q:"Which of the following is true about the lower-middle class?",opts:["Most aspire to join the upper class","They are highly satisfied with their status","Many actively seek to leave this class","Quite a few think they don't belong to this class"],ans:3},
+{q:"Which class has had a subcategory added to it?",opts:["The middle class","The upper class","The lower class","The upper-middle class"],ans:2},
+{q:"'Primarily' most closely means:",opts:["Weekly","Always","Mostly but not always","Mostly"],ans:3},
+{q:"Why is the middle class difficult to define?",opts:["People have identical career paths","It is defined by a single income bracket","People vary widely in lifestyle and resources","It shares a uniform educational background"],ans:2},
+{q:"According to para 2, what is the primary characteristic of the upper class?",opts:["Inheritance of wealth across multiple generations","Dependence on government assistance","Consistent rise in income through career advancement","Rapid accumulation of wealth through business"],ans:0},
+{q:"Which group of workers is typically considered part of the lower middle class?",opts:["Corporate management executives","Skilled professionals in technical fields","Highly educated workers in creative industries","Unskilled workers in manual labor"],ans:3},
+]},
+{id:20,title:"America's Guest Worker Boom",topic:"Economics & Politics",emoji:"🇺🇸",
+passage:`Although America's immigration policy now seems dominated by a desire to seal the country's southern border, Donald Trump's administration has been surprisingly tolerant of a certain type of crossing. Those by legal, temporary migrants or guest workers in search of low-wage work have risen dramatically over the past decade. The government granted 408,000 visas for guest workers in 2019, up from 103,000 in 2010.\n\nThe H-2A visa for agricultural workers has no annual cap, and the number has soared. The H-2B visa for non-agricultural seasonal workers — in hospitality, landscaping, seafood processing and similar industries — does have a cap: Congress sets a maximum of 66,000 per year.\n\nEmployers favour guest workers because they are cheaper to hire. They receive lower wages than American workers, are not entitled to the same benefits, and employers do not have to pay for their transport or housing. Labour advocates have lambasted the guest-worker programme, arguing that it creates a system ripe for exploitation, since workers are tied to their employer and cannot easily change jobs if mistreated.`,
+questions:[
+{q:"What do labour advocates say about the guest worker programme?",opts:["It guarantees job security for local workers","It simplifies the hiring process","It ensures fair wages for all workers","It may bring about labour exploitation"],ans:3},
+{q:"How many visas for guest workers were granted by the US government in 2010?",opts:["85,000","125,000","150,000","103,000"],ans:3},
+{q:"Which type of immigrants has witnessed a big increase over the last decade?",opts:["Undocumented immigrants","Asylum seekers","Permanent residents","Legal, temporary migrants"],ans:3},
+{q:"What is the best title for the passage?",opts:["Legal, temporary migrants","They don't pay transport and housing","America's guest worker boom","Agricultural workers could work longer hours"],ans:2},
+{q:"'Lambasted' most nearly means:",opts:["Outlawed","Criticized","Favoured","Approved"],ans:1},
+{q:"According to the passage, what is TRUE about H-2B visas?",opts:["The number of H-2B visas varies annually","The minimum number is fixed","H-2B visas are unlimited","The maximum number granted per year is fixed"],ans:3},
+]},
+{id:21,title:"The Olympic Games — Decathlon",topic:"Sports & History",emoji:"🏅",
+passage:`The Olympic Games have changed a lot since their origins in Ancient Greece. Today, athletes from countries all over the world take part and the Olympics are big business, watched by millions on television. Some things have stayed the same: athletes could make a lot of money from winning. In the ancient Games, a great champion might have received as much as a year's pay for winning a race.\n\nIn the ancient Olympics, athletes competed in the pentathlon: the long jump, the discus, the javelin, a running race and wrestling. The first winner, in 708 BC, was Lampis of Sparta. The Stockholm Olympics of 1912 brought back this tradition. The modern decathlon (ten events) was included, with the heptathlon (seven events) for women introduced later.\n\nBruce Thorpe says: "The way it works is you complete each event and get points. At the end of two days, the person with the most points is champion. We start with the 100 metres, the long jump, the shot put, the high jump and the 400 metres. The second day, it's the 110 metre hurdles, the discus, the javelin, the pole vault and the 1500 metres — the one we all dread."`,
+questions:[
+{q:"In the first paragraph, the writer says that athletes today:",opts:["Are more popular than in ancient times","Are much better than in ancient times","Treat the Olympics like a business","Can become wealthy through sport"],ans:3},
+{q:"What does the word 'This' refer to?",opts:["The champion","The running race","Greece","The pentathlon"],ans:3},
+{q:"Lampis of Sparta was:",opts:["The organizer of the first ancient Olympics","Emperor Theodosius of Rome","The first winner of the ancient Olympics pentathlon","The greatest athlete in history"],ans:2},
+{q:"The heptathlon for women:",opts:["Became an Olympic event after 1912","Is similar to the ancient pentathlon","Tests the ability to ride a horse","Is much easier than the decathlon"],ans:0},
+{q:"How many events were in the modern decathlon?",opts:["Only one","Five","Seven","Ten"],ans:3},
+{q:"What do you have to do to win a gold medal in the decathlon?",opts:["Score more points than all other competitors","Beat others in at least three events","Finish each event in the top three","Complete events in right order"],ans:0},
+{q:"What does Bruce say about the 1500 metres?",opts:["It should be on the first day","The first day is tougher","The 1500 metres is dreaded by athletes","It looks easier than it actually is"],ans:2},
+]},
+{id:26,title:"Travel in Bangkok",topic:"Travel",emoji:"🛺",
+passage:`Bangkok might be noisy and polluted but it's also an exciting city with plenty of things to see and do. The Khao San Road was a famous traveler spot but for something more authentic, Phra Kanong offers an alternative place to stay, with its fantastic street markets. It's not as convenient for the main tourist sites, but it has a Skytrain station so you can be at the Grand Palace in 20 minutes.\n\nBangkok's traffic can be a nightmare. To explore the temples and historical sites, catch an express boat river taxi along the Chao Phraya River and the canals. For the modern part of the city, the Skytrain is a fast, cheap way to travel.\n\nThai street food is among the best in the world, and for around $5 you can eat a filling and delicious meal. Head for Chinatown — Yaowarat Street — and choose from many excellent Chinese and Thai restaurants.`,
+questions:[
+{q:"Which area is recommended for an authentic Bangkok experience?",opts:["Khao San Road","Phra Kanong","Grand Palace","Chatuchak"],ans:1},
+{q:"What is the best way to explore Bangkok's temples?",opts:["By taxi","By river boat","By Skytrain","By bus"],ans:1},
+{q:"Where is recommended for good food in Bangkok?",opts:["Khao San Road","Phra Kanong","Yaowarat Street (Chinatown)","Grand Palace"],ans:2},
+{q:"What makes Phra Kanong convenient?",opts:["It is next to the Grand Palace","It has a Skytrain station nearby","It is the cheapest area","It has the best restaurants"],ans:1},
+]},
+{id:28,title:"Acupuncture & Herbal Medicine",topic:"Health & Medicine",emoji:"🌿",
+passage:`As health care costs continually rise in most developed countries, many people are looking to alternative forms of health therapy. Two of the most popular are acupuncture and herbal medicine, both of which have been used for centuries in Asia and are rooted in ancient Chinese medicine.\n\nAcupuncture is based on ancient Chinese medicine and the importance of ki, a kind of life force that pulsates through every human's body. At times, these pathways might suffer blockage so ki is unable to flow smoothly through the body. Acupuncturists locate and stimulate certain areas on the surface of the body to relieve pressure and allow ki to flow freely.\n\nEar acupuncture is described as one of the most common and successful methods. The ear contains a strong, healthy flow of blood as well as numerous nerve points that connect it with the rest of the body.\n\nHerbal therapy involves special herbs prescribed to be taken in a hot liquid form, usually tea. Herbs boost the immune system and can aid in normalizing blood pressure.`,
+questions:[
+{q:"According to the passage, which of the following is true of ki?",opts:["It constantly runs through various blood vessels","It is the basis upon which acupuncture was devised","It is an invisible force that blocks pathways","It stimulates pathways and relieves pain"],ans:0},
+{q:"The word 'it' in paragraph 3 refers to:",opts:["The ear","The activating point","The nerve point","The flow of blood"],ans:0},
+{q:"What is the main idea of the passage?",opts:["Acupuncture — the best therapy","People using plants for healing","Two forms of alternative therapies in the West","Western medical techniques are improved"],ans:2},
+{q:"What method of acupuncture is described as effective and popular?",opts:["Nose acupuncture","Back acupuncture","Foot acupuncture","Ear acupuncture"],ans:3},
+{q:"What is stated about the alternative therapies?",opts:["They get rid of symptoms","They treat the source of the health problem","They are flawed","They are rooted from ancient Egypt"],ans:1},
+]},
+{id:30,title:"American Jazz",topic:"Music & Culture",emoji:"🎷",
+passage:`American jazz is a mixture of sounds borrowed from American and African folk music, European classical music, and Christian gospel songs. One of the recognizable characteristics of jazz is its use of improvisation: certain parts are written out and played the same way, while improvised parts are created spontaneously during a performance.\n\nThe earliest form of jazz was ragtime, lively songs performed on the piano. The best-known of the ragtime performers was Scott Joplin. Born in 1868 to former slaves, Joplin earned his living from a very early age playing the piano in bars along the Mississippi. One of his regular jobs was at the Maple Leaf Club in Sedalia, Missouri, where he began writing over 500 compositions, the most famous being "The Maple Leaf Rag."`,
+questions:[
+{q:"This passage is about:",opts:["The life of Scott Joplin","The major characteristics of jazz","Jazz in general and one specific type","The various sources of jazz"],ans:2},
+{q:"Which of the following is NOT a source of American jazz?",opts:["Christian gospel songs","European folk songs","European classical music","American and African folk music"],ans:1},
+{q:"According to the passage, ragtime was:",opts:["Performed only at the Maple Leaf Club","Generally performed on a variety of instruments","The first type of jazz","Extremely soothing and sedate"],ans:2},
+{q:"The word 'living' in paragraph 2 is closest in meaning to:",opts:["Money","Enjoyment","Life-style","Health"],ans:0},
+{q:"The passage is about Scott Joplin's:",opts:["Compositions","Childhood","Life","Career in music"],ans:2},
+]},
+{id:31,title:"Mobile Phones & Health",topic:"Technology & Health",emoji:"📱",
+passage:`Millions of people are using cellphones today. In many countries, cellphones are very popular with young people. They find that the phones are more than a means of communication — having a mobile phone shows that they are cool and connected.\n\nSome doctors are concerned that in the future many people may suffer health problems from the use of mobile phones. Medical studies have shown changes in the brain cells of some people who use mobile phones. In one case, a travelling salesman had to retire at a young age because of serious memory loss. He used to talk on his mobile phone for about six hours a day.\n\nWhat makes mobile phones potentially harmful? The answer is radiation. Mobile phone companies agree that there is some radiation, but say the amount is too small to worry about.\n\nAs the discussion about their safety continues, it appears that it's best to use mobile phones less often.`,
+questions:[
+{q:"Cellphones are especially popular with young people because:",opts:["They are indispensable in everyday communications","They make them look more stylish","They keep users alert","They cannot be replaced by regular phones"],ans:1},
+{q:"The changes possibly caused by cellphones are mainly concerned with:",opts:["The mobility of the mind and the body","The smallest units of the brain","The arteries of the brain","The resident memory"],ans:1},
+{q:"The word 'means' most closely means:",opts:["Meanings","Expression","Method","Transmission"],ans:2},
+{q:"The word 'potentially' most closely means:",opts:["Obviously","Possibly","Certainly","Privately"],ans:1},
+{q:"The man who used his cellphone too often:",opts:["Suffered serious loss of mental ability","Could no longer think lucidly","Abandoned his family","Had a problem with memory"],ans:3},
+{q:"According to the passage, what makes mobile phones potentially harmful?",opts:["Their radiant light","Their power of attraction","Their raiding power","Their radiation"],ans:3},
+{q:"According to the writer, people should:",opts:["Only use mobile phones in urgent cases","Only use mobile phones in medical emergencies","Keep off mobile phones regularly","Never use mobile phones in all cases"],ans:0},
+]},
+{id:36,title:"Birds that Feed in Flocks",topic:"Nature & Science",emoji:"🐦",
+passage:`Birds that feed in flocks commonly retire together into roosts. In winter, it is important for birds to keep warm at night and conserve precious food reserves. Solitary roosters shelter in dense vegetation or enter a cavity, but the effect of sheltering is magnified by several birds huddling together. Body contact reduces the surface area exposed to the cold air. Two kinglets huddling together were found to reduce their heat losses by a quarter, and three together saved a third of their heat.\n\nThe second possible benefit of communal roosts is that they act as "information centers". When birds return in the evening, those that did not feed well appear to follow those that did the next morning.\n\nFinally, there is safety in numbers at communal roosts since there will always be a few birds awake at any given moment to give the alarm. But this increased protection is partially counteracted by the fact that mass roosts attract predators.`,
+questions:[
+{q:"What does the passage mainly discuss?",opts:["How birds find and store food","How birds maintain body heat in winter","Why birds need to establish territory","Why some species of birds nest together"],ans:3},
+{q:"The word 'conserve' is closest in meaning to:",opts:["Retain","Watch","Locate","Share"],ans:0},
+{q:"The word 'magnified' is closest in meaning to:",opts:["Caused","Modified","Intensified","Combined"],ans:2},
+{q:"The author mentions 'kinglets' as an example of birds that:",opts:["Protect themselves by nesting in holes","Nest with other species","Nest together for warmth","Usually feed and nest in pairs"],ans:2},
+{q:"Which of the following is a disadvantage of communal roosts?",opts:["Diseases easily spread","Groups are more attractive to predators","Food supplies are quickly depleted","Some birds in the group attack others"],ans:1},
+]},
+];
+
+// ── STATE ──
+let progress=JSON.parse(localStorage.getItem('b1quiz_v3')||'{}');
+let curExam=null, answers=[], submitted=false;
+
+// ── SIDEBAR ──
+function buildSidebar(list){
+  const el=document.getElementById('examList');
+  el.innerHTML=list.map(e=>{
+    const p=progress[e.id]||{};
+    let scoreBadge='';
+    if(p.done&&p.score!==undefined){
+      let cls=p.score>=80?'high':p.score>=60?'mid':'low';
+      scoreBadge=`<span class="item-score ${cls}">${p.score}%</span>`;
+    }
+    const active=curExam&&curExam.id===e.id?'active':'';
+    const done=p.done?'done':'';
+    return `<div class="exam-item ${active} ${done}" onclick="startExam(${e.id});closeSidebar()">
+      <div class="exam-num-badge">${e.id}</div>
+      <div class="exam-item-info">
+        <div class="exam-item-title">${e.title}</div>
+        <div class="exam-item-meta">
+          <span class="item-q-count">${e.questions.length} câu · ${e.emoji||'📄'}</span>
+          ${scoreBadge}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  const done=Object.values(progress).filter(p=>p.done);
+  document.getElementById('stTotal').textContent=EXAMS.length;
+  document.getElementById('stDone').textContent=done.length;
+  document.getElementById('stQs').textContent=EXAMS.reduce((s,e)=>s+e.questions.length,0);
+  let scores=done.map(p=>p.score);
+  document.getElementById('stAvg').textContent=scores.length?Math.round(scores.reduce((a,b)=>a+b,0)/scores.length)+'%':'—';
+}
+function filterExams(){
+  let q=document.getElementById('searchInput').value.toLowerCase();
+  buildSidebar(EXAMS.filter(e=>e.title.toLowerCase().includes(q)||String(e.id).includes(q)||e.topic.toLowerCase().includes(q)));
+}
+buildSidebar(EXAMS);
+
+// ── EXAM START ──
+function startExam(id){
+  curExam=EXAMS.find(e=>e.id===id);
+  answers=new Array(curExam.questions.length).fill(null);
+  submitted=false;
+  document.getElementById('welcomeScreen').style.display='none';
+  const qs=document.getElementById('quizScreen');
+  qs.style.display='flex';
+  document.getElementById('examLabel').textContent='ĐỀ '+curExam.id;
+  document.getElementById('examName').textContent=curExam.title;
+  renderQuiz();
+  buildSidebar(EXAMS);
+}
+
+function renderQuiz(){
+  updateProgress();
+  const body=document.getElementById('quizBody');
+
+  // passage panel
+  const passageHTML=`<div class="passage-panel">
+    <div class="passage-label">📄 Đoạn Văn</div>
+    <div class="passage-img-placeholder">${makePassageArt(curExam)}</div>
+    <div class="passage-text">${curExam.passage.split('\n').filter(Boolean).map(p=>`<p>${p}</p>`).join('')}</div>
+  </div>`;
+
+  // questions panel
+  const labels=['A','B','C','D'];
+  const qHTML=curExam.questions.map((q,qi)=>`
+    <div class="q-block" id="qb_${qi}">
+      <div class="q-num">CÂU ${qi+1}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="options">
+        ${q.opts.map((opt,oi)=>`
+          <button class="opt" id="opt_${qi}_${oi}" onclick="selectAns(${qi},${oi})">
+            <span class="ol">${labels[oi]}</span>${opt}
+          </button>`).join('')}
+      </div>
+      <div class="answer-indicator" id="ai_${qi}"></div>
+    </div>`).join('');
+
+  body.innerHTML=passageHTML+`<div class="questions-panel">${qHTML}</div>`;
+  updateProgress();
+}
+
+function makePassageArt(exam){
+  const colors={
+    "Animals":"#e8f5e9,#2e7d32","Travel":"#e3f2fd,#1565c0","Natural":"#e0f2f1,#00695c",
+    "Sports":"#fff3e0,#e65100","Society":"#f3e5f5,#6a1b9a","Food":"#fff8e1,#f57f17",
+    "Language":"#e8eaf6,#283593","Economics":"#fce4ec,#880e4f","Music":"#ede7f6,#4527a0",
+    "Health":"#e8f5e9,#1b5e20","Technology":"#e0f7fa,#006064","Nature":"#f1f8e9,#33691e"
+  };
+  const key=Object.keys(colors).find(k=>exam.topic&&exam.topic.includes(k))||"default";
+  const [bg,fg]=colors[key]||["#f5f5f5","#424242"];
+  return `<svg width="100%" height="140" viewBox="0 0 340 140" xmlns="http://www.w3.org/2000/svg">
+    <rect width="340" height="140" rx="9" fill="${bg}"/>
+    <text x="170" y="75" font-size="56" text-anchor="middle" dominant-baseline="middle">${exam.emoji||'📄'}</text>
+    <text x="170" y="118" font-size="11" text-anchor="middle" fill="${fg}" font-weight="600" font-family="DM Sans,sans-serif">${exam.topic||''}</text>
+  </svg>`;
+}
+
+function selectAns(qi,oi){
+  if(submitted)return;
+  answers[qi]=oi;
+  const labels=['A','B','C','D'];
+  // update buttons
+  [0,1,2,3].forEach(i=>{
+    const btn=document.getElementById(`opt_${qi}_${i}`);
+    if(btn){btn.className='opt'+(i===oi?' selected':'');}
+  });
+  const qb=document.getElementById(`qb_${qi}`);
+  if(qb)qb.classList.add('answered');
+  updateProgress();
+}
+
+function updateProgress(){
+  if(!curExam)return;
+  const done=answers.filter(a=>a!==null).length;
+  const total=curExam.questions.length;
+  document.getElementById('progFill').style.width=(done/total*100)+'%';
+  document.getElementById('progPill').textContent=`${done} / ${total} câu`;
+  document.getElementById('answeredCount').innerHTML=`Đã trả lời <strong>${done}</strong> / ${total} câu`;
+  document.getElementById('submitBtn').disabled=(done===0);
+}
+
+function submitExam(){
+  if(!curExam)return;
+  submitted=true;
+  const labels=['A','B','C','D'];
+  let correct=0,wrong=0,skip=0;
+  curExam.questions.forEach((q,qi)=>{
+    const userAns=answers[qi];
+    const qb=document.getElementById(`qb_${qi}`);
+    [0,1,2,3].forEach(oi=>{
+      const btn=document.getElementById(`opt_${qi}_${oi}`);
+      if(!btn)return;
+      btn.disabled=true;
+      if(oi===q.ans&&userAns===oi){btn.className='opt correct-show';}
+      else if(oi===q.ans){btn.className='opt reveal-correct';}
+      else if(oi===userAns){btn.className='opt wrong-show';}
+      else{btn.className='opt';}
+    });
+    const ai=document.getElementById(`ai_${qi}`);
+    if(userAns===null){skip++;if(qb)qb.classList.add('wrong-final');if(ai){ai.className='answer-indicator show err';ai.innerHTML='⏭ Câu này bị bỏ qua. Đáp án đúng: <strong>'+labels[q.ans]+'. '+q.opts[q.ans]+'</strong>';}}
+    else if(userAns===q.ans){correct++;if(qb)qb.classList.add('correct-final');if(ai){ai.className='answer-indicator show ok';ai.innerHTML='✅ Chính xác! Rất tốt!';}}
+    else{wrong++;if(qb)qb.classList.add('wrong-final');if(ai){ai.className='answer-indicator show err';ai.innerHTML='❌ Sai! Đáp án đúng: <strong>'+labels[q.ans]+'. '+q.opts[q.ans]+'</strong>';}}
+  });
+  const total=curExam.questions.length;
+  const score=Math.round(correct/total*100);
+  progress[curExam.id]={done:true,score,correct,total};
+  localStorage.setItem('b1quiz_v3',JSON.stringify(progress));
+  showResult(correct,wrong,skip,total,score);
+  buildSidebar(EXAMS);
+  // Change submit btn
+  const sb=document.getElementById('submitBtn');
+  sb.textContent='✓ Đã nộp bài';sb.disabled=true;
+}
+
+function showResult(correct,wrong,skip,total,score){
+  document.getElementById('resPct').textContent=score+'%';
+  document.getElementById('resFrac').textContent=correct+'/'+total+' đúng';
+  document.getElementById('rbCorrect').textContent=correct;
+  document.getElementById('rbWrong').textContent=wrong;
+  document.getElementById('rbSkip').textContent=skip;
+
+  let title,sub,color;
+  if(score>=90){title='🎉 Xuất sắc!';sub='Em đã nắm vững bài đọc này. Tiếp tục phát huy nhé!';color='#1a6b45';}
+  else if(score>=70){title='👍 Khá tốt!';sub='Còn một vài điểm cần cải thiện — xem lại đáp án để hoàn thiện hơn!';color='#b7860b';}
+  else if(score>=50){title='📚 Cần cố gắng thêm';sub='Hãy đọc kỹ lại đoạn văn và các đáp án để hiểu rõ hơn!';color='#e67e22';}
+  else{title='💪 Cố lên nào!';sub='Xem lại đáp án và đọc lại bài — bạn sẽ làm tốt hơn lần sau!';color='#c0392b';}
+
+  document.getElementById('resTitle').textContent=title;
+  document.getElementById('resSub').textContent=sub;
+  document.getElementById('resPct').style.color=color;
+
+  const arc=document.getElementById('donutArc');
+  arc.style.stroke=color;
+  const circ=2*Math.PI*50;
+
+  setTimeout(()=>{
+    arc.style.strokeDashoffset=circ*(1-score/100);
+  },100);
+
+  document.getElementById('resultOverlay').classList.add('show');
+} // 👈 THÊM DÒNG NÀY
+
+function closeResult(){
+  document.getElementById('resultOverlay').classList.remove('show');
+}
+
+function startRandom(){
+  const overlay=document.getElementById('spinOverlay');
+  overlay.classList.add('show');
+  let count=0,total=28;
+  const chosen=EXAMS[Math.floor(Math.random()*EXAMS.length)];
+  const interval=setInterval(()=>{
+    const fake=EXAMS[Math.floor(Math.random()*EXAMS.length)];
+    document.getElementById('spinBig').textContent=fake.emoji+' ĐỀ '+fake.id;
+    document.getElementById('spinTtl').textContent=fake.title;
+    count++;
+    if(count>total){
+      clearInterval(interval);
+      document.getElementById('spinBig').textContent=chosen.emoji+' ĐỀ '+chosen.id;
+      document.getElementById('spinBig').style.color='#e67e22';
+      document.getElementById('spinTtl').textContent=chosen.title;
+      setTimeout(()=>{
+        overlay.classList.remove('show');
+        document.getElementById('spinBig').style.color='var(--accent)';
+        startExam(chosen.id);
+      },900);
+    }
+  },80);
+}
+
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sideOverlay').classList.toggle('show');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sideOverlay').classList.remove('show');
+}
+</script>
+</body>
+</html>

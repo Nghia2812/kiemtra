@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luyện thuộc đáp án Listening - Nghe_04</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, -apple-system, sans-serif; background: #f5f5f3; color: #1a1a18; min-height: 100vh; padding: 1rem; }
+.container { max-width: 760px; margin: 0 auto; padding: 1.5rem 0; }
+.header { margin-bottom: 1.5rem; }
+.header h1 { font-size: 22px; font-weight: 500; color: #1a1a18; margin-bottom: 4px; }
+.header p { font-size: 14px; color: #666; }
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1rem; }
+.tab { padding: 6px 14px; border-radius: 8px; border: 1px solid #ccc; background: transparent; font-size: 13px; color: #555; cursor: pointer; transition: all 0.15s; }
+.tab.active { background: #e8e8e4; color: #1a1a18; border-color: #999; font-weight: 500; }
+.tab:hover:not(.active) { background: #f0f0ec; }
+.mode-bar { display: flex; gap: 8px; margin-bottom: 1.25rem; align-items: center; flex-wrap: wrap; }
+.mode-btn { padding: 6px 14px; border-radius: 8px; border: 1px solid #ccc; background: transparent; font-size: 13px; color: #555; cursor: pointer; transition: all 0.15s; }
+.mode-btn.active { background: #E1F5EE; color: #0F6E56; border-color: #5DCAA5; }
+.mode-btn:hover:not(.active) { background: #f0f0ec; }
+.stats { display: flex; gap: 12px; margin-left: auto; }
+.stat { font-size: 13px; color: #666; }
+.stat span { font-weight: 500; color: #1a1a18; }
+.reset-btn { padding: 6px 14px; border-radius: 8px; border: 1px solid #ccc; background: transparent; font-size: 13px; color: #666; cursor: pointer; }
+.reset-btn:hover { background: #f0f0ec; }
+.progress-bar { height: 4px; background: #e0e0dc; border-radius: 2px; margin-bottom: 1.25rem; overflow: hidden; }
+.progress-fill { height: 100%; background: #1D9E75; border-radius: 2px; transition: width 0.3s; }
+.card { background: #fff; border: 1px solid #e0e0dc; border-radius: 12px; padding: 1.25rem; margin-bottom: 0.75rem; transition: border-color 0.2s; }
+.card.correct { border-color: #5DCAA5; }
+.card.wrong { border-color: #F09595; }
+.q-num { font-size: 12px; color: #aaa; margin-bottom: 8px; }
+.badge-correct { font-size: 12px; color: #0F6E56; margin-left: 8px; }
+.badge-wrong { font-size: 12px; color: #A32D2D; margin-left: 8px; }
+.hidden-answer { background: #f5f5f3; border-radius: 8px; padding: 10px 16px; width: 100%; cursor: pointer; border: 1px solid #ddd; text-align: center; font-size: 14px; color: #aaa; transition: all 0.15s; }
+.hidden-answer:hover { background: #fff; border-color: #999; color: #555; }
+.revealed-answer { background: #E1F5EE; border-radius: 8px; padding: 10px 16px; width: 100%; font-size: 15px; font-weight: 500; color: #0F6E56; border: 1px solid #5DCAA5; }
+.self-grade { display: flex; gap: 8px; margin-top: 10px; }
+.btn-correct { padding: 5px 14px; border-radius: 8px; border: 1px solid #5DCAA5; background: transparent; color: #0F6E56; font-size: 13px; cursor: pointer; transition: background 0.15s; }
+.btn-wrong { padding: 5px 14px; border-radius: 8px; border: 1px solid #F09595; background: transparent; color: #A32D2D; font-size: 13px; cursor: pointer; transition: background 0.15s; }
+.btn-correct:hover { background: #E1F5EE; }
+.btn-wrong:hover { background: #FCEBEB; }
+.q-text { font-size: 14px; color: #888; margin-bottom: 10px; font-style: italic; }
+.input-answer { width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid #ccc; background: #fff; color: #1a1a18; font-size: 14px; font-family: inherit; }
+.input-answer:focus { outline: none; border-color: #888; }
+.check-btn { margin-top: 8px; padding: 6px 16px; border-radius: 8px; border: 1px solid #ccc; background: transparent; color: #1a1a18; font-size: 13px; cursor: pointer; font-family: inherit; }
+.check-btn:hover { background: #f0f0ec; }
+.result-correct { margin-top: 8px; padding: 8px 12px; border-radius: 8px; background: #E1F5EE; color: #0F6E56; font-size: 13px; }
+.result-wrong { margin-top: 8px; padding: 8px 12px; border-radius: 8px; background: #FCEBEB; color: #A32D2D; font-size: 13px; }
+.all-list { columns: 2; gap: 16px; }
+@media (max-width: 500px) { .all-list { columns: 1; } .stats { display: none; } }
+.all-item { break-inside: avoid; margin-bottom: 10px; padding: 8px 12px; background: #f9f9f7; border-radius: 8px; }
+.all-num { font-size: 11px; color: #aaa; margin-bottom: 2px; }
+.all-ans { font-size: 14px; color: #1a1a18; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>Luyện thuộc đáp án Listening</h1>
+    <p>Chọn đề và chế độ luyện tập bên dưới</p>
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="mode-bar">
+    <button class="mode-btn active" onclick="setMode('reveal')" id="m-reveal">Lật thẻ</button>
+    <button class="mode-btn" onclick="setMode('type')" id="m-type">Tự điền</button>
+    <button class="mode-btn" onclick="setMode('list')" id="m-list">Xem tất cả</button>
+    <button class="reset-btn" onclick="resetProgress()">Đặt lại</button>
+    <div class="stats">
+      <span class="stat">Đúng: <span id="s-correct">0</span></span>
+      <span class="stat">Sai: <span id="s-wrong">0</span></span>
+    </div>
+  </div>
+
+  <div class="progress-bar"><div class="progress-fill" id="prog" style="width:0%"></div></div>
+
+  <div id="quiz-area"></div>
+</div>
+
+<script>
+const DATA = {
+  "Practice Test 1": [
+    "The problem was very difficult","Making salad","Descend the stairs and go in the second floor","He's very soft-spoken","Architects","He'll be able to work reasonably well with her","Starting on their exam preparation","It received more attention on the exam than it did in the lectures","To help him decide on a topic","Near the end of the semester","The topic's too general","Seven days","An apartment fire and what one can learn from it","One was damaged more severely than the others","They were taken to the hospital","Have an alarm and extinguisher in good condition","Ways to sell used books","He's finished using them","He would not get enough money","Post some advertisements","On a tram","By the side of the water","It means they are pretending to be sad","They are getting rid of salt","Taking photographs","The nineteenth","American History","To move fast","To bring tea from china","A quiz on Friday","This feeling is natural","Writers","He or she would have shaky knees","Focusing on what needs to be done","At six o'clock"
+  ],
+  "Practice Test 2": [
+    "What Carla said was unjust","She thinks it's an improvement","He has finally finished his studies","He was surprised the dress was not expensive","Add more money to the meter","It's not possible to obtain the book yet","It was too long","She needs to use the man's notes","The haircut is unusually short","He dislikes it immensely","Piles of his hair","It'll grow back","Every week","That a storm was coming","In her bones","Believe his great-grandmother's predictions about the weather","To an exercise club","She wants him to try it out","Just about anything","Visit the club once","The head of the dance department","Which dance degree to take","Choreography","They are both four-year programs","A tour guide","Cajun country","They maintained characteristics of their old culture","Very spicy","The bus ride will continue","The relatively rapid development of radio","In 1900","The history of communication","The existing radio stations were totally uncontrolled","Federal Communications Commission"
+  ],
+  "Practice Test 3": [
+    "The key was misplaced","Jim has the book","Paying bills","It's too early to go to class","The class takes a lot of time","She has the same opinion as the man","He needs to complete the maths assignment first","Someone else moved them","Two students","She wants to know about a course he took","A course where the students take part in discussion","It sounds good to her","From the newspaper","Close by","It exists in large quantities","She's concerned it'll be too costly","A presentation for political science class","Only the state and federal courts","On Monday","About one week","The bookstore manager","Prepare a schedule","24 hours","When the students are able to work","Phone operator","Recycling soda bottle","They were left in landfill areas","A plant, cleaned and then crushed into tim-chips","Glass bottles","Buying these recycled product","Two separate railroad companies","In 1862","They had to lay tracks across a mountain range","Several years","A golden spike was hammered into the last track"
+  ],
+  "Đề 1 (Part 1)": [
+    "He is leaving now","The exam was not very difficult","The lawn is too dry","In a biology laboratory","If the vegetarian food can be obtained","The cab driver waited for the passenger","She is very busy","It may happen"
+  ],
+  "Đề 2 (Part 1)": [
+    "There's little rain in July","She's delighted with her results","She would also like to take a trip","He thinks he knows what the answer is","Greg would come to the party later","The line in front of them is long","The woman called to let him know about the meeting","Visit their relatives"
+  ],
+  "Đề 5 (Part 1)": [
+    "Western and Central","To contact the police to make a statement","Her car has broken down","A famous jewel","How to change a flat tire","A DVD player and a holiday","$100","Walk out of the building"
+  ],
+  "Đề 6 (Part 1)": [
+    "At 7:15","$25","4","Brown with white paws","There will be some higher temperatures on Tuesday","Lunch will be served","Lunch will be served","A car is blocking the entrance"
+  ],
+  "Đề 7 (Part 1)": [
+    "Legs","Tim Wong's Chinese Kitchen","At 2.15","Both sunny and rainy","Fruit, some change and coloured pencils","Rainy","It has another bedroom over the garage","The Earth"
+  ],
+  "Đề 3 (Part 2)": [
+    "She likes to be active","She got to know her teacher well","Watching the changes in the scenery","Regular exercise","Twenty years","She likes living in a big, busy city","She uses her bicycle","Live near her","A painter","Rachel's husband","Performs in the shows","They give her their opinions on her new plays"
+  ],
+  "Đề 4 (Part 2)": [
+    "The test requires it","It will help you relax","Things you should and shouldn't bring for the test","There will be a test on Saturday","Speak more than one language","Mix with other nationalities","Postcards","Before the Camp starts","Car","10 o'clock","Feed the ducks","There was nowhere to put rubbish"
+  ],
+  "Đề 5 (Part 2)": [
+    "India","She enjoys watching important events happen","Furniture","At her sister's house","Nine","She will play one role in it","Go shopping","Doing something she loves","He was trying out some new equipment","The photo was terrible","Because the quality was so high","Take more photos of landscapes"
+  ],
+  "Đề 4 (Part 3)": [
+    "Know about the writer's life","His father has to be close to his work","Advanced information about photography","Less common places","Those who are planning to buy gifts","Went to the Pacific Ocean for a year","Because they're too tiring","Old ruins in Wales","His family might need him","Travel books","It will soon change","Clearing paths through the forest","Being responsible for a team of people","Some people ate more than they should","He thinks the trip was a valuable experience"
+  ],
+  "Đề 5 (Part 3)": [
+    "Most people","They were individually made","She changed people's ideas about fashion","Clothes started to cost less","Longer skirts","Spider and Rose","The Russian ballet exhibition","Close to the Arts Centre","Charlie's coffee","9.50","Three days a week","To pay for her artist's materials","She drew scenes in pencil","Meeting other artists","Look round an art exhibition"
+  ],
+  "Đề 6 (Part 3)": [
+    "Children","Old people don't go outdoors enough","To get enough vitamin D","To introduce her lecture with an example students could relate to","Because of Boolean logic","0","More types of gates","Parts of fish","It can move quickly in all directions","Sharks and airplanes have similar parts","Seven years","She sometimes has to work at night","She prepares it in advance","He spends a lot of time travelling","She took part in a long race"
+  ]
+};
+
+let currentSet = Object.keys(DATA)[0];
+let mode = 'reveal';
+let revealed = {};
+let userAnswers = {};
+let grades = {};
+
+function init() { renderTabs(); renderQuiz(); }
+
+function renderTabs() {
+  document.getElementById('tabs').innerHTML = Object.keys(DATA).map(k =>
+    `<button class="tab${k===currentSet?' active':''}" onclick="selectSet(${JSON.stringify(k)})">${k}</button>`
+  ).join('');
+}
+
+function selectSet(k) {
+  currentSet = k;
+  revealed = {};
+  userAnswers = {};
+  renderTabs();
+  renderQuiz();
+}
+
+function setMode(m) {
+  mode = m;
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('m-'+m).classList.add('active');
+  renderQuiz();
+}
+
+function resetProgress() {
+  grades = {};
+  revealed = {};
+  userAnswers = {};
+  updateStats();
+  renderQuiz();
+}
+
+function updateStats() {
+  const prefix = currentSet + '__';
+  const c = Object.entries(grades).filter(([k,v]) => k.startsWith(prefix) && v==='correct').length;
+  const w = Object.entries(grades).filter(([k,v]) => k.startsWith(prefix) && v==='wrong').length;
+  document.getElementById('s-correct').textContent = c;
+  document.getElementById('s-wrong').textContent = w;
+  const total = DATA[currentSet].length;
+  const done = Object.keys(grades).filter(k => k.startsWith(prefix)).length;
+  document.getElementById('prog').style.width = total ? (done/total*100)+'%' : '0%';
+}
+
+function renderQuiz() {
+  const area = document.getElementById('quiz-area');
+  const items = DATA[currentSet];
+  updateStats();
+
+  if (mode === 'list') {
+    area.innerHTML = `<div class="card"><div class="all-list">${items.map((a,i)=>`
+      <div class="all-item"><div class="all-num">Câu ${i+1}</div><div class="all-ans">${a}</div></div>`).join('')}</div></div>`;
+    return;
+  }
+
+  if (mode === 'reveal') {
+    area.innerHTML = items.map((ans, i) => {
+      const key = currentSet+'__'+i;
+      const g = grades[key];
+      const isRevealed = revealed[key];
+      return `<div class="card${g?' '+g:''}" id="card-${i}">
+        <div class="q-num">Câu ${i+1}${g==='correct'?' <span class="badge-correct">✓ Nhớ rồi</span>':g==='wrong'?' <span class="badge-wrong">✗ Chưa nhớ</span>':''}</div>
+        <div>
+          ${isRevealed
+            ? `<div class="revealed-answer">${ans}</div>`
+            : `<button class="hidden-answer" onclick="revealCard(${i})">Nhấn để xem đáp án</button>`}
+        </div>
+        ${isRevealed && !g ? `<div class="self-grade">
+          <button class="btn-correct" onclick="gradeCard(${i},'correct')">✓ Nhớ rồi</button>
+          <button class="btn-wrong" onclick="gradeCard(${i},'wrong')">✗ Chưa nhớ</button>
+        </div>` : ''}
+      </div>`;
+    }).join('');
+    return;
+  }
+
+  if (mode === 'type') {
+    area.innerHTML = items.map((ans, i) => {
+      const key = currentSet+'__'+i;
+      const g = grades[key];
+      const ua = (userAnswers[key] || '').replace(/"/g,'&quot;');
+      return `<div class="card${g?' '+g:''}" id="card-${i}">
+        <div class="q-num">Câu ${i+1}${g==='correct'?' <span class="badge-correct">✓ Đúng</span>':g==='wrong'?' <span class="badge-wrong">✗ Chưa đúng</span>':''}</div>
+        <div class="q-text">Gõ đáp án câu ${i+1}:</div>
+        <input class="input-answer" id="inp-${i}" value="${ua}" placeholder="Nhập đáp án..." onkeydown="if(event.key==='Enter')checkType(${i})" />
+        <button class="check-btn" onclick="checkType(${i})">Kiểm tra</button>
+        ${g ? `<div class="${g==='correct'?'result-correct':'result-wrong'}">${g==='correct'?'Chính xác!':'Đáp án đúng: <strong>'+ans+'</strong>'}</div>` : ''}
+      </div>`;
+    }).join('');
+    return;
+  }
+}
+
+function revealCard(i) {
+  revealed[currentSet+'__'+i] = true;
+  renderQuiz();
+}
+
+function gradeCard(i, g) {
+  grades[currentSet+'__'+i] = g;
+  updateStats();
+  renderQuiz();
+}
+
+function checkType(i) {
+  const key = currentSet+'__'+i;
+  const inp = document.getElementById('inp-'+i);
+  if (!inp) return;
+  const val = inp.value.trim().toLowerCase();
+  const correct = DATA[currentSet][i].toLowerCase();
+  userAnswers[key] = inp.value;
+  grades[key] = similarity(val, correct) > 0.6 ? 'correct' : 'wrong';
+  updateStats();
+  renderQuiz();
+}
+
+function similarity(a, b) {
+  if (!a || !b) return 0;
+  if (a === b) return 1;
+  const longer = a.length > b.length ? a : b;
+  const shorter = a.length > b.length ? b : a;
+  return (longer.length - editDistance(longer, shorter)) / longer.length;
+}
+
+function editDistance(a, b) {
+  const m = a.length, n = b.length;
+  const dp = Array.from({length:m+1},(_,i)=>Array.from({length:n+1},(_,j)=>i||j));
+  for(let i=1;i<=m;i++) for(let j=1;j<=n;j++)
+    dp[i][j] = a[i-1]===b[j-1] ? dp[i-1][j-1] : 1+Math.min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]);
+  return dp[m][n];
+}
+
+init();
+</script>
+</body>
+</html>

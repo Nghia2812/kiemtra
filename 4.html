@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B1 Letter Writing Practice</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --ink-light: #3d3d5c;
+    --ink-faint: #7a7a99;
+    --paper: #faf8f3;
+    --paper-warm: #f5f0e8;
+    --paper-cream: #ede7d9;
+    --accent: #c8472a;
+    --accent-light: #f2e8e5;
+    --gold: #b5892c;
+    --gold-light: #fdf5e0;
+    --teal: #1e6e6e;
+    --teal-light: #e0f2f2;
+    --green: #2d6a2d;
+    --green-light: #e8f5e8;
+    --border: #d8d0c0;
+    --border-light: #ede7d9;
+    --shadow: 0 2px 12px rgba(26,26,46,0.08);
+    --shadow-lg: 0 8px 32px rgba(26,26,46,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    background: var(--paper-warm);
+    color: var(--ink);
+    min-height: 100vh;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 3px solid var(--accent);
+  }
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo-badge {
+    background: var(--accent);
+    color: white;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+  }
+  .logo h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--paper);
+    letter-spacing: -0.01em;
+  }
+  .header-stats {
+    display: flex;
+    gap: 20px;
+    font-size: 13px;
+    color: rgba(250,248,243,0.65);
+  }
+  .header-stat strong { color: var(--paper); font-weight: 500; }
+
+  /* ─── LAYOUT ─── */
+  .layout {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 24px;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+
+  /* ─── SIDEBAR ─── */
+  .sidebar { display: flex; flex-direction: column; gap: 16px; }
+
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .card-head {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-head-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+  }
+  .icon-red { background: var(--accent-light); color: var(--accent); }
+  .icon-gold { background: var(--gold-light); color: var(--gold); }
+  .icon-teal { background: var(--teal-light); color: var(--teal); }
+  .icon-green { background: var(--green-light); color: var(--green); }
+
+  .card-head h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .card-body { padding: 16px; }
+
+  /* ─── PROMPT SELECTOR ─── */
+  .prompt-list { display: flex; flex-direction: column; gap: 8px; }
+  .prompt-btn {
+    text-align: left;
+    padding: 10px 12px;
+    border: 1px solid var(--border-light);
+    border-radius: 7px;
+    background: var(--paper-warm);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: 'Source Serif 4', serif;
+    font-size: 13px;
+    color: var(--ink-light);
+    line-height: 1.4;
+  }
+  .prompt-btn:hover { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
+  .prompt-btn.active {
+    border-color: var(--accent);
+    background: var(--accent-light);
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .prompt-tag {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-right: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .tag-complaint { background: #fde8e5; color: #c8472a; }
+  .tag-request { background: #fdf5e0; color: #b5892c; }
+  .tag-application { background: #e0f2f2; color: #1e6e6e; }
+  .tag-invitation { background: #eae8f5; color: #5347b5; }
+
+  /* ─── RUBRIC ─── */
+  .rubric-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border-light);
+    font-size: 13px;
+  }
+  .rubric-item:last-child { border-bottom: none; }
+  .rubric-name { color: var(--ink-light); }
+  .rubric-pts {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-faint);
+    background: var(--paper-warm);
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+
+  /* ─── LETTER STRUCTURE GUIDE ─── */
+  .structure-step {
+    display: flex;
+    gap: 10px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border-light);
+    font-size: 12.5px;
+    align-items: flex-start;
+  }
+  .structure-step:last-child { border-bottom: none; }
+  .step-num {
+    min-width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    margin-top: 1px;
+  }
+  .step-content { flex: 1; }
+  .step-title { font-weight: 500; color: var(--ink); line-height: 1.3; }
+  .step-example { color: var(--ink-faint); font-style: italic; font-size: 12px; margin-top: 2px; }
+
+  /* ─── MAIN EDITOR ─── */
+  .main { display: flex; flex-direction: column; gap: 16px; }
+
+  /* PROMPT DISPLAY */
+  .prompt-display {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .prompt-header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .prompt-header-left { display: flex; align-items: center; gap: 10px; }
+  .prompt-type-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+  .prompt-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--paper);
+  }
+  .prompt-timer {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--paper);
+    background: rgba(255,255,255,0.12);
+    padding: 4px 12px;
+    border-radius: 6px;
+    min-width: 76px;
+    text-align: center;
+  }
+  .prompt-timer.warn { color: #ff8c6e; }
+  .prompt-body { padding: 20px; }
+  .prompt-scenario {
+    font-size: 15px;
+    color: var(--ink-light);
+    line-height: 1.75;
+    margin-bottom: 16px;
+  }
+  .prompt-tasks {
+    background: var(--paper-warm);
+    border: 1px solid var(--border-light);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 7px 7px 0;
+    padding: 12px 16px;
+  }
+  .prompt-tasks p {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent);
+    margin-bottom: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .prompt-tasks ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .prompt-tasks li {
+    font-size: 14px;
+    color: var(--ink);
+    padding-left: 18px;
+    position: relative;
+  }
+  .prompt-tasks li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 12px;
+    top: 1px;
+  }
+
+  /* EDITOR AREA */
+  .editor-card {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .editor-toolbar {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--paper-warm);
+  }
+  .editor-hints {
+    display: flex;
+    gap: 14px;
+    font-size: 12px;
+    color: var(--ink-faint);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .editor-hints span strong {
+    color: var(--ink-light);
+    font-weight: 500;
+  }
+  .word-count-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .word-bar {
+    width: 100px;
+    height: 6px;
+    background: var(--border-light);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .word-bar-fill {
+    height: 100%;
+    background: var(--ink-faint);
+    border-radius: 3px;
+    transition: width 0.3s, background 0.3s;
+  }
+  .word-bar-fill.ok { background: var(--green); }
+  .word-bar-fill.warn { background: var(--gold); }
+  .word-bar-fill.over { background: var(--accent); }
+  #word-count-label { color: var(--ink-light); font-size: 12px; }
+
+  #letter-textarea {
+    width: 100%;
+    min-height: 380px;
+    padding: 20px 24px;
+    border: none;
+    outline: none;
+    resize: vertical;
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--ink);
+    background: var(--paper);
+    caret-color: var(--accent);
+  }
+  #letter-textarea::placeholder {
+    color: var(--ink-faint);
+    font-style: italic;
+    font-size: 14px;
+  }
+
+  .editor-footer {
+    padding: 12px 16px;
+    border-top: 1px solid var(--border-light);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--paper-warm);
+    gap: 12px;
+  }
+  .btn-group { display: flex; gap: 8px; }
+  .btn {
+    padding: 9px 18px;
+    border-radius: 7px;
+    font-family: 'Source Serif 4', serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .btn-primary:hover { background: #a83822; }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink-light);
+    border-color: var(--border);
+  }
+  .btn-secondary:hover { background: var(--paper-warm); border-color: var(--ink-faint); }
+  .btn-timer {
+    background: transparent;
+    color: var(--ink-light);
+    border-color: var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+  .btn-timer.running { color: var(--teal); border-color: var(--teal); }
+
+  /* ─── TIMER CONTROLS ─── */
+  .timer-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .timer-select {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    padding: 5px 8px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    background: var(--paper);
+    color: var(--ink-light);
+    cursor: pointer;
+  }
+
+  /* ─── LOADING STATE ─── */
+  .loading-overlay {
+    display: none;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 40px 24px;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+  .loading-overlay.show { display: block; }
+  .loading-spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid var(--border-light);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 16px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .loading-sub { font-size: 14px; color: var(--ink-faint); }
+  .loading-dots span {
+    display: inline-block;
+    animation: bounce 1.2s infinite;
+    margin: 0 1px;
+  }
+  .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce { 0%,80%,100% { opacity: 0.3; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-4px); } }
+
+  /* ─── RESULTS ─── */
+  .results-card {
+    display: none;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+  .results-card.show { display: block; }
+
+  .results-header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .results-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 600;
+  }
+  .results-header p { font-size: 13px; color: rgba(250,248,243,0.65); margin-top: 2px; }
+
+  .score-hero {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .score-circle {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    border: 3px solid rgba(255,255,255,0.2);
+  }
+  .score-circle .sc-num {
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1;
+  }
+  .score-circle .sc-label {
+    font-size: 9px;
+    opacity: 0.75;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .score-grade {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 600;
+  }
+  .score-level { font-size: 13px; opacity: 0.75; }
+
+  /* SCORE BARS */
+  .score-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .score-item {
+    padding: 16px 20px;
+    border-right: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
+  }
+  .score-item:nth-child(2n) { border-right: none; }
+  .score-item-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+  }
+  .score-item-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .score-item-pts {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .score-bar {
+    height: 5px;
+    background: var(--border-light);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 6px;
+  }
+  .score-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.8s ease;
+  }
+  .fill-green { background: var(--green); }
+  .fill-gold { background: var(--gold); }
+  .fill-red { background: var(--accent); }
+
+  .score-item-note {
+    font-size: 12px;
+    color: var(--ink-faint);
+    font-style: italic;
+    line-height: 1.4;
+  }
+
+  /* FEEDBACK SECTIONS */
+  .feedback-section {
+    padding: 0;
+  }
+  .feedback-block {
+    border-bottom: 1px solid var(--border-light);
+  }
+  .feedback-block:last-child { border-bottom: none; }
+
+  .feedback-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.1s;
+  }
+  .feedback-toggle:hover { background: var(--paper-warm); }
+  .feedback-toggle.open { background: var(--paper-warm); }
+
+  .feedback-toggle-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .feedback-toggle-title {
+    flex: 1;
+    font-family: 'Source Serif 4', serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .feedback-toggle-score {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+  .feedback-toggle-arrow {
+    font-size: 10px;
+    color: var(--ink-faint);
+    transition: transform 0.2s;
+  }
+  .feedback-toggle.open .feedback-toggle-arrow { transform: rotate(180deg); }
+
+  .feedback-content {
+    display: none;
+    padding: 0 20px 16px 60px;
+  }
+  .feedback-content.open { display: block; }
+
+  .feedback-overall {
+    font-size: 14px;
+    color: var(--ink-light);
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+
+  .error-list { display: flex; flex-direction: column; gap: 10px; }
+  .error-item {
+    background: var(--paper-warm);
+    border: 1px solid var(--border-light);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 7px 7px 0;
+    padding: 12px 14px;
+  }
+  .error-item.warning { border-left-color: var(--gold); }
+  .error-item.tip { border-left-color: var(--teal); }
+  .error-item.ok { border-left-color: var(--green); }
+
+  .error-type {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 5px;
+  }
+  .error-type.e-error { color: var(--accent); }
+  .error-type.e-warning { color: var(--gold); }
+  .error-type.e-tip { color: var(--teal); }
+  .error-type.e-ok { color: var(--green); }
+
+  .error-original {
+    font-size: 13.5px;
+    color: var(--ink-light);
+    margin-bottom: 4px;
+  }
+  .error-original del {
+    background: #fde8e5;
+    text-decoration-color: var(--accent);
+    padding: 0 2px;
+    border-radius: 2px;
+    color: var(--accent);
+  }
+  .error-fixed {
+    font-size: 13.5px;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .error-fixed mark {
+    background: var(--green-light);
+    color: var(--green);
+    padding: 0 3px;
+    border-radius: 2px;
+  }
+  .error-explain {
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  /* OVERALL COMMENT */
+  .overall-comment {
+    padding: 20px;
+    background: var(--paper-warm);
+    border-top: 1px solid var(--border-light);
+  }
+  .overall-comment h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .overall-comment p {
+    font-size: 14px;
+    color: var(--ink-light);
+    line-height: 1.75;
+    margin-bottom: 10px;
+  }
+  .overall-comment p:last-child { margin-bottom: 0; }
+
+  /* IMPROVEMENTS LIST */
+  .improvements {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .improvement-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 13.5px;
+    color: var(--ink-light);
+    line-height: 1.5;
+    padding: 8px 12px;
+    background: var(--paper);
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+  }
+  .improvement-num {
+    min-width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--teal);
+    color: white;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    margin-top: 1px;
+  }
+
+  /* VOCAB SUGGESTIONS */
+  .vocab-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .vocab-pair {
+    background: var(--paper);
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  .vocab-informal { color: var(--accent); text-decoration: line-through; font-size: 12px; }
+  .vocab-formal { color: var(--green); font-weight: 500; }
+  .vocab-arrow { color: var(--ink-faint); font-size: 11px; margin: 2px 0; }
+
+  /* FOOTER */
+  .results-actions {
+    padding: 16px 20px;
+    border-top: 1px solid var(--border-light);
+    display: flex;
+    gap: 10px;
+    background: var(--paper-warm);
+    flex-wrap: wrap;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .layout {
+      grid-template-columns: 1fr;
+      padding: 16px;
+    }
+    .sidebar { order: 2; }
+    .main { order: 1; }
+    .score-grid { grid-template-columns: 1fr; }
+    .vocab-grid { grid-template-columns: 1fr; }
+    .header-stats { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-badge">CEFR B1</span>
+      <h1>Letter Writing Practice</h1>
+    </div>
+    <div class="header-stats">
+      <span>Luyện thi <strong>Viết thư</strong></span>
+      <span>Chấm điểm <strong>AI chi tiết</strong></span>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+
+    <!-- Prompt selector -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-icon icon-red">✎</div>
+        <h3>Chọn đề bài</h3>
+      </div>
+      <div class="card-body">
+        <div class="prompt-list" id="prompt-list"></div>
+      </div>
+    </div>
+
+    <!-- Rubric -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-icon icon-gold">◎</div>
+        <h3>Thang điểm</h3>
+      </div>
+      <div class="card-body">
+        <div class="rubric-item">
+          <span class="rubric-name">Hoàn thành yêu cầu đề</span>
+          <span class="rubric-pts">25 pts</span>
+        </div>
+        <div class="rubric-item">
+          <span class="rubric-name">Từ vựng & cụm từ trang trọng</span>
+          <span class="rubric-pts">25 pts</span>
+        </div>
+        <div class="rubric-item">
+          <span class="rubric-name">Ngữ pháp & câu</span>
+          <span class="rubric-pts">25 pts</span>
+        </div>
+        <div class="rubric-item">
+          <span class="rubric-name">Cấu trúc & mạch lạc</span>
+          <span class="rubric-pts">25 pts</span>
+        </div>
+        <div style="padding-top:10px;font-size:12px;color:var(--ink-faint);font-style:italic;line-height:1.5;">
+          Yêu cầu: <strong style="color:var(--ink-light);">150–200 từ</strong>. Phạm vi 140–220 từ sẽ không bị trừ điểm. Dưới 140 hoặc trên 250 sẽ bị trừ điểm.
+        </div>
+      </div>
+    </div>
+
+    <!-- Letter structure guide -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-icon icon-teal">≡</div>
+        <h3>Cấu trúc thư trang trọng</h3>
+      </div>
+      <div class="card-body" style="padding:12px 16px;">
+        <div class="structure-step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Địa chỉ & ngày tháng</div>
+            <div class="step-example">Your address (góc phải trên)</div>
+          </div>
+        </div>
+        <div class="structure-step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Lời chào mở đầu</div>
+            <div class="step-example">Dear Sir/Madam, / Dear Mr Smith,</div>
+          </div>
+        </div>
+        <div class="structure-step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Đoạn mở — mục đích</div>
+            <div class="step-example">I am writing to… / I would like to…</div>
+          </div>
+        </div>
+        <div class="structure-step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-title">Thân thư — các điểm chính</div>
+            <div class="step-example">2–3 đoạn, mỗi đoạn 1 ý</div>
+          </div>
+        </div>
+        <div class="structure-step">
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <div class="step-title">Đoạn kết & mong đợi</div>
+            <div class="step-example">I look forward to hearing from you.</div>
+          </div>
+        </div>
+        <div class="structure-step">
+          <div class="step-num">6</div>
+          <div class="step-content">
+            <div class="step-title">Lời ký kết</div>
+            <div class="step-example">Yours faithfully, / Yours sincerely,</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ─── MAIN AREA ─── -->
+  <main class="main">
+
+    <!-- Prompt display -->
+    <div class="prompt-display">
+      <div class="prompt-header">
+        <div class="prompt-header-left">
+          <span class="prompt-type-badge" id="prompt-type-badge" style="background:rgba(200,71,42,0.35);color:#ffc9bc;">COMPLAINT</span>
+          <h2>Đề bài</h2>
+        </div>
+        <div class="prompt-timer" id="timer-display">45:00</div>
+      </div>
+      <div class="prompt-body">
+        <p class="prompt-scenario" id="prompt-scenario">Chọn đề bài từ bảng bên trái để bắt đầu.</p>
+        <div class="prompt-tasks">
+          <p>Yêu cầu bài viết</p>
+          <ul id="prompt-tasks-list">
+            <li>Nhấp vào một đề bài để hiển thị yêu cầu tại đây</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Editor -->
+    <div class="editor-card">
+      <div class="editor-toolbar">
+        <div class="editor-hints">
+          <span>Từ: <strong id="word-count">0</strong></span>
+          <span>Mục tiêu: <strong>150–200</strong></span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="word-count-bar">
+            <div class="word-bar">
+              <div class="word-bar-fill" id="word-bar-fill" style="width:0%"></div>
+            </div>
+            <span id="word-count-label" style="font-size:12px;color:var(--ink-faint);font-family:'JetBrains Mono',monospace;">0 / 150</span>
+          </div>
+        </div>
+      </div>
+      <textarea id="letter-textarea" placeholder="Bắt đầu viết thư của bạn tại đây...&#10;&#10;Hãy mở đầu bằng lời chào (Dear Sir/Madam,) và kết thúc với lời ký kết (Yours faithfully,)"></textarea>
+      <div class="editor-footer">
+        <div class="timer-controls">
+          <button class="btn btn-timer" id="timer-btn" onclick="toggleTimer()">▶ Bắt đầu hẹn giờ</button>
+          <select class="timer-select" id="timer-select" onchange="resetTimer()">
+            <option value="2700">45 phút</option>
+            <option value="1800">30 phút</option>
+            <option value="3600">60 phút</option>
+          </select>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-secondary" onclick="clearLetter()">Xóa</button>
+          <button class="btn btn-primary" id="submit-btn" onclick="submitLetter()">
+            <span>Chấm điểm AI</span> →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div class="loading-overlay" id="loading-overlay">
+      <div class="loading-spinner"></div>
+      <div class="loading-title">Đang chấm bài<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span></div>
+      <div class="loading-sub">AI đang phân tích từ vựng, ngữ pháp, cấu trúc và hoàn thành yêu cầu đề...</div>
+    </div>
+
+    <!-- Results -->
+    <div class="results-card" id="results-card">
+      <div class="results-header">
+        <div>
+          <h2>Kết quả chấm bài</h2>
+          <p id="results-subtitle">Phân tích chi tiết từng tiêu chí</p>
+        </div>
+        <div class="score-hero">
+          <div class="score-circle" id="score-circle">
+            <span class="sc-num" id="score-total-num">—</span>
+            <span class="sc-label">/ 100</span>
+          </div>
+          <div>
+            <div class="score-grade" id="score-grade">—</div>
+            <div class="score-level" id="score-level">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Score breakdown -->
+      <div class="score-grid" id="score-grid">
+        <!-- Filled by JS -->
+      </div>
+
+      <!-- Detailed feedback sections -->
+      <div class="feedback-section" id="feedback-section">
+        <!-- Filled by JS -->
+      </div>
+
+      <!-- Overall comments & improvements -->
+      <div class="overall-comment" id="overall-comment">
+        <!-- Filled by JS -->
+      </div>
+
+      <div class="results-actions">
+        <button class="btn btn-primary" onclick="submitLetter()">Chấm lại bài này</button>
+        <button class="btn btn-secondary" onclick="tryAgain()">Viết lại từ đầu</button>
+        <button class="btn btn-secondary" onclick="nextPrompt()">Đề tiếp theo →</button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// ─── DATA ───
+const PROMPTS = [
+  {
+    id: 0,
+    type: 'COMPLAINT',
+    typeColor: 'rgba(200,71,42,0.35)',
+    typeText: '#ffc9bc',
+    title: 'Khiếu nại dịch vụ khách sạn',
+    scenario: 'You recently stayed at the Grand Royal Hotel for a week during your business trip. However, you experienced several serious problems during your stay that ruined your experience.',
+    tasks: [
+      'Describe TWO specific problems you had at the hotel',
+      'Explain how these problems affected your stay',
+      'State clearly what you expect the hotel to do'
+    ],
+    context: 'A formal complaint letter to the Hotel Manager of Grand Royal Hotel'
+  },
+  {
+    id: 1,
+    type: 'REQUEST',
+    typeColor: 'rgba(181,137,44,0.35)',
+    typeText: '#ffe3a0',
+    title: 'Xin thông tin khóa học tiếng Anh',
+    scenario: 'You saw an advertisement for an English language course at the London Language Academy in a magazine. You are interested in joining the course next month.',
+    tasks: [
+      'Ask about the course schedule, duration and class sizes',
+      'Enquire about the total cost and available payment options',
+      'Request information about accommodation options near the school'
+    ],
+    context: 'A formal letter of enquiry to the Admissions Office, London Language Academy'
+  },
+  {
+    id: 2,
+    type: 'APPLICATION',
+    typeColor: 'rgba(30,110,110,0.35)',
+    typeText: '#a0e8e8',
+    title: 'Nộp đơn xin việc bán thời gian',
+    scenario: 'You have seen an advertisement for a part-time sales assistant position at a bookshop called "Pages & Ink". The shop is looking for someone who can work on weekends.',
+    tasks: [
+      'Explain why you are interested in this specific job',
+      'Describe your relevant experience and skills',
+      'State your availability and ask about the interview process'
+    ],
+    context: 'A formal job application letter to the Store Manager, Pages & Ink Bookshop'
+  },
+  {
+    id: 3,
+    type: 'COMPLAINT',
+    typeColor: 'rgba(200,71,42,0.35)',
+    typeText: '#ffc9bc',
+    title: 'Khiếu nại về sản phẩm đặt hàng',
+    scenario: 'You ordered a laptop from an online store called TechWorld three weeks ago. The laptop arrived late and when you opened the box, you discovered serious problems.',
+    tasks: [
+      'Describe the problems with the delivery and the product itself',
+      'Explain what inconvenience this has caused you',
+      'Request either a full replacement or a complete refund within 7 days'
+    ],
+    context: 'A formal complaint letter to the Customer Service Manager, TechWorld Online Store'
+  },
+  {
+    id: 4,
+    type: 'INVITATION',
+    typeColor: 'rgba(83,71,181,0.35)',
+    typeText: '#cfc9ff',
+    title: 'Mời tham gia hội thảo văn hóa',
+    scenario: 'You are organising a cultural exchange event at your school/workplace to celebrate international cultures. You want to invite a local community leader to be a guest speaker.',
+    tasks: [
+      'Explain the purpose and date of the event',
+      'Describe what you would like them to do as a guest speaker',
+      'Ask them to confirm their attendance and mention any special requirements they may have'
+    ],
+    context: 'A formal invitation letter to a respected community leader in your area'
+  },
+  {
+    id: 5,
+    type: 'REQUEST',
+    typeColor: 'rgba(181,137,44,0.35)',
+    typeText: '#ffe3a0',
+    title: 'Xin phép nghỉ đặc biệt',
+    scenario: 'You work at a company. Your grandmother\'s 80th birthday celebration is happening in another city and your whole family will be gathering for a big celebration.',
+    tasks: [
+      'Explain the reason why you need special leave',
+      'Specify the exact dates you will be absent',
+      'Reassure your manager that your work will be covered and propose a plan'
+    ],
+    context: 'A formal letter to your direct manager requesting special leave from work'
+  }
+];
+
+let currentPromptId = 0;
+let timerInterval = null;
+let timerRunning = false;
+let timeLeft = 2700;
+let totalTime = 2700;
+
+// ─── INIT ───
+function init() {
+  renderPromptList();
+  selectPrompt(0);
+  updateWordCount();
+}
+
+function renderPromptList() {
+  const list = document.getElementById('prompt-list');
+  const tagMap = { COMPLAINT: 'tag-complaint', REQUEST: 'tag-request', APPLICATION: 'tag-application', INVITATION: 'tag-invitation' };
+  list.innerHTML = PROMPTS.map((p, i) => `
+    <button class="prompt-btn ${i === 0 ? 'active' : ''}" onclick="selectPrompt(${i})">
+      <span class="prompt-tag ${tagMap[p.type]}">${p.type}</span>${p.title}
+    </button>
+  `).join('');
+}
+
+function selectPrompt(id) {
+  currentPromptId = id;
+  const p = PROMPTS[id];
+
+  // Update sidebar active state
+  document.querySelectorAll('.prompt-btn').forEach((b, i) => b.classList.toggle('active', i === id));
+
+  // Update prompt display
+  const badge = document.getElementById('prompt-type-badge');
+  badge.textContent = p.type;
+  badge.style.background = p.typeColor;
+  badge.style.color = p.typeText;
+
+  document.getElementById('prompt-scenario').textContent = p.scenario;
+  document.getElementById('prompt-tasks-list').innerHTML = p.tasks.map(t => `<li>${t}</li>`).join('');
+
+  // Reset timer
+  resetTimer();
+  // Hide results if showing
+  document.getElementById('results-card').classList.remove('show');
+  document.getElementById('loading-overlay').classList.remove('show');
+}
+
+// ─── WORD COUNT ───
+function updateWordCount() {
+  const text = document.getElementById('letter-textarea').value.trim();
+  const words = text ? text.split(/\s+/).length : 0;
+  document.getElementById('word-count').textContent = words;
+
+  const fill = document.getElementById('word-bar-fill');
+  const label = document.getElementById('word-count-label');
+  const pct = Math.min((words / 200) * 100, 120);
+
+  fill.style.width = Math.min(pct, 100) + '%';
+  label.textContent = words + ' / 150';
+
+  if (words < 120) {
+    fill.className = 'word-bar-fill';
+    label.style.color = 'var(--ink-faint)';
+  } else if (words <= 220) {
+    fill.className = 'word-bar-fill ok';
+    label.style.color = 'var(--green)';
+  } else if (words <= 260) {
+    fill.className = 'word-bar-fill warn';
+    label.style.color = 'var(--gold)';
+  } else {
+    fill.className = 'word-bar-fill over';
+    label.style.color = 'var(--accent)';
+  }
+}
+
+document.getElementById('letter-textarea').addEventListener('input', updateWordCount);
+
+// ─── TIMER ───
+function toggleTimer() {
+  if (timerRunning) {
+    pauseTimer();
+  } else {
+    startTimer();
+  }
+}
+
+function startTimer() {
+  timerRunning = true;
+  const btn = document.getElementById('timer-btn');
+  btn.textContent = '⏸ Tạm dừng';
+  btn.className = 'btn btn-timer running';
+
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    if (timeLeft <= 0) {
+      timeLeft = 0;
+      pauseTimer();
+    }
+    updateTimerDisplay();
+  }, 1000);
+}
+
+function pauseTimer() {
+  timerRunning = false;
+  clearInterval(timerInterval);
+  const btn = document.getElementById('timer-btn');
+  btn.textContent = '▶ Tiếp tục';
+  btn.className = 'btn btn-timer';
+}
+
+function resetTimer() {
+  pauseTimer();
+  totalTime = parseInt(document.getElementById('timer-select').value);
+  timeLeft = totalTime;
+  updateTimerDisplay();
+  document.getElementById('timer-btn').textContent = '▶ Bắt đầu hẹn giờ';
+}
+
+function updateTimerDisplay() {
+  const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+  const s = (timeLeft % 60).toString().padStart(2, '0');
+  const display = document.getElementById('timer-display');
+  display.textContent = m + ':' + s;
+  display.className = 'prompt-timer' + (timeLeft < 300 ? ' warn' : '');
+}
+
+// ─── SUBMIT & AI SCORING ───
+async function submitLetter() {
+  const text = document.getElementById('letter-textarea').value.trim();
+  if (!text || text.length < 50) {
+    alert('Vui lòng viết ít nhất vài câu trước khi chấm bài.');
+    return;
+  }
+
+  const prompt = PROMPTS[currentPromptId];
+
+  // Show loading
+  document.getElementById('loading-overlay').classList.add('show');
+  document.getElementById('results-card').classList.remove('show');
+  document.getElementById('submit-btn').disabled = true;
+
+  const systemPrompt = `You are an expert CEFR B1 English writing examiner who specialises in formal letter writing. You are strict but fair, and you give extremely detailed, pedagogically useful feedback in Vietnamese. You always respond ONLY with valid JSON — no markdown, no extra text outside the JSON object.`;
+
+  const userPrompt = `Please evaluate this B1 formal letter. The task prompt is:
+
+TASK: "${prompt.scenario}"
+REQUIRED POINTS: ${prompt.tasks.map((t, i) => `${i + 1}. ${t}`).join('\n')}
+CONTEXT: ${prompt.context}
+
+STUDENT'S LETTER:
+---
+${text}
+---
+
+Evaluate the letter using this rubric (each criterion out of 25, total out of 100):
+1. Task Achievement (25): Did they address ALL required points? Is the purpose clear?
+2. Vocabulary (25): Use of formal register, topic-appropriate vocabulary, avoiding informal language, variety
+3. Grammar (25): Accuracy of tenses, sentence structures, punctuation, spelling
+4. Coherence & Structure (25): Proper letter format (greeting, paragraphs, closing), logical flow, linking words
+
+Provide your evaluation as a JSON object with EXACTLY this structure:
+
+{
+  "totalScore": <0-100>,
+  "grade": "<A/B/C/D/F>",
+  "gradeLabel": "<Xuất sắc/Tốt/Đạt/Cần cải thiện/Chưa đạt>",
+  "levelDescription": "<one short line in Vietnamese describing the level>",
+  "wordCount": <actual word count of the letter>,
+  "criteria": {
+    "taskAchievement": {
+      "score": <0-25>,
+      "summary": "<2-3 sentences in Vietnamese about this criterion>",
+      "errors": [
+        {
+          "type": "error|warning|tip|ok",
+          "label": "<short label>",
+          "original": "<exact phrase from student's letter or description of the issue>",
+          "fixed": "<corrected version or N/A>",
+          "explanation": "<explanation in Vietnamese of why this is wrong/better, and the grammar/vocabulary rule>"
+        }
+      ]
+    },
+    "vocabulary": {
+      "score": <0-25>,
+      "summary": "<2-3 sentences in Vietnamese>",
+      "informalToFormal": [
+        {"informal": "<word/phrase used>", "formal": "<better alternative>"}
+      ],
+      "errors": [
+        {
+          "type": "error|warning|tip|ok",
+          "label": "<short label>",
+          "original": "<phrase from letter>",
+          "fixed": "<correction>",
+          "explanation": "<explanation in Vietnamese>"
+        }
+      ]
+    },
+    "grammar": {
+      "score": <0-25>,
+      "summary": "<2-3 sentences in Vietnamese>",
+      "errors": [
+        {
+          "type": "error|warning|tip|ok",
+          "label": "<short label>",
+          "original": "<exact wrong phrase>",
+          "fixed": "<corrected phrase>",
+          "explanation": "<explanation in Vietnamese of the grammar rule>"
+        }
+      ]
+    },
+    "coherence": {
+      "score": <0-25>,
+      "summary": "<2-3 sentences in Vietnamese>",
+      "errors": [
+        {
+          "type": "error|warning|tip|ok",
+          "label": "<short label>",
+          "original": "<issue description>",
+          "fixed": "<how to fix>",
+          "explanation": "<explanation in Vietnamese>"
+        }
+      ]
+    }
+  },
+  "overallComment": "<3-4 sentences in Vietnamese giving holistic feedback — what was good, what needs work>",
+  "topImprovements": [
+    "<specific improvement tip in Vietnamese, actionable>",
+    "<specific improvement tip in Vietnamese>",
+    "<specific improvement tip in Vietnamese>"
+  ],
+  "modelPhraseSuggestions": [
+    "<useful B1 formal phrase they could have used, with Vietnamese translation>",
+    "<another useful phrase>",
+    "<another useful phrase>"
+  ]
+}
+
+Be detailed and specific. Point to EXACT phrases from the student's letter when giving feedback. Be honest — if the letter is poor, say so with the score. Give AT LEAST 2-3 errors/tips per criterion. For 'ok' type items, highlight what the student did well.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 3000,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userPrompt }]
+      })
+    });
+
+    const data = await res.json();
+    const rawText = data.content.map(b => b.text || '').join('');
+    const clean = rawText.replace(/```json|```/g, '').trim();
+    const result = JSON.parse(clean);
+    renderResults(result);
+  } catch (e) {
+    console.error(e);
+    alert('Lỗi khi chấm bài. Vui lòng thử lại.\n\nChi tiết: ' + e.message);
+    document.getElementById('loading-overlay').classList.remove('show');
+  }
+
+  document.getElementById('submit-btn').disabled = false;
+}
+
+// ─── RENDER RESULTS ───
+function renderResults(r) {
+  document.getElementById('loading-overlay').classList.remove('show');
+  document.getElementById('results-card').classList.add('show');
+
+  // Score circle
+  const total = r.totalScore;
+  const circleEl = document.getElementById('score-circle');
+  const color = total >= 80 ? '#2d6a2d' : total >= 60 ? '#b5892c' : '#c8472a';
+  const bgColor = total >= 80 ? '#e8f5e8' : total >= 60 ? '#fdf5e0' : '#f2e8e5';
+  circleEl.style.background = bgColor;
+  circleEl.style.borderColor = color;
+  circleEl.querySelector('.sc-num').textContent = total;
+  circleEl.querySelector('.sc-num').style.color = color;
+
+  document.getElementById('score-grade').textContent = r.grade;
+  document.getElementById('score-grade').style.color = color;
+  document.getElementById('score-level').textContent = r.gradeLabel + ' — ' + (r.levelDescription || '');
+  document.getElementById('results-subtitle').textContent = `${r.wordCount || '?'} từ · Đề bài: ${PROMPTS[currentPromptId].title}`;
+
+  // Score grid
+  const criteria = [
+    { key: 'taskAchievement', name: 'Hoàn thành yêu cầu đề', icon: '✓', iconClass: 'icon-green' },
+    { key: 'vocabulary', name: 'Từ vựng & văn phong', icon: 'V', iconClass: 'icon-gold' },
+    { key: 'grammar', name: 'Ngữ pháp & chính tả', icon: 'G', iconClass: 'icon-red' },
+    { key: 'coherence', name: 'Cấu trúc & mạch lạc', icon: '≡', iconClass: 'icon-teal' }
+  ];
+
+  const grid = document.getElementById('score-grid');
+  grid.innerHTML = criteria.map(c => {
+    const s = r.criteria[c.key].score;
+    const pct = (s / 25) * 100;
+    const fillClass = s >= 20 ? 'fill-green' : s >= 13 ? 'fill-gold' : 'fill-red';
+    const scoreColor = s >= 20 ? 'var(--green)' : s >= 13 ? 'var(--gold)' : 'var(--accent)';
+    return `
+      <div class="score-item">
+        <div class="score-item-top">
+          <div class="score-item-name">${c.name}</div>
+          <div class="score-item-pts" style="color:${scoreColor}">${s}<span style="opacity:.5;font-size:10px;">/25</span></div>
+        </div>
+        <div class="score-bar"><div class="score-bar-fill ${fillClass}" style="width:${pct}%"></div></div>
+        <div class="score-item-note">${r.criteria[c.key].summary.substring(0, 70)}…</div>
+      </div>`;
+  }).join('');
+
+  // Feedback sections
+  const fSection = document.getElementById('feedback-section');
+  const iconMap = { taskAchievement: '✓', vocabulary: 'V', grammar: 'G', coherence: '≡' };
+  const iconClassMap = { taskAchievement: 'icon-green', vocabulary: 'icon-gold', grammar: 'icon-red', coherence: 'icon-teal' };
+
+  fSection.innerHTML = criteria.map((c, ci) => {
+    const crit = r.criteria[c.key];
+    const s = crit.score;
+    const scoreColor = s >= 20 ? 'var(--green)' : s >= 13 ? 'var(--gold)' : 'var(--accent)';
+    const scoreBg = s >= 20 ? 'var(--green-light)' : s >= 13 ? 'var(--gold-light)' : 'var(--accent-light)';
+
+    let errorsHTML = '';
+    if (crit.errors && crit.errors.length > 0) {
+      errorsHTML = `<div class="error-list">${crit.errors.map(e => `
+        <div class="error-item ${e.type === 'warning' ? 'warning' : e.type === 'tip' ? 'tip' : e.type === 'ok' ? 'ok' : ''}">
+          <div class="error-type e-${e.type === 'warning' ? 'warning' : e.type === 'tip' ? 'tip' : e.type === 'ok' ? 'ok' : 'error'}">${e.label}</div>
+          ${e.original && e.original !== 'N/A' ? `<div class="error-original">❌ ${e.original.length > 120 ? e.original.substring(0,120)+'…' : e.original}</div>` : ''}
+          ${e.fixed && e.fixed !== 'N/A' ? `<div class="error-fixed">✅ <mark>${e.fixed.length > 120 ? e.fixed.substring(0,120)+'…' : e.fixed}</mark></div>` : ''}
+          <div class="error-explain">${e.explanation}</div>
+        </div>`).join('')}</div>`;
+    }
+
+    // Extra vocab section
+    let vocabHTML = '';
+    if (c.key === 'vocabulary' && crit.informalToFormal && crit.informalToFormal.length > 0) {
+      vocabHTML = `
+        <p style="font-size:12px;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-faint);margin:12px 0 8px;">Thay thế từ thông thường bằng từ trang trọng hơn</p>
+        <div class="vocab-grid">${crit.informalToFormal.map(v => `
+          <div class="vocab-pair">
+            <div class="vocab-informal">${v.informal}</div>
+            <div class="vocab-arrow">↓ nên dùng</div>
+            <div class="vocab-formal">${v.formal}</div>
+          </div>`).join('')}</div>`;
+    }
+
+    return `
+      <div class="feedback-block">
+        <button class="feedback-toggle ${ci === 0 ? 'open' : ''}" onclick="toggleFeedback(this)">
+          <div class="feedback-toggle-icon ${iconClassMap[c.key]}">${iconMap[c.key]}</div>
+          <span class="feedback-toggle-title">${c.name}</span>
+          <span class="feedback-toggle-score" style="background:${scoreBg};color:${scoreColor}">${s}/25</span>
+          <span class="feedback-toggle-arrow">▼</span>
+        </button>
+        <div class="feedback-content ${ci === 0 ? 'open' : ''}">
+          <p class="feedback-overall">${crit.summary}</p>
+          ${errorsHTML}
+          ${vocabHTML}
+        </div>
+      </div>`;
+  }).join('');
+
+  // Overall comment
+  const oc = document.getElementById('overall-comment');
+  const improvementsHTML = (r.topImprovements || []).map((tip, i) => `
+    <div class="improvement-item">
+      <div class="improvement-num">${i + 1}</div>
+      <div>${tip}</div>
+    </div>`).join('');
+
+  const phrasesHTML = (r.modelPhraseSuggestions || []).map(ph => `
+    <div class="improvement-item">
+      <div class="improvement-num" style="background:var(--gold)">✦</div>
+      <div>${ph}</div>
+    </div>`).join('');
+
+  oc.innerHTML = `
+    <h4>Nhận xét tổng quan</h4>
+    <p>${r.overallComment}</p>
+    ${improvementsHTML ? `<h4 style="margin-top:16px;margin-bottom:8px;">Ưu tiên cải thiện</h4><div class="improvements">${improvementsHTML}</div>` : ''}
+    ${phrasesHTML ? `<h4 style="margin-top:16px;margin-bottom:8px;">Cụm từ B1 hữu ích gợi ý</h4><div class="improvements">${phrasesHTML}</div>` : ''}
+  `;
+
+  // Scroll to results
+  document.getElementById('results-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function toggleFeedback(btn) {
+  btn.classList.toggle('open');
+  btn.nextElementSibling.classList.toggle('open');
+}
+
+// ─── UTILITY ───
+function clearLetter() {
+  if (confirm('Xóa toàn bộ bài viết?')) {
+    document.getElementById('letter-textarea').value = '';
+    updateWordCount();
+    document.getElementById('results-card').classList.remove('show');
+  }
+}
+
+function tryAgain() {
+  document.getElementById('letter-textarea').value = '';
+  updateWordCount();
+  document.getElementById('results-card').classList.remove('show');
+  resetTimer();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nextPrompt() {
+  const next = (currentPromptId + 1) % PROMPTS.length;
+  selectPrompt(next);
+  document.getElementById('letter-textarea').value = '';
+  updateWordCount();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── START ───
+init();
+</script>
+</body>
+</html>

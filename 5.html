@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luyện Viết Thư B1</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf8f4;
+    --surface: #ffffff;
+    --surface2: #f3f0ea;
+    --border: #e0dbd0;
+    --accent: #2d6a4f;
+    --accent2: #52b788;
+    --accent-light: #d8f3dc;
+    --text: #1a1a18;
+    --text2: #5a5a52;
+    --text3: #9a9a90;
+    --red: #c0392b;
+    --red-bg: #fdf0ef;
+    --amber: #b7641a;
+    --amber-bg: #fef3e2;
+    --gold: #8a6c00;
+    --gold-bg: #fffbe6;
+    --score-a: #1e6e3e;
+    --score-b: #2d6a4f;
+    --score-c: #b7641a;
+    --score-d: #c0392b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  .header {
+    background: var(--accent);
+    color: white;
+    padding: 1.2rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+
+  .header h1 {
+    font-family: 'Lora', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+
+  .header .subtitle {
+    font-size: 0.78rem;
+    opacity: 0.75;
+    margin-top: 1px;
+  }
+
+  .header-badge {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 0.72rem;
+    font-weight: 500;
+    margin-left: auto;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  .prompt-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+
+  .prompt-header {
+    background: var(--accent);
+    color: white;
+    padding: 0.9rem 1.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .prompt-header .left {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+
+  .topic-badge {
+    background: rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .prompt-title {
+    font-size: 0.88rem;
+    font-weight: 500;
+  }
+
+  .prompt-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .nav-btn {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .nav-btn:hover { background: rgba(255,255,255,0.25); }
+
+  .prompt-counter {
+    font-size: 0.8rem;
+    opacity: 0.8;
+    min-width: 50px;
+    text-align: center;
+  }
+
+  .prompt-body {
+    padding: 1.3rem;
+  }
+
+  .prompt-excerpt {
+    background: var(--surface2);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 0.9rem 1rem;
+    margin-bottom: 1rem;
+    font-family: 'Lora', serif;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--text2);
+    line-height: 1.65;
+  }
+
+  .prompt-task {
+    font-size: 0.92rem;
+    color: var(--text);
+    line-height: 1.6;
+    font-weight: 500;
+  }
+
+  .prompt-bullets {
+    margin-top: 0.6rem;
+    padding-left: 1.2rem;
+    font-size: 0.88rem;
+    color: var(--text2);
+    line-height: 1.8;
+  }
+
+  .prompt-bullets li { margin-bottom: 2px; }
+
+  .sample-btn-wrap {
+    text-align: right;
+    margin-top: 0.9rem;
+  }
+
+  .sample-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 5px 14px;
+    font-size: 0.8rem;
+    color: var(--text2);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+  }
+
+  .sample-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .sample-box {
+    display: none;
+    margin-top: 0.9rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+    font-size: 0.83rem;
+    line-height: 1.75;
+    color: var(--text2);
+    white-space: pre-wrap;
+    font-family: 'Lora', serif;
+    max-height: 260px;
+    overflow-y: auto;
+  }
+
+  .sample-box.show { display: block; }
+
+  .writing-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+
+  .writing-header {
+    padding: 0.9rem 1.3rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .writing-title {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .word-count {
+    font-size: 0.78rem;
+    color: var(--text3);
+    background: var(--surface2);
+    border-radius: 20px;
+    padding: 3px 10px;
+  }
+
+  .word-count.ok { color: var(--score-a); background: var(--accent-light); }
+  .word-count.warn { color: var(--amber); background: var(--amber-bg); }
+
+  textarea {
+    width: 100%;
+    min-height: 280px;
+    padding: 1.2rem 1.3rem;
+    border: none;
+    outline: none;
+    resize: vertical;
+    font-family: 'Lora', serif;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--text);
+    background: var(--surface);
+    display: block;
+  }
+
+  .writing-footer {
+    padding: 0.9rem 1.3rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .hint-text {
+    font-size: 0.78rem;
+    color: var(--text3);
+  }
+
+  .score-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 0.55rem 1.4rem;
+    font-size: 0.88rem;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: background 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .score-btn:hover { background: #235a40; }
+  .score-btn:disabled { background: var(--text3); cursor: not-allowed; }
+
+  .loading-spinner {
+    display: none;
+    margin: 2rem auto;
+    text-align: center;
+    color: var(--text2);
+    font-size: 0.88rem;
+  }
+
+  .spinner-dots {
+    display: inline-flex;
+    gap: 6px;
+    margin-bottom: 0.5rem;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: bounce 0.9s infinite ease-in-out;
+  }
+
+  .dot:nth-child(2) { animation-delay: 0.15s; }
+  .dot:nth-child(3) { animation-delay: 0.3s; }
+
+  @keyframes bounce {
+    0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+    40% { transform: translateY(-8px); opacity: 1; }
+  }
+
+  .result-panel {
+    display: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    animation: slideIn 0.3s ease;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .result-header {
+    padding: 1.1rem 1.3rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .score-circle {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 3px solid;
+  }
+
+  .score-circle .grade {
+    font-size: 1.5rem;
+    font-weight: 600;
+    font-family: 'Lora', serif;
+    line-height: 1;
+  }
+
+  .score-circle .pts {
+    font-size: 0.65rem;
+    opacity: 0.75;
+    margin-top: 2px;
+  }
+
+  .grade-A { border-color: var(--score-a); color: var(--score-a); background: var(--accent-light); }
+  .grade-B { border-color: var(--score-b); color: var(--score-b); background: #e8f4ec; }
+  .grade-C { border-color: var(--amber); color: var(--amber); background: var(--amber-bg); }
+  .grade-D { border-color: var(--red); color: var(--red); background: var(--red-bg); }
+
+  .result-summary h3 {
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+  }
+
+  .result-summary p {
+    font-size: 0.83rem;
+    color: var(--text2);
+    line-height: 1.55;
+  }
+
+  .criteria-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border-top: 1px solid var(--border);
+  }
+
+  .criterion {
+    background: var(--surface);
+    padding: 1rem 1.2rem;
+  }
+
+  .criterion-name {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--text2);
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .criterion-score-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .criterion-pts {
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-family: 'Lora', serif;
+  }
+
+  .mini-bar {
+    flex: 1;
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .mini-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.5s ease;
+  }
+
+  .bar-good { background: var(--accent2); }
+  .bar-ok { background: #f0a500; }
+  .bar-low { background: var(--red); }
+
+  .criterion-note {
+    font-size: 0.78rem;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+
+  .feedback-section {
+    padding: 1.2rem 1.3rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .feedback-section h4 {
+    font-size: 0.83rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .feedback-text {
+    font-size: 0.87rem;
+    line-height: 1.7;
+    color: var(--text);
+  }
+
+  .feedback-text ul {
+    padding-left: 1.2rem;
+    margin-top: 0.5rem;
+  }
+
+  .feedback-text li { margin-bottom: 4px; }
+
+  .tag-good {
+    display: inline-block;
+    background: var(--accent-light);
+    color: var(--score-a);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 0.72rem;
+    font-weight: 500;
+    margin-right: 3px;
+  }
+
+  .tag-improve {
+    display: inline-block;
+    background: var(--amber-bg);
+    color: var(--amber);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 0.72rem;
+    font-weight: 500;
+    margin-right: 3px;
+  }
+
+  .tag-error {
+    display: inline-block;
+    background: var(--red-bg);
+    color: var(--red);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 0.72rem;
+    font-weight: 500;
+    margin-right: 3px;
+  }
+
+  .actions-row {
+    padding: 1rem 1.3rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 0.7rem;
+  }
+
+  .action-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.45rem 1rem;
+    font-size: 0.83rem;
+    color: var(--text2);
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+  }
+
+  .action-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .action-btn.primary {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .action-btn.primary:hover { background: #235a40; }
+
+  .error-box {
+    display: none;
+    background: var(--red-bg);
+    border: 1px solid #f5b7b1;
+    border-radius: 10px;
+    padding: 0.9rem 1.1rem;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    color: var(--red);
+  }
+
+  @media (max-width: 600px) {
+    .criteria-grid { grid-template-columns: 1fr; }
+    .writing-footer { flex-direction: column; align-items: stretch; }
+    .score-btn { justify-content: center; }
+    .header h1 { font-size: 1.1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>✉️ Luyện Viết Thư B1</h1>
+    <div class="subtitle">Luyện tập & chấm điểm bằng AI</div>
+  </div>
+  <div class="header-badge" id="topicCounter">29 đề</div>
+</div>
+
+<div class="container">
+
+  <div class="prompt-panel">
+    <div class="prompt-header">
+      <div class="left">
+        <span class="topic-badge" id="topicBadge">Đề 1</span>
+        <span class="prompt-title">Đề thi viết thư</span>
+      </div>
+      <div class="prompt-nav">
+        <button class="nav-btn" onclick="changePrompt(-1)">◀</button>
+        <span class="prompt-counter" id="promptCounter">1 / 29</span>
+        <button class="nav-btn" onclick="changePrompt(1)">▶</button>
+        <button class="nav-btn" onclick="randomPrompt()" title="Ngẫu nhiên">🔀</button>
+      </div>
+    </div>
+    <div class="prompt-body">
+      <div class="prompt-excerpt" id="promptExcerpt"></div>
+      <div class="prompt-task" id="promptTask"></div>
+      <ul class="prompt-bullets" id="promptBullets"></ul>
+      <div class="sample-btn-wrap">
+        <button class="sample-btn" onclick="toggleSample()">📄 Xem bài mẫu</button>
+      </div>
+      <div class="sample-box" id="sampleBox"></div>
+    </div>
+  </div>
+
+  <div class="writing-section">
+    <div class="writing-header">
+      <span class="writing-title">✍️ Bài viết của bạn</span>
+      <span class="word-count" id="wordCount">0 từ</span>
+    </div>
+    <textarea id="userText" placeholder="Bắt đầu viết thư của bạn ở đây...&#10;&#10;Dear ...," spellcheck="false"></textarea>
+    <div class="writing-footer">
+      <span class="hint-text">Tối thiểu 120 từ • Cần chào hỏi, thân bài, kết thư</span>
+      <button class="score-btn" id="scoreBtn" onclick="scoreEssay()">
+        <span>🤖</span> Chấm điểm AI
+      </button>
+    </div>
+  </div>
+
+  <div class="error-box" id="errorBox"></div>
+
+  <div class="loading-spinner" id="loadingSpinner">
+    <div class="spinner-dots">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+    <div>Đang chấm bài... vui lòng đợi</div>
+  </div>
+
+  <div class="result-panel" id="resultPanel">
+    <div class="result-header">
+      <div class="score-circle" id="scoreCircle">
+        <span class="grade" id="scoreGrade">-</span>
+        <span class="pts" id="scorePts">-</span>
+      </div>
+      <div class="result-summary">
+        <h3 id="resultHeadline">Kết quả chấm bài</h3>
+        <p id="resultSummaryText"></p>
+      </div>
+    </div>
+    <div class="criteria-grid" id="criteriaGrid"></div>
+    <div class="feedback-section">
+      <h4>💬 Nhận xét chi tiết</h4>
+      <div class="feedback-text" id="detailedFeedback"></div>
+    </div>
+    <div class="actions-row">
+      <button class="action-btn primary" onclick="resetAll()">📝 Viết lại</button>
+      <button class="action-btn" onclick="changePrompt(1)">➡️ Đề tiếp theo</button>
+      <button class="action-btn" onclick="randomPrompt()">🔀 Đề ngẫu nhiên</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const PROMPTS = [
+  {
+    id: 1,
+    excerpt: "\"I'm really excited to see you next month. I've just booked my flight.....\"",
+    task: "Bạn nhận được thư từ người bạn Anh tên Mary. Viết thư hồi đáp Mary.",
+    bullets: ["Hướng dẫn cách đến nhà từ sân bay", "Giới thiệu những địa điểm tham quan", "Gợi ý bảo tàng hoặc gallery thú vị"],
+    sample: `Dear Mary,
+
+I hope this letter finds you well. It was great to hear from you, and I'm delighted to help you with your upcoming visit. To reach my house from the airport, the most convenient option is to take a taxi or use the airport shuttle service. The journey should take approximately 30 minutes, depending on traffic.
+
+During your stay, I highly recommend visiting Ho Chi Minh Square, known for its stunning architecture and historical significance. Additionally, don't miss exploring Goong Lake, where you can enjoy leisurely walks in tranquil surroundings.
+
+For art enthusiasts, the Xo Viet Nghe Tinh Museum showcases both local and international artists. The Military Region 4 Museum also features captivating exhibits on our region's history.
+
+I hope these suggestions enhance your visit. If you have any questions, please don't hesitate to let me know.
+
+Best regards,
+Na`
+  },
+  {
+    id: 2,
+    excerpt: "\"Thanks for inviting me to come and stay with you. I'm going to take you up on it...\"",
+    task: "Bạn nhận được thư từ người bạn Anh tên Paula. Viết thư hồi đáp Paula.",
+    bullets: ["Thời điểm tốt nhất để đến thăm và giải thích lý do", "Những hoạt động có thể làm trong chuyến thăm", "Gợi ý quà mang theo (nếu muốn)"],
+    sample: `Dear Paula,
+
+I hope this letter finds you well. I was delighted to receive your letter, and it would be wonderful to have you come and stay with me!
+
+The best time to visit would be during the summer months, particularly in July or August. The weather is warm and pleasant with plenty of sunshine, ideal for outdoor activities.
+
+During your stay, we can explore the beautiful parks and gardens, go hiking in the nearby mountains, and even take a boat trip along the river. There are also cultural festivals happening in summer, which would be a fantastic opportunity to experience local traditions.
+
+As for a present, there is no need to bring anything lavish — your presence is the best gift! However, if you insist, something representative of your hometown would be greatly appreciated.
+
+Take care and see you soon!
+
+Best regards,
+Hoa`
+  },
+  {
+    id: 3,
+    excerpt: "\"I'm very happy to see your name on the friend's forever website. Do you remember me?\"",
+    task: "Bạn nhận email từ người bạn Anh tên Anna. Viết email hồi đáp Anna.",
+    bullets: ["Ôn lại những kỷ niệm chung", "Kể về cuộc sống hiện tại của bạn", "Mời Anna đến thăm/gặp mặt"],
+    sample: `Dear Anna,
+
+I hope this letter finds you well. It's been a long time since we last met 2 years ago. I'm so thrilled to get your letter!
+
+Actually, I have recently moved to Vinh city to work. Luckily, I have been appointed as a manager at ABC Financial Company after an intense interview.
+
+I really miss you and the time I spent at your house. My family has heard so much about you and they are looking forward to seeing you. If you have time to spare, why don't you enjoy a cozy dinner with my family next Sunday, June 20th?
+
+My house is at 16 Nguyen Nghiem, Xuan An town, Ha Tinh province, only 20 minutes from your hotel.
+
+Love,
+Hoa`
+  },
+  {
+    id: 4,
+    excerpt: "\"How are things getting on with you? We haven't met for a long time. Are you still living with your parents? I remember you were thinking about buying a house in the countryside.\"",
+    task: "Viết thư hồi đáp Marry.",
+    bullets: ["Cập nhật cuộc sống hiện tại", "Kể về nơi ở hiện tại", "Chia sẻ về kế hoạch mua nhà ở nông thôn"],
+    sample: `Dear Marry,
+
+I hope this letter finds you well. It has been quite a while since we last caught up, and I wanted to share some updates about my life.
+
+Lately, I've been keeping busy with work and personal development. I have taken on new projects that have challenged and inspired me.
+
+As for my current residence, I have moved to a lovely suburban area. It's a peaceful neighbourhood with green landscapes and a close-knit community.
+
+Speaking of buying a house in the countryside, it has been on my mind lately. I really like the idea of enjoying a peaceful rural life, and I have been exploring options.
+
+I would love to hear about your own experiences too. Please do share any updates!
+
+Best regards,
+Hoa`
+  },
+  {
+    id: 5,
+    excerpt: "\"How time flies! I was very busy on my last day on campus before the summer vacation. I am sorry that I didn't have time to say goodbye to you...\"",
+    task: "Bạn cùng phòng Anna gửi thư. Viết thư hồi đáp Anna.",
+    bullets: ["Kể về nơi ở hiện tại", "Kế hoạch cho kỳ nghỉ sắp tới", "Mời Anna đến thăm quê hương"],
+    sample: `Dear Anna,
+
+I hope this letter finds you well. It was great to hear from you! Allow me to update you on my current situation.
+
+I am now residing in a cozy apartment in the city centre. The location is fantastic with easy access to restaurants, markets, and public transport.
+
+For my upcoming holiday, I'm planning to return to my hometown to spend quality time with my family. We have planned various activities such as visiting local attractions and enjoying delicious home-cooked meals.
+
+Speaking of my hometown, I'd like to invite you to visit. I can show you around and share the beauty of the area with you. I'm sure you'll love the scenic landscapes!
+
+Best regards,
+Hoa`
+  },
+  {
+    id: 6,
+    excerpt: "\"I am wondering what the weather is like in your country, where I should go to visit and some interesting activities I can take part in there. Can you give me some information?\"",
+    task: "Bạn nhận email từ người bạn. Viết email hồi đáp.",
+    bullets: ["Mô tả thời tiết ở đất nước bạn", "Gợi ý địa điểm du lịch nổi tiếng", "Giới thiệu các hoạt động thú vị"],
+    sample: `Dear Mary,
+
+I am so glad to hear from you after such a long time! Today I'm writing to give you some information about visiting my country.
+
+I'm happy to know you're coming to Vietnam next month. At that time, the weather is quite cool, so it's a perfect chance to come here. There are many famous places worth visiting, such as Hanoi, Da Nang, and especially Phu Quoc Island, which is one of the most beautiful islands in my country.
+
+You can take part in many outdoor activities there. For example, you can go swimming, snorkelling, and enjoy a variety of local food.
+
+Bye for now. I look forward to hearing from you soon!
+
+Warm wishes`
+  },
+  {
+    id: 7,
+    excerpt: "\"I'm planning to visit your hometown next month and I'm really excited! Can you suggest somewhere to stay and tell me what I can do and what clothes I should bring?\"",
+    task: "Người bạn nói tiếng Anh Ann hỏi thông tin về quê bạn. Viết email hồi đáp.",
+    bullets: ["Gợi ý chỗ ở", "Các hoạt động có thể làm", "Quần áo nên mang theo"],
+    sample: `Dear Ann,
+
+I'm sorry for not writing earlier as I've been very busy. Today I'm writing to give you information about your trip to my hometown!
+
+When you arrive, I suggest you stay with my family — my parents will be very happy to welcome you. Otherwise, there are some nice hotels in the city centre.
+
+In my hometown, you can go for a walk in Ho Chi Minh Square, visit the cinema in the evening, or try lots of delicious street food. I'm sure you'll love it!
+
+As for clothes, the weather will be hot and sunny, so please bring T-shirts, shorts, and sunscreen. Don't forget your camera!
+
+Bye for now. I look forward to hearing from you soon!`
+  },
+  {
+    id: 8,
+    excerpt: "\"Your friend will visit Vietnam next year and needs somewhere to stay. You have a room for rent.\"",
+    task: "Viết thư cho Ann về phòng cho thuê của bạn.",
+    bullets: ["Thông tin về vị trí", "Mô tả phòng (màu sắc, số phòng)", "Gợi ý các hoạt động gần đó"],
+    sample: `Dear Ann,
+
+I'm so glad to know you're coming to Vietnam next year! I have a vacant room located in Cua Lo town, just 3 minutes from the beach.
+
+The room is about 20 square metres, which I think has enough space and facilities for a comfortable stay. It's painted blue and I'm sure you'll like it!
+
+As for activities nearby, there are many things you can do. You can spend time walking along the beach, watching the sunrise and sunset every day. It's truly a wonderful place to stay.
+
+Please let me know if you're interested and I'll make arrangements.
+
+Warm wishes`
+  },
+  {
+    id: 9,
+    excerpt: "\"A friend invited you to visit their country. You have never been there before and need some information.\"",
+    task: "Viết thư cho bạn trước khi đi du lịch đến đất nước của họ.",
+    bullets: ["Hỏi về quà cho gia đình họ", "Hỏi về các hoạt động và trang phục", "Hỏi về đồ ăn"],
+    sample: `Dear Ann,
+
+I'm so excited about my upcoming trip to your country! Today I'm writing to ask you for some advice before I arrive.
+
+I would like to bring a gift for you and your family from Vietnam. However, I'm not sure what would be most suitable. Could you help me with this?
+
+Also, since this is my first visit to England, I'm wondering about the weather and what clothes I should pack. And what activities are popular there? I'd love some suggestions!
+
+Finally, I'm really keen on food and would love to try as many local dishes as possible. Any recommendations would be greatly appreciated.
+
+Bye for now. Looking forward to hearing from you soon!`
+  },
+  {
+    id: 10,
+    excerpt: "\"Your friend wants to go to your country to live and work and is asking for advice.\"",
+    task: "Viết email cho bạn về việc sống và làm việc ở nước bạn.",
+    bullets: ["Làm thế nào để tìm được việc làm", "Gợi ý địa điểm để đi nghỉ", "Lời khuyên để sống hạnh phúc"],
+    sample: `Dear Ann,
+
+I'm sorry for not writing earlier! Today I'm writing to give you advice about living and working in my country.
+
+To get a job, you should have a relevant degree and be well-prepared for interviews. Being friendly and hardworking will also help you succeed in any company.
+
+For holidays, there are many famous destinations such as Ha Long Bay and Nha Trang Beach, but I especially recommend Da Nang City — I'm sure you'll love it!
+
+To live happily, you can relax by listening to music, watching movies, or going out with friends after a hard day at work.
+
+Bye for now. Looking forward to hearing from you soon!
+
+Warm wishes`
+  },
+  {
+    id: 11,
+    excerpt: "\"You have recently migrated to another country.\"",
+    task: "Viết thư cho bạn mô tả cuộc sống hiện tại sau khi chuyển đến đất nước mới.",
+    bullets: ["Khi nào bạn chuyển đến", "Tại sao bạn chọn đất nước đó", "Cuộc sống hiện tại của bạn như thế nào"],
+    sample: `Dear Ann,
+
+I am so glad to hear from you! Today I'm writing to tell you about my new life in Singapore.
+
+It was a big decision to move here, but after much consideration, I came to Singapore last June. As you know, it's one of the greenest and cleanest countries in the world.
+
+Singapore offers better job opportunities, better education, and excellent public services. The people here are also very friendly and hardworking.
+
+I never get bored because there are so many things to do every day. Actually, I feel truly happy to be living here!
+
+Bye for now. I look forward to hearing from you soon!
+
+Warm wishes`
+  },
+  {
+    id: 12,
+    excerpt: "\"You recently received a letter asking for advice about whether to go to college or get a job. You think they should get a job.\"",
+    task: "Viết thư cho bạn đưa ra lời khuyên.",
+    bullets: ["Giải thích tại sao không nên đi học đại học", "Tại sao đi làm là ý kiến hay", "Gợi ý các loại công việc phù hợp"],
+    sample: `Dear Ann,
+
+I am so glad to hear from you! Today I'm writing to share my thoughts on whether you should go to college or get a job.
+
+Honestly, I don't think you should go to college right now because it's quite costly and time-consuming. You'd spend 4–5 years waiting for a degree, and having a degree doesn't always guarantee a good job.
+
+Getting a job, on the other hand, is a great idea. It means you can earn money to support yourself while gaining valuable real-world experience.
+
+I think you'd be well-suited for working in a shop as a salesperson, or perhaps joining a small company that serves customers directly.
+
+Bye for now. I look forward to hearing from you soon!
+
+Warm wishes`
+  },
+  {
+    id: 13,
+    excerpt: "\"Glad to hear that you started college in a new city. Are you living in a flat or hostel? What is it like?\"",
+    task: "Viết thư cho bạn về việc bắt đầu học đại học ở thành phố mới.",
+    bullets: ["Kể về trường đại học và chuyên ngành", "Mô tả nơi ở", "Cảm nhận về cuộc sống mới"],
+    sample: `Dear Ann,
+
+I am so glad to hear from you! Today I'm writing to tell you that I've just started university in a new city!
+
+I'm studying Law at Vinh University, which is one of the best universities in Nghe An province. It's a wonderful chance for me to broaden my knowledge and make new friends.
+
+As for where I'm living, I'm in a flat near my campus. The room is about 20 square metres with enough space and all necessary facilities. It's painted blue, which is my favourite colour!
+
+Bye for now. I look forward to hearing from you soon!
+
+Warm wishes`
+  },
+  {
+    id: 14,
+    excerpt: "\"Your friend has a holiday soon and asked you about a holiday you enjoyed before.\"",
+    task: "Viết thư kể về kỳ nghỉ bạn thích nhất.",
+    bullets: ["Bạn đã đi đâu? Ở đâu?", "Những hoạt động bạn đã làm", "Món ăn yêu thích trong chuyến đi"],
+    sample: `Dear Ann,
+
+I'm sorry for not writing earlier! Today I'm writing to tell you about my favourite holiday.
+
+Last summer, I had a wonderful one-week vacation in Nha Trang Beach, which is one of the most beautiful beaches in Vietnam — not only gorgeous but also peaceful.
+
+I stayed at a lovely 4-star hotel by the sea. During my time there, I walked along the beach, watched the sunset every evening, and spent time with my friends at a pavement café. We also went shopping together!
+
+My favourite food was definitely the fresh seafood — it was absolutely amazing and I highly recommend trying it.
+
+Bye for now. I look forward to hearing from you soon!
+
+Love`
+  },
+  {
+    id: 15,
+    excerpt: "\"A friend studying abroad has written asking for help finding a job in your country. You've heard about a suitable job.\"",
+    task: "Viết thư cho bạn về cơ hội việc làm.",
+    bullets: ["Kể về công việc và nội dung công việc", "Tại sao công việc phù hợp với bạn ấy", "Hướng dẫn cách nộp đơn"],
+    sample: `Dear Ann,
+
+I am so glad to hear from you! Today I'm writing to share some exciting news about a job opportunity that might be perfect for you.
+
+I spoke with a friend who works at TH True Milk, a large company in Vietnam. They are looking for someone to be responsible for international marketing to promote their products in Europe.
+
+I think this job is really suitable for you because you have a degree in Marketing Management and excellent English communication skills — it's a perfect match!
+
+To apply, visit their website at thtruemilk.vn and submit an online application. If you have any questions, feel free to contact me.
+
+Bye for now! Best of luck!
+
+Warm wishes`
+  },
+  {
+    id: 16,
+    excerpt: "\"You are going to another country to study and would like to do a part-time job. You want to ask a friend for help.\"",
+    task: "Viết thư nhờ bạn giúp tìm việc làm thêm.",
+    bullets: ["Kế hoạch học tập của bạn", "Tại sao bạn muốn làm thêm", "Cách bạn bè có thể giúp tìm việc"],
+    sample: `Dear Ann,
+
+I am so glad to hear from you! Today I'm writing to ask for your help regarding a part-time job while I'm studying.
+
+I'm excited to share that I've been accepted to London University for a Masters in Marketing Management — a full-time course I hope to complete in 2 years, starting next month!
+
+As you know, life in London is quite expensive, so I'd like to earn some extra money to help cover my living costs and also gain practical work experience.
+
+Since you've been in London for 10 years and have a wide social network, I was wondering if you could help me find a part-time job as a salesperson or waitress. I'd be so grateful!
+
+Bye for now. I look forward to hearing from you soon!
+
+Warm wishes`
+  },
+  {
+    id: 17,
+    excerpt: "\"I'm going to see you next summer. This is my first visit to Vietnam. I'm wondering about the weather and clothes, and I know Vietnam is famous for tourist attractions.\"",
+    task: "Viết email cho Ann về chuyến thăm Việt Nam.",
+    bullets: ["Thời tiết và trang phục nên mang", "Các địa điểm du lịch nổi tiếng", "Đồ ăn đặc sản"],
+    sample: `Dear Ann,
+
+I'm sorry for not writing earlier — I've been very busy! Today I'm writing about your upcoming trip to Vietnam!
+
+There are many famous tourist destinations here. I suggest visiting Hanoi, Dalat City, and Hoi An — they're all beautiful places I've been to personally.
+
+When you come, you can enjoy many kinds of food such as Pho, Banh Mi, and fresh spring rolls. You absolutely must try them!
+
+As for the weather, Vietnamese summer is hot and sunny, with occasional afternoon showers. I recommend bringing T-shirts, shorts, sunscreen, and a small umbrella or raincoat. Don't forget your camera!
+
+Bye for now. I look forward to seeing you soon!
+
+Love,
+Laura`
+  },
+  {
+    id: 18,
+    excerpt: "\"Your group is coming to our city in June. You can stay at a dormitory or local family homestay. What activities do you like?\"",
+    task: "Viết email về chuyến thăm thành phố của bạn.",
+    bullets: ["Lựa chọn chỗ ở", "Hoạt động muốn tham gia", "Mua sắm và tham quan"],
+    sample: `Dear Ann,
+
+I'm sorry for not writing earlier! Today I'm writing about our trip to your city in June.
+
+We're planning to stay with a local family because it's a great chance to communicate with local people and learn more about the culture and customs of your country.
+
+During our stay, I'd love to climb a mountain with my group — could you give me some suggestions? We also want to go shopping for presents for our families and visit some famous local landmarks.
+
+I'm really looking forward to the trip and exploring your city!
+
+Bye for now. I look forward to hearing from you soon!`
+  },
+  {
+    id: 19,
+    excerpt: "\"Have you just moved to a new city? Write to tell your friend whether you like it.\"",
+    task: "Viết thư cho bạn về việc chuyển đến thành phố mới.",
+    bullets: ["Mô tả thành phố mới", "Cảm nhận của bạn về thành phố", "Mời bạn đến thăm"],
+    sample: `Dear Ann,
+
+I'm very pleased to receive your letter! Today I'm writing to tell you about my move to a new city.
+
+I have recently moved to Vinh City to work and study. It's a city in Nghe An province, located in the centre of Vietnam. Vinh is a bustling city that offers many job opportunities for the future.
+
+To be honest, Vinh is quite beautiful with many famous sights such as Ho Chi Minh Square and Central Park. The people here are very friendly and hardworking.
+
+Why don't you come and visit? I'm sure you'll love it!
+
+That's all for now. Please write back soon!`
+  },
+  {
+    id: 20,
+    excerpt: "\"You went to another city for a training course and stayed at a friend's house for a week. They were great hosts.\"",
+    task: "Viết thư cảm ơn người bạn đã tiếp đón bạn.",
+    bullets: ["Cảm ơn vì sự giúp đỡ về chỗ ở", "Bày tỏ lòng biết ơn về sự tiếp đón", "Những điều bạn đặc biệt thích"],
+    sample: `Dear Ann,
+
+How are you and your family? I hope this letter finds you well. Although it's only been a short time since I left, it already feels much longer!
+
+Thank you so much for hosting me for a week during my training course in New York. Without your help, finding suitable accommodation would have been very difficult for me.
+
+I'm also truly grateful for your warmth and hospitality — you and your family made me feel so welcome. I especially loved the delicious food your mum cooked. It was absolutely wonderful!
+
+During that week, I truly felt like part of your family, and I already miss you all very much.
+
+Take care and write back soon!`
+  },
+  {
+    id: 21,
+    excerpt: "\"You made a friend when you visited another city. This friend is coming to your city for work and will stay for a week. You want to invite them to dinner.\"",
+    task: "Viết thư mời bạn đến nhà ăn tối.",
+    bullets: ["Lời mời ăn tối", "Thời gian và địa điểm cụ thể", "Hướng dẫn đường đến nhà"],
+    sample: `Dear Ann,
+
+How are you and your family? I hope this letter finds you well. I'm so excited to hear that you're coming to my city for work next week!
+
+I'd love to invite you to have dinner at my home. My mum is a wonderful cook and I know you'd enjoy her food! Would you be free to come at 7pm next Sunday, the 20th of December?
+
+My home is about a 15-minute drive from your hotel, at 182 Le Duan Street. You can take a taxi and I'll be waiting to welcome you at the door.
+
+I really hope you can make it!
+
+Bye for now. I'm looking forward to hearing from you soon!`
+  },
+  {
+    id: 22,
+    excerpt: "\"You have recently moved to a different new house.\"",
+    task: "Viết thư cho Ann về việc chuyển đến ngôi nhà mới.",
+    bullets: ["Tại sao bạn chuyển nhà", "Mô tả ngôi nhà mới", "Lời mời bạn đến thăm"],
+    sample: `Dear Ann,
+
+It's great to receive your letter! I'm sorry I couldn't reply sooner — I've been very busy with the move.
+
+I recently moved to a new apartment because my old house was too small and didn't have enough facilities. My new home is a spacious apartment of about 120 square metres. It's painted pink and has four rooms: a living room, a bedroom, a small kitchen, and a bathroom with a lovely balcony.
+
+I'm already imagining a wonderful day when you come to visit and we have a barbecue together on the balcony! I'm sure you'll love it.
+
+Bye for now. I look forward to hearing from you soon!
+
+Your friend`
+  },
+  {
+    id: 23,
+    excerpt: "\"About my favourite pet.\"",
+    task: "Viết thư cho Jane kể về thú cưng yêu thích của bạn.",
+    bullets: ["Loài thú cưng và lý do yêu thích", "Cách chăm sóc thú cưng", "Những điều thú vị về thú cưng"],
+    sample: `Dear Jane,
+
+Thank you for your letter! I'm sorry I haven't written for so long.
+
+Today I'm writing to tell you about my favourite pet — my dog! I love many animals, but I'm especially fond of dogs because they are loyal, intelligent, and wonderful companions. I truly consider my dog a friend I can share both happy and difficult moments with.
+
+Taking care of him is rewarding but requires dedication. Every day I feed him, bathe him, and buy him food and toys from the supermarket. My favourite part is taking him for a walk every afternoon!
+
+Bye for now. I look forward to hearing from you soon!`
+  },
+  {
+    id: 24,
+    excerpt: "\"Write a letter to a friend telling them about an interesting website you found recently.\"",
+    task: "Viết thư cho Lan về một website thú vị bạn mới tìm thấy.",
+    bullets: ["Tên và nội dung website", "Tại sao website này hữu ích cho bạn ấy", "Cách sử dụng website"],
+    sample: `Dear Lan,
+
+How's it going? I hope you and your family are well! Today I'm writing to tell you about a very interesting website I found recently.
+
+While surfing the internet yesterday, I came across BBC.com and was immediately impressed. Since I know you're busy studying English for your B1 exam, I'm sure this site will be really useful for you — it has loads of videos related to English speaking skills, grammar, and writing.
+
+Using it is very simple. All you need to do is go to the website and type in any topic you want to explore. It's free and easy to navigate!
+
+I hope this is helpful for you. Hope to hear from you soon!`
+  },
+  {
+    id: 25,
+    excerpt: "\"Your English-speaking friend Mary, whom you haven't met for a long time, sent you an email.\"",
+    task: "Viết email hồi đáp Mary và kể về cuộc sống hiện tại.",
+    bullets: ["Công việc hiện tại", "Những thay đổi trong sở thích", "Hỏi thăm người bạn chung"],
+    sample: `Dear Mary,
+
+I'm so thrilled to receive your letter! I still remember the lovely time we had during our summer trip to England three years ago. I hope you and your family are doing wonderfully.
+
+As for me, I'm currently a teacher at Long Lam Secondary School in the city centre. I find this job very fulfilling — my colleagues and students are all wonderfully kind.
+
+Time has passed so quickly, and many things have changed. I don't enjoy fast food or comics anymore! Instead, I love going to the gym and hanging out with friends in my free time.
+
+I miss Pete a lot too — he was so kind and helpful during my time in England. We still keep in touch.
+
+Bye for now. I look forward to hearing from you soon!`
+  },
+  {
+    id: 26,
+    excerpt: "\"You just received a letter from your English pen friend. You passed the exam and received some money from your parents. You're wondering whether to buy a computer or save up for clothes.\"",
+    task: "Viết thư hồi đáp và đưa ra lời khuyên.",
+    bullets: ["Lời khuyên nên mua gì", "Giải thích lý do", "Những lợi ích của lựa chọn đó"],
+    sample: `Dear Mary,
+
+Lovely to hear from you! I hope you and your family are in the best of health.
+
+Congratulations on passing your exam! That's wonderful news. Regarding your dilemma, I personally think that buying a computer would be the best choice.
+
+A computer not only helps you store important data but also keeps you updated with information from around the world. You can look up anything you want and widen your knowledge significantly. There are also many excellent educational websites that would help you study even better.
+
+I understand that new clothes are appealing, but investing in educational tools is much more important for your future. So my advice is to buy a computer!
+
+Bye for now. I look forward to hearing from you soon!`
+  },
+  {
+    id: 27,
+    excerpt: "\"A friend of yours is going on holiday and has asked you to recommend a destination.\"",
+    task: "Viết thư gợi ý địa điểm nghỉ dưỡng cho bạn.",
+    bullets: ["Địa điểm bạn đã từng đến", "Chỗ ở và các hoạt động", "Mô tả đồ ăn ở đó"],
+    sample: `Dear Anna,
+
+I'm so delighted to receive your letter! I'm writing to recommend a beautiful place I visited last summer that I'm sure you'll love.
+
+Last July, I took a wonderful 3-day trip to Da Lat City with my family. We flew there, and the moment we arrived, we were charmed by the cool, pleasant weather. We stayed at a well-equipped and reasonably-priced 4-star hotel.
+
+For activities, we went sightseeing around the city, and the beauty of the Flower Garden absolutely took my breath away. We also visited Langbiang Mountain and Tuyen Lam Lake, which were stunning.
+
+The local food was incredibly delicious and mouth-watering — I highly recommend trying everything you can!
+
+Bye for now. I'm looking forward to hearing from you soon!`
+  },
+  {
+    id: 28,
+    excerpt: "\"You have accepted my invitation and are going to visit Vietnam next month!\"",
+    task: "Viết thư cho Natalie hướng dẫn cách đến nhà bạn và thông tin về thời tiết.",
+    bullets: ["Cách đi từ sân bay đến nhà bạn", "Thông tin về thời tiết", "Những gì cần chuẩn bị"],
+    sample: `Dear Natalie,
+
+I'm so glad to know you'll be visiting Vietnam next month! I'm really looking forward to having you here.
+
+Let me explain how to get to my apartment from the airport. I recommend taking Bus Number 20 as it's the most affordable option. Get off at the station next to Vinh University, and I'll be waiting there to pick you up.
+
+Regarding the weather, it will be quite hot as summer is approaching. I'd suggest packing light summer clothes, such as T-shirts and shorts. Don't forget your sunscreen and sunglasses!
+
+See you soon!`
+  },
+  {
+    id: 29,
+    excerpt: "\"A friend from abroad has written asking for help finding a job in your country. You know of a suitable position at a local company.\"",
+    task: "Viết thư cho Tom về cơ hội việc làm ở Việt Nam.",
+    bullets: ["Kể về công việc và nội dung", "Tại sao công việc phù hợp với Tom", "Hướng dẫn cách nộp đơn"],
+    sample: `Dear Tom,
+
+I received your letter two days ago and I'm so glad you want to find a job in Vietnam! I have some great news for you.
+
+Brand Company, located on the outskirts of Vinh City, currently has an opening for a full-time photographer. The role involves taking pictures of wild animals and plants for their "Into the Wild" programme.
+
+I truly believe this position is perfect for you. You're a highly skilled professional photographer with a passion for nature, and I've seen your impressive portfolio — you're an ideal candidate!
+
+To apply, visit their website at brandcompany.com.vn and complete the online application form. Feel free to contact me if you have any questions.
+
+Best of luck!
+
+Warm wishes`
+  }
+];
+
+let currentIndex = 0;
+let sampleVisible = false;
+
+function renderPrompt() {
+  const p = PROMPTS[currentIndex];
+  document.getElementById('topicBadge').textContent = `Đề ${p.id}`;
+  document.getElementById('promptCounter').textContent = `${currentIndex + 1} / ${PROMPTS.length}`;
+  document.getElementById('promptExcerpt').textContent = p.excerpt;
+  document.getElementById('promptTask').textContent = p.task;
+
+  const bulletsEl = document.getElementById('promptBullets');
+  bulletsEl.innerHTML = '';
+  if (p.bullets && p.bullets.length) {
+    p.bullets.forEach(b => {
+      const li = document.createElement('li');
+      li.textContent = b;
+      bulletsEl.appendChild(li);
+    });
+  }
+
+  document.getElementById('sampleBox').classList.remove('show');
+  document.getElementById('sampleBox').textContent = p.sample || '';
+  sampleVisible = false;
+}
+
+function changePrompt(dir) {
+  currentIndex = (currentIndex + dir + PROMPTS.length) % PROMPTS.length;
+  renderPrompt();
+  hideResult();
+}
+
+function randomPrompt() {
+  const r = Math.floor(Math.random() * PROMPTS.length);
+  currentIndex = r;
+  renderPrompt();
+  hideResult();
+}
+
+function toggleSample() {
+  sampleVisible = !sampleVisible;
+  document.getElementById('sampleBox').classList.toggle('show', sampleVisible);
+}
+
+function hideResult() {
+  document.getElementById('resultPanel').style.display = 'none';
+  document.getElementById('errorBox').style.display = 'none';
+}
+
+function resetAll() {
+  document.getElementById('userText').value = '';
+  document.getElementById('wordCount').textContent = '0 từ';
+  document.getElementById('wordCount').className = 'word-count';
+  hideResult();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.getElementById('userText').addEventListener('input', function() {
+  const text = this.value.trim();
+  const words = text ? text.split(/\s+/).length : 0;
+  const wc = document.getElementById('wordCount');
+  wc.textContent = `${words} từ`;
+  wc.className = 'word-count' + (words >= 120 ? ' ok' : words >= 80 ? ' warn' : '');
+});
+
+async function scoreEssay() {
+  const text = document.getElementById('userText').value.trim();
+  if (!text || text.length < 50) {
+    showError('Vui lòng viết ít nhất 50 ký tự trước khi chấm điểm.');
+    return;
+  }
+
+  const p = PROMPTS[currentIndex];
+  document.getElementById('scoreBtn').disabled = true;
+  document.getElementById('loadingSpinner').style.display = 'block';
+  document.getElementById('resultPanel').style.display = 'none';
+  document.getElementById('errorBox').style.display = 'none';
+
+  const prompt = `You are an expert B1 English letter writing examiner. Evaluate the following student letter written in response to a B1 exam prompt.
+
+EXAM PROMPT:
+Task: ${p.task}
+Context clue: ${p.excerpt}
+Required points: ${p.bullets.join('; ')}
+
+STUDENT'S LETTER:
+${text}
+
+Score this letter using B1 CEFR criteria. Return ONLY a JSON object (no markdown, no extra text) with this exact structure:
+{
+  "totalScore": <number 0-100>,
+  "grade": "<A/B/C/D>",
+  "headline": "<short Vietnamese encouraging headline>",
+  "summary": "<2-3 sentence Vietnamese overall assessment>",
+  "criteria": [
+    {"name": "Task Achievement", "nameVi": "Hoàn thành nhiệm vụ", "score": <0-25>, "max": 25, "feedback": "<Vietnamese feedback>"},
+    {"name": "Coherence & Cohesion", "nameVi": "Mạch lạc & Liên kết", "score": <0-25>, "max": 25, "feedback": "<Vietnamese feedback>"},
+    {"name": "Vocabulary", "nameVi": "Từ vựng", "score": <0-25>, "max": 25, "feedback": "<Vietnamese feedback>"},
+    {"name": "Grammar & Accuracy", "nameVi": "Ngữ pháp", "score": <0-25>, "max": 25, "feedback": "<Vietnamese feedback>"}
+  ],
+  "strengths": ["<Vietnamese strength 1>", "<Vietnamese strength 2>"],
+  "improvements": ["<Vietnamese improvement 1>", "<Vietnamese improvement 2>"],
+  "errors": ["<specific error example from text>"],
+  "tip": "<one specific actionable Vietnamese tip>"
+}`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    const data = await res.json();
+    const raw = data.content.map(i => i.text || '').join('');
+    const clean = raw.replace(/```json|```/g, '').trim();
+    const result = JSON.parse(clean);
+    displayResult(result);
+  } catch (err) {
+    showError('Không thể kết nối AI chấm điểm. Vui lòng thử lại sau.');
+    console.error(err);
+  } finally {
+    document.getElementById('scoreBtn').disabled = false;
+    document.getElementById('loadingSpinner').style.display = 'none';
+  }
+}
+
+function showError(msg) {
+  const e = document.getElementById('errorBox');
+  e.textContent = '⚠️ ' + msg;
+  e.style.display = 'block';
+}
+
+function displayResult(r) {
+  const gradeClass = { A: 'grade-A', B: 'grade-B', C: 'grade-C', D: 'grade-D' };
+  const circle = document.getElementById('scoreCircle');
+  circle.className = 'score-circle ' + (gradeClass[r.grade] || 'grade-C');
+  document.getElementById('scoreGrade').textContent = r.grade;
+  document.getElementById('scorePts').textContent = r.totalScore + '/100';
+  document.getElementById('resultHeadline').textContent = r.headline || 'Kết quả chấm bài';
+  document.getElementById('resultSummaryText').textContent = r.summary || '';
+
+  const grid = document.getElementById('criteriaGrid');
+  grid.innerHTML = '';
+  (r.criteria || []).forEach(c => {
+    const pct = Math.round((c.score / c.max) * 100);
+    const barClass = pct >= 70 ? 'bar-good' : pct >= 45 ? 'bar-ok' : 'bar-low';
+    const color = pct >= 70 ? '#1e6e3e' : pct >= 45 ? '#b7641a' : '#c0392b';
+    const div = document.createElement('div');
+    div.className = 'criterion';
+    div.innerHTML = `
+      <div class="criterion-name">${c.nameVi || c.name}</div>
+      <div class="criterion-score-row">
+        <span class="criterion-pts" style="color:${color}">${c.score}/${c.max}</span>
+        <div class="mini-bar"><div class="mini-bar-fill ${barClass}" style="width:${pct}%"></div></div>
+      </div>
+      <div class="criterion-note">${c.feedback || ''}</div>
+    `;
+    grid.appendChild(div);
+  });
+
+  let html = '';
+  if (r.strengths && r.strengths.length) {
+    html += `<p style="margin-bottom:0.5rem"><span class="tag-good">✓ Điểm mạnh</span></p><ul>`;
+    r.strengths.forEach(s => { html += `<li>${s}</li>`; });
+    html += `</ul>`;
+  }
+  if (r.improvements && r.improvements.length) {
+    html += `<p style="margin-top:0.9rem;margin-bottom:0.5rem"><span class="tag-improve">↑ Cần cải thiện</span></p><ul>`;
+    r.improvements.forEach(s => { html += `<li>${s}</li>`; });
+    html += `</ul>`;
+  }
+  if (r.errors && r.errors.length) {
+    html += `<p style="margin-top:0.9rem;margin-bottom:0.5rem"><span class="tag-error">✗ Lỗi cụ thể</span></p><ul>`;
+    r.errors.forEach(s => { html += `<li>${s}</li>`; });
+    html += `</ul>`;
+  }
+  if (r.tip) {
+    html += `<p style="margin-top:0.9rem;padding:0.7rem 0.9rem;background:var(--accent-light);border-radius:8px;font-size:0.85rem;color:var(--score-a)">💡 <strong>Mẹo:</strong> ${r.tip}</p>`;
+  }
+
+  document.getElementById('detailedFeedback').innerHTML = html;
+
+  const panel = document.getElementById('resultPanel');
+  panel.style.display = 'block';
+  setTimeout(() => { panel.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+}
+
+renderPrompt();
+</script>
+
+</body>
+</html>

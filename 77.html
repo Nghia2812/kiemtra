@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luyện Đọc B1 — VSTEP</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4ff;color:#1e293b;min-height:100vh}
+
+/* HEADER */
+.header{background:linear-gradient(135deg,#6366f1,#8b5cf6);padding:18px 24px;text-align:center;box-shadow:0 2px 12px rgba(99,102,241,.3)}
+.header h1{font-size:1.5rem;color:#fff;font-weight:700;letter-spacing:.5px}
+.header p{color:rgba(255,255,255,.8);font-size:.85rem;margin-top:3px}
+
+.container{max-width:940px;margin:0 auto;padding:20px 16px}
+
+/* STATS */
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.stat-card{background:#fff;border-radius:14px;padding:14px 10px;text-align:center;box-shadow:0 1px 6px rgba(0,0,0,.07)}
+.stat-card .num{font-size:1.7rem;font-weight:700;color:#6366f1}
+.stat-card .lbl{font-size:.72rem;color:#64748b;margin-top:2px;font-weight:500}
+
+/* TOOLBAR */
+.toolbar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
+.search-bar{flex:1;min-width:180px;padding:10px 14px;border-radius:10px;border:1.5px solid #e2e8f0;background:#fff;color:#1e293b;font-size:.9rem;outline:none;transition:.2s}
+.search-bar:focus{border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.12)}
+.btn-random{padding:10px 18px;border-radius:10px;border:none;background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;font-weight:700;font-size:.88rem;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:6px;transition:transform .15s,box-shadow .15s}
+.btn-random:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(239,68,68,.35)}
+.btn-random:active{transform:scale(.97)}
+
+/* EXAM GRID */
+.exam-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.exam-card{background:#fff;border:1.5px solid #e2e8f0;border-radius:14px;padding:16px;cursor:pointer;transition:all .18s}
+.exam-card:hover{border-color:#6366f1;box-shadow:0 4px 16px rgba(99,102,241,.18);transform:translateY(-2px)}
+.exam-card.done{border-color:#10b981;background:#f0fdf4}
+.exam-card .exam-num{font-size:.68rem;color:#6366f1;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.exam-card .exam-title{font-size:.88rem;color:#1e293b;margin-top:4px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.exam-card .exam-meta{display:flex;gap:8px;margin-top:10px;align-items:center}
+.badge{font-size:.68rem;padding:3px 9px;border-radius:20px;background:#ede9fe;color:#6366f1;font-weight:600}
+.badge.done{background:#d1fae5;color:#059669}
+.score-badge{font-size:.7rem;padding:3px 9px;border-radius:20px;margin-left:auto;font-weight:700}
+.score-badge.high{background:#d1fae5;color:#059669}
+.score-badge.mid{background:#fef9c3;color:#d97706}
+.score-badge.low{background:#fee2e2;color:#dc2626}
+
+/* QUIZ SCREEN */
+.quiz-screen{display:none}
+.quiz-top{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.back-btn{padding:8px 16px;border-radius:9px;border:1.5px solid #e2e8f0;background:#fff;color:#64748b;cursor:pointer;font-size:.83rem;font-weight:600;transition:.15s}
+.back-btn:hover{border-color:#6366f1;color:#6366f1}
+.quiz-title{font-size:1rem;color:#1e293b;font-weight:700;flex:1}
+
+.progress-wrap{width:100%;background:#e2e8f0;border-radius:20px;height:8px;margin-bottom:6px}
+.progress-bar{height:8px;border-radius:20px;background:linear-gradient(90deg,#6366f1,#8b5cf6);transition:width .35s}
+.q-counter{font-size:.78rem;color:#64748b;margin-bottom:14px;font-weight:500}
+
+.passage-box{background:#fff;border:1.5px solid #e2e8f0;border-radius:14px;padding:18px;margin-bottom:16px;max-height:260px;overflow-y:auto;font-size:.87rem;line-height:1.85;color:#334155}
+.passage-box::-webkit-scrollbar{width:5px}
+.passage-box::-webkit-scrollbar-track{background:#f1f5f9}
+.passage-box::-webkit-scrollbar-thumb{background:#c7d2fe;border-radius:4px}
+.passage-toggle{font-size:.78rem;color:#6366f1;cursor:pointer;margin-bottom:8px;display:inline-flex;align-items:center;gap:4px;font-weight:600;padding:4px 10px;background:#ede9fe;border-radius:8px;transition:.15s}
+.passage-toggle:hover{background:#ddd6fe}
+
+.question-card{background:#fff;border:1.5px solid #e2e8f0;border-radius:16px;padding:20px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.q-text{font-size:.95rem;color:#1e293b;font-weight:600;margin-bottom:16px;line-height:1.65}
+.options{display:flex;flex-direction:column;gap:9px}
+
+.opt-btn{padding:12px 16px;border-radius:11px;border:1.5px solid #e2e8f0;background:#f8fafc;color:#334155;text-align:left;cursor:pointer;font-size:.88rem;line-height:1.5;transition:all .15s;display:flex;gap:10px;align-items:flex-start}
+.opt-btn:hover:not(:disabled){border-color:#6366f1;background:#ede9fe;color:#3730a3}
+.opt-btn .opt-label{font-weight:700;min-width:22px;color:#6366f1;flex-shrink:0}
+
+.opt-btn.correct{border-color:#10b981;background:#d1fae5;color:#065f46;font-weight:600}
+.opt-btn.correct .opt-label{color:#059669}
+.opt-btn.wrong{border-color:#ef4444;background:#fee2e2;color:#7f1d1d;font-weight:600}
+.opt-btn.wrong .opt-label{color:#dc2626}
+.opt-btn.reveal{border-color:#10b981;background:#d1fae5;color:#065f46}
+.opt-btn.reveal .opt-label{color:#059669}
+.opt-btn:disabled{cursor:default}
+
+.result-row{display:flex;align-items:center;gap:10px;margin-top:14px;padding:10px 14px;border-radius:10px;font-size:.87rem;font-weight:600}
+.result-row.ok{background:#d1fae5;color:#065f46}
+.result-row.err{background:#fee2e2;color:#7f1d1d}
+.result-icon{font-size:1.1rem}
+
+.nav-btns{display:flex;gap:10px;margin-top:18px;justify-content:space-between;flex-wrap:wrap}
+.btn-primary{padding:12px 28px;border-radius:11px;border:none;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;cursor:pointer;font-size:.92rem;font-weight:700;transition:all .15s;box-shadow:0 2px 8px rgba(99,102,241,.3)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(99,102,241,.4)}
+.btn-secondary{padding:12px 22px;border-radius:11px;border:1.5px solid #e2e8f0;background:#fff;color:#64748b;cursor:pointer;font-size:.88rem;font-weight:600;transition:.15s}
+.btn-secondary:hover{border-color:#6366f1;color:#6366f1}
+
+/* RESULT SCREEN */
+.result-screen{display:none;text-align:center;padding:40px 20px}
+.result-circle{width:150px;height:150px;border-radius:50%;margin:0 auto 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:5px solid #6366f1;background:#fff;box-shadow:0 4px 20px rgba(99,102,241,.2)}
+.result-circle .big-num{font-size:2.6rem;font-weight:800;color:#6366f1}
+.result-circle .small-txt{font-size:.72rem;color:#64748b;font-weight:500}
+.result-msg{font-size:1.3rem;font-weight:700;margin-bottom:6px;color:#1e293b}
+.result-sub{font-size:.88rem;color:#64748b;margin-bottom:28px}
+.result-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+
+/* RANDOM SPINNER OVERLAY */
+.spinner-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.6);z-index:999;align-items:center;justify-content:center;backdrop-filter:blur(2px)}
+.spinner-overlay.show{display:flex}
+.spinner-box{background:#fff;border-radius:20px;padding:36px 40px;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,.2)}
+.spin-num{font-size:3.5rem;font-weight:800;color:#6366f1;min-width:80px;display:inline-block;transition:color .1s}
+.spin-label{font-size:.9rem;color:#64748b;margin-top:8px;font-weight:500}
+.spin-title{font-size:.85rem;color:#334155;margin-top:6px;max-width:240px;font-style:italic}
+
+@media(max-width:600px){
+  .stats-bar{grid-template-columns:repeat(2,1fr)}
+  .exam-grid{grid-template-columns:1fr}
+  .header h1{font-size:1.2rem}
+  .btn-primary{padding:11px 20px}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📖 Luyện Kỹ Năng Đọc B1</h1>
+  <p>VSTEP Reading Practice — Chọn đề hoặc quay ngẫu nhiên để bắt đầu</p>
+</div>
+
+<div class="container">
+
+<!-- HOME -->
+<div id="homeScreen">
+  <div class="stats-bar">
+    <div class="stat-card"><div class="num" id="totalExams">0</div><div class="lbl">Đề thi</div></div>
+    <div class="stat-card"><div class="num" id="totalQs">0</div><div class="lbl">Câu hỏi</div></div>
+    <div class="stat-card"><div class="num" id="doneExams">0</div><div class="lbl">Đã làm</div></div>
+    <div class="stat-card"><div class="num" id="avgScore">—</div><div class="lbl">Điểm TB</div></div>
+  </div>
+  <div class="toolbar">
+    <input class="search-bar" type="text" placeholder="🔍  Tìm đề thi theo tên hoặc số..." id="searchInput" oninput="filterExams()">
+    <button class="btn-random" onclick="startRandom()">🎲 Quay ngẫu nhiên</button>
+  </div>
+  <div class="exam-grid" id="examGrid"></div>
+</div>
+
+<!-- QUIZ -->
+<div class="quiz-screen" id="quizScreen">
+  <div class="quiz-top">
+    <button class="back-btn" onclick="goHome()">← Trang chủ</button>
+    <div class="quiz-title" id="quizTitleBar"></div>
+  </div>
+  <div class="progress-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+  <div class="q-counter" id="qCounter"></div>
+  <div id="passageArea"></div>
+  <div id="questionArea"></div>
+  <div class="nav-btns">
+    <button class="btn-secondary" id="prevBtn" onclick="prevQ()">← Câu trước</button>
+    <button class="btn-primary" id="nextBtn" onclick="nextQ()">Câu tiếp →</button>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div class="result-screen" id="resultScreen">
+  <div class="result-circle">
+    <div class="big-num" id="resScore">0</div>
+    <div class="small-txt" id="resTotal"></div>
+  </div>
+  <div class="result-msg" id="resMsg"></div>
+  <div class="result-sub" id="resSub"></div>
+  <div class="result-actions">
+    <button class="btn-secondary" onclick="goHome()">← Trang chủ</button>
+    <button class="btn-primary" onclick="retryExam()">🔄 Làm lại</button>
+    <button class="btn-secondary" onclick="reviewExam()">📋 Xem đáp án</button>
+  </div>
+</div>
+
+</div>
+
+<!-- RANDOM SPINNER -->
+<div class="spinner-overlay" id="spinnerOverlay">
+  <div class="spinner-box">
+    <div style="font-size:.85rem;color:#64748b;margin-bottom:12px;font-weight:600">🎲 QUAY NGẪU NHIÊN</div>
+    <div class="spin-num" id="spinNum">—</div>
+    <div class="spin-label">Đề đang chọn...</div>
+    <div class="spin-title" id="spinTitle"></div>
+  </div>
+</div>
+
+<script>
+const EXAMS = [
+{
+  id:1, title:"Brendan's best friend is Tip",
+  passage:`Brendan's best friend is Tip. Tip and Brendan are inseparable. They teach each other things and they look after each other. Tip has helped Brendan become more responsible, more caring, and a better friend. Brendan is a nine-year-old boy, and Tip is a ten-year-old dog.\n\nHaving a dog helps a child learn how to act responsibly. As a dog owner, the child must take care of the animal's daily needs. The dog must be fed and exercised every day. A dog is completely dependent on its owner for all its needs. Therefore, being responsible for a dog also means taking care of the dog so that it stays healthy.\n\nAnother lesson that a child can learn from having a dog is how to be empathetic. A dog cannot express itself with speech, so its owner must learn how to interpret its behaviour. The child must learn to understand what the dog's behaviour means. Understanding a situation from the dog's perspective helps the child understand why the dog is behaving in a certain way.\n\nOne of the most significant benefits of owning a dog is the example of true friendship that a dog provides. A dog gives unconditional love to its owner. A dog will not stop loving its owner because of a little anger, indifference, or neglect.`,
+  questions:[
+    {q:"The word 'its' in paragraph 2 refer to:",opts:["A horse","A rabbit","A pig","A dog"],ans:3},
+    {q:"What does the author say about empathy?",opts:["It eventually makes children more competitive","It eventually makes children more considerate and caring","It leads children to become more independent","It encourages children to be more reserved"],ans:1},
+    {q:"All of the following is true of learning to take care of a dog EXCEPT:",opts:["It teaches children about independence","It is a simple task for children","It is a minor role in children's development","It is an important responsibility in children's life"],ans:3},
+    {q:"What does the author say about the dog's behaviour?",opts:["They express the dog's mind","They show the dog's training","They indicate the dog's breed","They reflect the dog's health"],ans:0},
+    {q:"In which paragraph does the author mention dogs owners responsibilities to their dog?",opts:["Paragraph 3","Paragraph 2","Paragraph 4","Paragraph 1"],ans:1},
+    {q:"What can we say about Tip and Brendan?",opts:["Tip is five years old","Tip is a newborn","Tip is three years old","Tip is older than Brendan"],ans:3},
+    {q:"What is main idea of paragraph 3?",opts:["How dogs enhance children's intelligence","How dogs teach children about discipline","How dogs improve children's physical health","How dogs teach children about empathy"],ans:3},
+    {q:"What is best title for the passage?",opts:["Responsibilities of dog ownership for children","Positive effects on children of owning a dog","Challenges of owning a dog for children","Negative effects on children of owning a dog"],ans:1},
+  ]
+},
+{
+  id:2, title:"There's one thing we can all agree on getting on",
+  passage:`New Zealand's South Island is the best place for road trips. You can see sea creatures along the Kaikoura Coast, explore the Abel Tasman National Park for beaches, visit Waipara Valley famous for its vineyards and local wines, and enjoy winter sports in the mountains.`,
+  questions:[
+    {q:"You may have chance to see sea creatures in:",opts:["Kaikoura coast","Waipara valley","Christchurch city","Wellington harbour"],ans:0},
+    {q:"Which place would probably give you the best time at the beach?",opts:["Kaikoura Coast","Abel Tasman","Waipara Valley","Christchurch"],ans:1},
+    {q:"Rebound =",opts:["recovery","prevention","recession","honeymoon"],ans:0},
+    {q:"Majestic =",opts:["harmonious","dilapidated","uncommon","magnificent"],ans:3},
+    {q:"In which paragraph does the author mention the place where people can play winter sports?",opts:["para 1","para 3","para 4","para 5"],ans:1},
+    {q:"What activities can tourists do at Pegasus bay winery?",opts:["See sea creatures","Enjoy beaches","They can taste wine","Road trips"],ans:2},
+    {q:"All of the following is true, EXCEPT:",opts:["It is the best place for road trips","Waipara valley produces one of the best bottles in the world","Waipara valley is famous for its vineyards","Waipara valley is renowned for its local wines"],ans:1},
+    {q:"What does the author say about New Zealand's south island?",opts:["It is the center of economy","It is known for urban life","It is the most populated area","It is the best place for road trips"],ans:3},
+    {q:"Main Idea:",opts:["Best place in New Zealand's South Island","Most affordable destination in New Zealand","Busiest tourist spot in New Zealand","Quietest region in New Zealand's South Island"],ans:0},
+  ]
+},
+{
+  id:3, title:"Flood is a term used to...",
+  passage:`Flood is a term used to denote an enormous amount of water. When there is an outflow of water in a place, it is said to be flooded. Floods lead to an overfull and huge spread of water and bring diseases such as typhoid, cholera. Flood may be caused by massive rainfall, overflowing rivers, collapsed dams, snowmelt, deforestation, climate change, and emission of greenhouse gases. A flood can be caused both due to natural causes as well as it can be a human-made flood. Flood causes a huge loss of life and property. Waterborne diseases spread as a result of floods causing health problems.`,
+  questions:[
+    {q:"How does melting snow cause flooding?",opts:["It decreases the flow of river","It makes the level of the river rise","It lowers the temperature of the river","It changes the course of the river"],ans:1},
+    {q:"'they' para 1 = ?",opts:["Volcanoes","Tornadoes","Glaciers","Floods"],ans:3},
+    {q:"Which statement is true?",opts:["Flooding can be caused by both nature and human activity","Flooding is entirely prevented by modern technology","Flooding is solely a natural phenomenon","Flooding is only caused by human activities"],ans:0},
+    {q:"'widespread' para 1 = ?",opts:["Exact","Overall","Relative","Partial"],ans:1},
+    {q:"According to the passage, flows of unleashed dam waters can:",opts:["Destroy everything on their ways","Create new habitats for wildlife","Enhance the surrounding environment","Improve water quality downstream"],ans:0},
+    {q:"Which of the following would be the best title for the passage?",opts:["Causes of floods","Effects of floods","Types of floods","Prevention of floods"],ans:0},
+    {q:"All of the following are natural disasters EXCEPT?",opts:["Floods","Tsunami","Earthquake","Airplane crash"],ans:3},
+  ]
+},
+{
+  id:4, title:"Baseball is sometimes called...",
+  passage:`Baseball is sometimes called a national pastime in America. It has been played for many years in countries of South America and is very popular in Japan. Since baseball is an Olympic sport, more and more countries are putting together teams and joining the game.\n\nModern baseball began about 150 years ago in New York, USA. Baseball is played with a bat about 100 cm long made of metal or wood, and a small hard ball. Each player also wears one heavy leather glove.\n\nBaseball is played on a special outdoor field with an infield and outfield. In the infield is an area shaped like a diamond with three bases. The game of baseball is divided into nine innings. The team that scores the most runs by the end of the ninth inning wins.`,
+  questions:[
+    {q:"The writer says that baseball:",opts:["It is played only in America","It is not popular in Japan","It started in South America","It is becoming more popular all over the world"],ans:3},
+    {q:"According to the text, baseball is played in more and more countries because:",opts:["It is an exciting game","It is included in the Olympic Games","Many American people live there","It is easy to play"],ans:1},
+    {q:"Which sentence isn't true about baseball?",opts:["It was first played during the 1850s","It is an Olympic sport","The rules have changed quite a lot over the years","It started in New York"],ans:2},
+    {q:"Which piece of equipment is not mentioned in the text?",opts:["Bat","Ball","Glove","Mask"],ans:3},
+    {q:"What is the baseball field like?",opts:["It has an infield, outfield, and middle field","There are three diamonds on the ground","There are three bases on the diamond","It is usually in an indoor stadium"],ans:2},
+    {q:"The game is divided into:",opts:["Two halves","Nine innings","Three bases","An infield and outfield"],ans:1},
+    {q:"The object of the game is to:",opts:["Catch as many balls as you can","Hit the ball the farthest","Score the most runs","Bat as often as you can"],ans:2},
+    {q:"What is true about a baseball match?",opts:["It's slow","It often takes place on hot summer days","Spectators cannot bring food","The speed of the match may change suddenly"],ans:3},
+    {q:"According to the text, most American people have:",opts:["Childhood memory at a ballpark","Baseball gear","Experience of a baseball inning","All of them"],ans:0},
+  ]
+},
+{
+  id:5, title:"Brenda Ann Spencer",
+  passage:`Brenda Ann Spencer grew up opposite the Cleveland Elementary School in a broken, disadvantaged family. Her father drank quite a lot of alcohol. Doctors had suggested that Brenda should be hospitalized, but instead her father gave her a gun as a Christmas present. She shot at students and school employees. When asked why she did it, she said: "I don't like Mondays." Two people were killed.`,
+  questions:[
+    {q:"Main idea of the passage:",opts:["A story about a school shooting and the reasons behind","The shooting accident","Opposite the Cleveland Elementary School","The suggestion that Brenda should be hospitalized"],ans:0},
+    {q:"Where did Brenda Ann Spencer live?",opts:["Near the Cleveland High School","Opposite the Cleveland Elementary School","Across from the Cleveland Library","Beside the Cleveland Community Center"],ans:1},
+    {q:"Which statement describes Brenda's background?",opts:["She grew up in a broken disadvantaged family","She came from a highly educated family","She was raised in a stable supportive family","She grew up in a wealthy privileged family"],ans:0},
+    {q:"What did Brenda's father do when doctors suggested she be hospitalized?",opts:["He enrolled her in sports","He took her on vacation","He gave her a gun as a present for Christmas","He bought her a bicycle"],ans:2},
+    {q:"How many people were killed by Brenda?",opts:["2","3","4","5"],ans:0},
+    {q:"Introverted =",opts:["Outspoken","Neutral","Reserved","Aggressive"],ans:2},
+    {q:"According to Spencer, why did she shoot the students?",opts:["She grew up in a broken family","Her father gave her a gun","She detested Mondays","Her father drank alcohol"],ans:2},
+    {q:"It can be inferred from paragraph 2 that:",opts:["Brenda's father was a teetotaler","Brenda's father avoided alcohol","Brenda's father preferred coffee","Brenda's father drank quite a lot of alcohol"],ans:3},
+  ]
+},
+{
+  id:7, title:"A pancake is a flat cake",
+  passage:`A pancake is a flat cake, often thin and round, prepared from a starch-based batter that may contain eggs, milk and butter and cooked on a hot surface. Archaeological evidence suggests that pancakes were probably eaten in prehistoric societies.\n\nIn the United Kingdom, pancakes are often unleavened and resemble a crêpe. In North America, a leavening agent is used creating a thick fluffy pancake. The Ancient Greeks made pancakes called tagenias, made with wheat flour, olive oil, honey, and curdled milk, served for breakfast.`,
+  questions:[
+    {q:"What is the main ingredient that gives pancakes their structure?",opts:["Starch-based batter","Lemon","Chocolate","Honey"],ans:0},
+    {q:"Pancake day relates to:",opts:["Crimes","Pancake","Pancake Bell","Lent"],ans:3},
+    {q:"In which paragraph does the author describe pancake varieties?",opts:["Paragraph 1","Paragraph 2","Paragraph 3","Paragraph 4"],ans:1},
+    {q:"What type of pancake does North America use a leavening agent for?",opts:["Thin crêpe","Thick fluffy","Chocolate","Savoury"],ans:1},
+  ]
+},
+{
+  id:8, title:"Many people enjoy a cup of coffee",
+  passage:`Coffee trees are native to eastern Africa and areas of the Arabian Peninsula. Coffee was first grown and traded in the 15th century. Most coffee came from Yemen. By the 17th century coffee had been introduced to Europe. The Dutch brought coffee to Indonesia. By the 20th century, most of the world's production came from Central and South America. Today, Brazil is the largest producer of coffee in the world.\n\nThe two most important kinds of coffee plants are arabica and robusta. Arabica makes up around 70% of the world's production. Robusta has more caffeine than arabica and is grown in Central and Western Africa. Robusta is less costly to grow because it is more resistant to diseases.`,
+  questions:[
+    {q:"In which paragraph does the author mention the height of the coffee plant?",opts:["Para 2","Para 3","Para 4","Para 5"],ans:1},
+    {q:"What is the main idea of paragraph 4?",opts:["All types produce similar coffee","A comparison between some main type of coffee plants","Expensive to grow disease-prone plants","The story of coffee"],ans:1},
+    {q:"The word 'traders' in para 2 closest to:",opts:["Buyers","Dealers","Farmers","Growers"],ans:1},
+    {q:"The word 'it' in para 1 refers to:",opts:["Coffee","The story","Brazil","Dealers"],ans:0},
+    {q:"It can be inferred from para 4 that:",opts:["Arabian Peninsula","It is expensive to grow coffee plants easy to be attacked by diseases","Same type produces similar taste","A comparison between types"],ans:1},
+    {q:"Where do coffee trees originally come from?",opts:["Brazil","Arabian Peninsula","Indonesia","Europe"],ans:1},
+    {q:"Which country makes the most coffee in the world?",opts:["Colombia","Vietnam","Ethiopia","Brazil"],ans:3},
+    {q:"Which part of the coffee plant is used for the production of coffee drink?",opts:["The coffee bean","The leaf","The root","The flower"],ans:0},
+    {q:"What would be the best title?",opts:["The story of coffee","Arabian Peninsula","Types of coffee plants","The coffee bean"],ans:0},
+    {q:"All of the following is TRUE, EXCEPT:",opts:["Coffee trees of the same type produce coffee similar in taste and smell","Types differ in caffeine content","Robusta is more disease resistant","Different origins affect taste"],ans:0},
+  ]
+},
+{
+  id:11, title:"Many people would like to learn a musical instrument",
+  passage:`Many people would like to learn how to play a musical instrument, but they are put off by one big problem: what to play?\n\nThink about your long-term future as a musician. If you want to play with other people, what sort of instrument would be most practical? The initial attraction of playing a dazzling solo instrument like trumpet, violin, flute or lead guitar might fade when you realise how many others compete with the same instrument!\n\nMany people live in flats and practising the drums, for example, will drive neighbours crazy. Electric versions of instruments give you the option of playing into the night using headphones.\n\nThis is quite a big factor. Many instruments can be purchased in different price ranges. Talk to people who already play instruments and find an experienced music teacher.`,
+  questions:[
+    {q:"... can be a drawback if you want to play with others:",opts:["If you play saxophone","Playing a popular solo instrument","It can be inferred that the author...","In para 4, electric instruments..."],ans:1},
+    {q:"Which instrument cannot easily be purchased cheaply? (EXCEPT)",opts:["Bought","Saxophone","Piano","May cost little or large amount"],ans:2},
+    {q:"It can be inferred from the text that the author:",opts:["Are a good idea to avoid disturbing people","Is giving advice on choosing musical instruments","Choosing a musical instrument is a big decision","Can be a drawback if you want to play with others"],ans:1},
+    {q:"The word 'It' in para 2 refers to:",opts:["Bought","Electric instrument","Piano","Saxophone"],ans:3},
+    {q:"If you play saxophone:",opts:["In para 4, electric instruments...","Playing a popular solo instrument...","You are less likely to play classical music","An experienced music teacher can..."],ans:2},
+    {q:"'Purchased' is closest to:",opts:["Bought","Sold","Given","Returned"],ans:0},
+    {q:"The best title is:",opts:["Can be drawback for playing with others","Choosing a musical instrument is a big decision","Are a good idea to avoid disturbing people","Is giving advice on choosing instruments"],ans:1},
+    {q:"In para 4, electric instruments:",opts:["Are a good idea to avoid disturbing other people","Is giving advice on choosing instruments","Can be a drawback","Help you make a right decision"],ans:0},
+    {q:"An experienced music teacher can:",opts:["Playing a popular solo instrument...","In para 4, electric instruments...","If you play saxophone...","Help you make a right decision"],ans:3},
+  ]
+},
+{
+  id:12, title:"The Olympic Games — The Decathlon",
+  passage:`The Olympic Games have changed a lot since their origins in Ancient Greece. Today, athletes from countries all over the world take part. In the ancient Games, a great champion might have received as much as a year's pay for winning a race.\n\nIn the ancient Olympics, athletes competed in the pentathlon, which consisted of the long jump, the discus, the javelin, a running race and wrestling. The Stockholm Olympics of 1912 brought back this tradition. The modern decathlon (ten events) was included, with the heptathlon (seven events) for women introduced later.\n\nAmerican decathlete Bruce Thorpe says: "The way it works is you complete each event and get points. At the end of two days, the person with the most points is champion and takes the gold medal."`,
+  questions:[
+    {q:"What is the best title for this article?",opts:["Jump high","Get a trainer","The decathlon","Paragraph 3"],ans:2},
+    {q:"To win a gold medal in the decathlon, you need to:",opts:["Get a trainer to guide you","Reintroduce the winner of all rounds","Score more points than all other competitors","Can become rich by taking part"],ans:2},
+    {q:"The heptathlon for women:",opts:["Can become rich by taking part","Became an Olympic event after 1912","Was the first champion of the ancient Olympic","Get a trainer to guide you"],ans:1},
+    {q:"The pentathlon does NOT test athletes' ability to:",opts:["Get a trainer to guide you","Jump high","The decathlon","Paragraph 3"],ans:1},
+    {q:"The purpose of paragraph 5 is to:",opts:["Can become rich by taking part","Score more points","Present the different events of the decathlon","Reintroduce the search for all-round winner"],ans:2},
+    {q:"The Stockholm Olympics of 1912:",opts:["The decathlon","Jump high","Paragraph 3","Get a trainer to guide you"],ans:2},
+    {q:"Lampis of Sparta:",opts:["Was the first champion of the ancient Olympic","Became an Olympic event after 1912","Score more points","Can become rich"],ans:0},
+    {q:"Bruce Thorpe's tip for aspiring decathletes:",opts:["Can become rich by taking part","The decathlon","Get a trainer to guide you","Reintroduce the search for all-round winner"],ans:2},
+    {q:"How did the Stockholm Olympics of 1912 contribute to the Olympics?",opts:["It reintroduced the search for the winner of all rounds","Score more points","Get a trainer","Can become rich"],ans:0},
+    {q:"Athletes in the ancient Games:",opts:["Reintroduce search for all-round winner","Present different events","They can become rich by taking part in the Olympic","Score more points"],ans:2},
+  ]
+},
+{
+  id:13, title:"All mammals feed their young",
+  passage:`All mammals feed their young. Beluga whale mothers nurse their calves for some twenty months. The behavior of feeding of the young is built into the reproductive system. It is a nonselective part of parental care and the defining feature of a mammal.\n\nBut not all animal parents feed their young. Most egg-guarding fish do not for the simple reason that their young are so much smaller than the parents. In reptiles, the crocodile mother protects her young after they have hatched and takes them down to the water, but she does not actually feed them.\n\nFor animals other than mammals, feeding is not intrinsic to parental care. The most vulnerable moment in any animal's life is when it first finds itself completely on its own. Feeding postpones that moment until a young animal has grown to such a size that it is better able to cope.`,
+  questions:[
+    {q:"What does the passage mainly discuss?",opts:["The care that various animals give to their offspring","The difficulties young animals face","The methods mammals use to nurse","The importance of becoming independent"],ans:0},
+    {q:"The author lists various animals in the first paragraph to:",opts:["Contrast the feeding habits of different mammals","Describe the process by which mammals came to be defined","Emphasize that every type of mammal feeds its own young","Explain why a feature of mammals is nonselective"],ans:2},
+    {q:"The word 'tend' in paragraph 2 is closest in meaning to:",opts:["Sit on","Move","Notice","Care for"],ans:3},
+    {q:"The word 'provisioning' in paragraph 2 is closest in meaning to:",opts:["Supplying","Preparing","Building","Expanding"],ans:0},
+    {q:"According to the passage, how do some insects make sure their young have food?",opts:["By storing food near their young","By locating nests near spiders","By searching far from their nest","By gathering food from water"],ans:0},
+    {q:"The word 'edge' in the third paragraph is closest in meaning to:",opts:["Opportunity","Advantage","Purpose","Rest"],ans:1},
+    {q:"The word 'it' in the third paragraph refers to:",opts:["Feeding","Moment","Young animal","Size"],ans:2},
+    {q:"The word 'shielded' in the last paragraph is closest in meaning to:",opts:["Raised","Protected","Hatched","Valued"],ans:1},
+  ]
+},
+{
+  id:15, title:"During the seventeenth and eighteenth centuries",
+  passage:`During the seventeenth and eighteenth centuries, almost nothing was written about the contribution of women during the colonial period. Lacking the right to vote and absent from the seats of power, women were not considered an important force in history. Anne Bradstreet wrote significant poetry, Mercy Otis Warren produced a history of the American Revolution, and Abigail Adams penned important letters. But little or no notice was taken.\n\nThroughout the nineteenth century, this lack of visibility continued. Writers were amateur historians whose writings were celebratory in nature and uncritical in their selection and use of sources.\n\nDespite gathering more information about ordinary women, most writing conformed to the 'great women' theory of history. Female authors singled out women leaders and wrote biographies. Most of these leaders were involved in public life as reformers, activists, or authors, and were not representative of ordinary women.`,
+  questions:[
+    {q:"What does the passage mainly discuss?",opts:["The keen sense of history shown by American women","The 'great women' approach to history","The role of literature in early American histories","The place of American women in written histories"],ans:3},
+    {q:"The word 'contemporary' in line 5 means that the history was:",opts:["Informative","Written at that time","Thoughtful","Faultfinding"],ans:1},
+    {q:"In the first paragraph, Bradstreet, Warren, and Adams are mentioned to show that:",opts:["Poetry by women was more readily accepted","Only three women were able to get published","Even outstanding women's contributions were ignored","A woman's status was changed by marriage"],ans:2},
+    {q:"The word 'celebratory' in line 11 means that the writings refer to:",opts:["Related to parties","Full of praise","Religious","Serious"],ans:1},
+    {q:"It can be inferred that during the 17th and 18th centuries:",opts:["Both male and female writers wrote about women","Women had right to vote","Women's contribution was not highly appreciated","Women had great influence on politics"],ans:2},
+    {q:"In the second paragraph, what weakness in 19th-century histories does the author point out?",opts:["Too much emphasis on daily activities","Left out discussion of money's influence","Sources were not necessarily accurate","Printed on poor quality paper"],ans:2},
+    {q:"What use was made of the 19th-century women's history materials?",opts:["Combined in a multivolume encyclopedia","Shared among women's colleges","Formed basis of college courses","Provided valuable information for researchers"],ans:3},
+    {q:"The author mentions all of the following as possible roles of 19th-century great women EXCEPT:",opts:["Activists for women's rights","Politicians","Authors","Reformers"],ans:1},
+    {q:"The word 'representative' in line 24 is closest in meaning to:",opts:["Typical","Satisfied","Supportive","Distinctive"],ans:0},
+  ]
+},
+{
+  id:16, title:"Babies' speech",
+  passage:`Long before they can actually speak, babies pay special attention to the speech they hear around them. Within the first month of their lives, babies' responses to the sound of the human voice are different from their responses to other kinds of auditory stimuli. They will stop crying when they hear a person talking, but not when they hear a bell or the sound of a rattle.\n\nBy the time they are six or seven weeks old, babies can detect the difference between syllables pronounced with rising and falling intonations. Long before they develop actual language comprehension, babies can sense when an adult is playful or angry.\n\nAdults make it as easy as they can for babies to learn a language by exaggerating such cues. One researcher observed babies and their mothers in six different cultures and found that, in all six languages, the mothers used simplified syntax, short utterances, and even nonsense sounds.`,
+  questions:[
+    {q:"What does the passage mainly discuss?",opts:["How babies differentiate the human voice from other sounds","Differences between baby's and adult's ability to comprehend language","How babies perceive and respond to the human voice","The response of babies to sounds other than human voice"],ans:2},
+    {q:"Why does the author mention a bell and rattle in paragraph 1?",opts:["To contrast reactions of babies to human and nonhuman sounds","To give examples of sounds that cause a baby to cry","To explain how babies distinguish between nonhuman sounds","To give examples of toys babies do not like"],ans:0},
+    {q:"The word 'diverse' in paragraph 2 is closest in meaning to:",opts:["Surrounding","Divided","Different","Stimulating"],ans:2},
+    {q:"The word 'They' in paragraph 2 refers to:",opts:["Mothers","Investigators","Babies","Words"],ans:0},
+    {q:"The passage mentions all of the following as ways adults modify speech EXCEPT:",opts:["Giving all words equal emphasis","Speaking with shorter sentences","Speaking more loudly","Using meaningless sounds"],ans:0},
+    {q:"What point illustrates that babies are born with the ability to acquire language?",opts:["Babies understand words in songs","Babies exaggerate their own sounds","Babies are more sensitive to sounds","Babies notice minor differences between speech sounds"],ans:3},
+    {q:"Why do babies listen to songs even though they cannot understand them?",opts:["They understand the rhythm","They enjoy the sound","They can remember them easily","They focus on meaning"],ans:1},
+  ]
+},
+{
+  id:17, title:"Esperanto is what is called a planned language",
+  passage:`Esperanto is a planned, or artificial, language. It was created by Polish eye doctor Ludwik Lazar Zamenhof. Zamenhof believed that a common language would help to alleviate some of the misunderstandings among cultures.\n\nIn Zamenhof's first attempt, he tried to create a language that was as uncomplicated as possible. He then tried a different way: making words sound like words people already knew but simplifying the grammar. All nouns end in -o (e.g. amiko = friend), all adjectives end in -a (e.g. bela = pretty). The prefix mal- makes a word opposite: malamiko = enemy.\n\nIn 1887, Zamenhof published a description using the pen name Dr. Esperanto, which means "a person who hopes." The First World Congress of Esperanto took place in 1905 in France, with 700 attendees from 20 countries. Today, it is estimated that perhaps a quarter of a million people are fluent in it.`,
+  questions:[
+    {q:"The topic of this passage is:",opts:["One man's efforts to create a universal language","How language can be improved","Using language to communicate internationally","A language developed in the last few years"],ans:0},
+    {q:"According to the passage, Zamenhof wanted to create a universal language:",opts:["To build a name for himself","To provide a more complex language","To resolve cultural differences","To create one world culture"],ans:2},
+    {q:"It can be inferred that the Esperanto word 'malespera' means:",opts:["Hopeless","Hope","Hopelessness","Hopeful"],ans:0},
+    {q:"The expression 'popping up' in line 17 could best be replaced by:",opts:["Shouting","Opening","Rising","Leaping"],ans:1},
+    {q:"It can be inferred that the Third World Congress of Esperanto took place:",opts:["In 1905","In 1909","In 1907","In 1913"],ans:2},
+    {q:"According to the passage, what happened to the Tenth World Esperanto Congress?",opts:["It had attendees from 20 countries","It never took place","It had 4,000 attendees","It was scheduled for 1915"],ans:1},
+    {q:"The expression 'ups and downs' is closest in meaning to:",opts:["Tops and bottoms","Floors and ceilings","Takeoffs and landings","Highs and lows"],ans:3},
+    {q:"Which paragraph describes the predecessor to Esperanto?",opts:["The first paragraph","The second paragraph","The third paragraph","The fourth paragraph"],ans:1},
+    {q:"The passage would most likely be assigned reading in a course on:",opts:["European history","English grammar","World government","Applied linguistics"],ans:3},
+    {q:"The paragraph following the passage most likely discusses:",opts:["How current supporters of Esperanto are encouraging its growth","Another of Zamenhof's accomplishments","Disadvantages of using an artificial language","Attempts to reconvene the World Congress in the 1920s"],ans:0},
+  ]
+},
+{
+  id:19, title:"Taken together, income, occupation...",
+  passage:`Taken together, income, occupation, and education are good measures of people's social standing. Using a layered model of stratification, most sociologists describe the class system in the United States as: upper, upper middle, middle, lower middle, and lower class. The different classes are arranged along a continuum with those with the most money, education, and prestige at the top and those with the least at the bottom.\n\nIn the United States, the upper class owns the major share of corporate and personal wealth. They are the most powerful group and influence the economy and politics of the country. The upper class is primarily characterized by inherited wealth passed down across multiple generations.\n\nThe term "old money" is used to refer to a particular group of rich people whose families have been wealthy for generations, as opposed to those who are newly rich.\n\nThe upper-middle class consists of highly educated professionals such as doctors, lawyers, and corporate executives who earn high incomes but do not own major shares of corporate wealth.\n\nThe middle class is the most difficult to define because people in this class vary widely in lifestyle and resources. They may include small business owners, teachers, and skilled workers.\n\nThe lower-middle class consists largely of unskilled workers in manual labor. Quite a few of them think that they don't belong to this class and many actively seek upward mobility.\n\nThe lower class includes both the working poor and the underclass. Some people in the lower class don't have any jobs so they may earn their living by committing crimes. A subcategory — the underclass — has been added to the lower class to describe those in persistent poverty.\n\nDespite social myths to the contrary, the best predictor of future wealth is the family in which you are born. The connection between family background and future success remains tenuous for those outside the upper classes, meaning the link is weak for most Americans.`,
+  questions:[
+    {q:"According to para 6, which of the following is true about the lower middle class:",opts:["most of them aspire to join the upper class","they are highly satisfied with their social status","many of them actively seek to leave this class","quite a few of them think that they don't belong to this class"],ans:3},
+    {q:"Which of the following class has had a subcategory added to it:",opts:["the middle class","the upper class","the lower class","the upper-middle class"],ans:2},
+    {q:"Primarily =",opts:["weekly","always","mostly but not always","mostly"],ans:3},
+    {q:"Which paragraph contains a term used to refer to a particular group of rich people:",opts:["people in the middle class vary widely in lifestyle and resources","the lower class","unskilled workers in manual labor","paragraph 3"],ans:3},
+    {q:"Which of the following statements best expresses the information in: 'despite social myths to the contrary, the best predictor of future wealth is the family in which you are born':",opts:["despite common beliefs, personal skills are the best predictor of future wealth","future wealth is solely determined by individual effort and hard work","contrary to popular opinion, education is the key to future wealth","although many people may not believe it, future wealth is best predicted based on family background"],ans:3},
+    {q:"Why is the middle class difficult to define according to the passage:",opts:["people in the middle class have identical career paths","the middle class is defined by a single income bracket","people in the middle class vary widely in lifestyle and resources","the middle class shares a uniform educational background"],ans:2},
+    {q:"Tenuous =",opts:["strong","semistrong","perfect","weak"],ans:3},
+    {q:"According to para 2, what is the primary characteristic of the upper class in the US:",opts:["an inheritance of wealth across multiple generations","a dependence on government assistance for financial stability","a consistent rise in income through career advancement","a rapid accumulation of wealth through business ventures"],ans:0},
+    {q:"Which information is true:",opts:["all people in the lower class rely on government subsidies","some people in the lower class earn their living through volunteer work","most people in the lower class work in high-paying jobs","some people in the lower class don't have any jobs so they may earn their living by committing crimes"],ans:3},
+    {q:"Which group of workers is typically considered part of the lower middle class:",opts:["executives in corporate management","skilled professionals in technical fields","highly educated workers in creative industries","unskilled workers in manual labor"],ans:3},
+  ]
+},
+{
+  id:20, title:"Although America's immigration...",
+  passage:`Although America's immigration policy now seems dominated by a desire to seal the country's southern border, Donald Trump's administration has been surprisingly tolerant of a certain type of crossing. Those by legal, temporary migrants or guest workers in search of low-wage work have risen dramatically over the past decade. The government granted 408,000 visas for guest workers in 2019, up from 103,000 in 2010. This growth began well before the start of Donald Trump's term, but has recently come back into focus.\n\nThe H-2A visa for agricultural workers has no annual cap, and the number has soared. The H-2B visa for non-agricultural seasonal workers—in hospitality, landscaping, seafood processing and similar industries—does have a cap: Congress sets a maximum of 66,000 per year, though the administration has repeatedly raised it through supplemental allocations.\n\nEmployers favour guest workers because they are cheaper to hire. They receive lower wages than American workers, are not entitled to the same benefits, and employers do not have to pay for their transport or housing. Labour advocates have lambasted the guest-worker programme, arguing that it creates a system ripe for exploitation, since workers are tied to their employer and cannot easily change jobs if mistreated.\n\nThe farm-labour reform bill, if passed, could also allow agricultural workers to earn higher wages, receive better benefits, and have more vacation time. However, it would not guarantee permanent employment for agricultural workers.`,
+  questions:[
+    {q:"What do labour advocates say about the current guest worker recruitment process:",opts:["it guarantees job security for local workers","it simplifies the hiring process","it ensures fair wages for all workers","it may bring about labour exploitation"],ans:3},
+    {q:"How many visas for guest workers were granted by the US government in 2010:",opts:["85,000","125,000","150,000","103,000"],ans:3},
+    {q:"Chasm =",opts:["gap","finger","markov","rim"],ans:0},
+    {q:"Which type of immigrants has witnessed a big increase over the last decade:",opts:["they don't pay transport and housing","America's guest worker boom","employers","legal, temporary migrants"],ans:3},
+    {q:"Which of the following would be the best title for the passage:",opts:["legal, temporary migrants","they don't pay transport and housing","America's guest worker boom","agricultural workers could work longer hours with better pay"],ans:2},
+    {q:"The following are changes that agricultural-labour reform bill could make EXCEPT:",opts:["agricultural workers could have more vacation time","agricultural workers could receive higher benefits","agricultural workers could work longer hours with better pay","agricultural workers could be guaranteed permanent employment"],ans:3},
+    {q:"'they' in para 3 =",opts:["employers","neighbors","patients","customers"],ans:0},
+    {q:"'lambasted' in para 4 =",opts:["outlawed","criticized","favoured","approved"],ans:1},
+    {q:"The following discuss why guest workers are cheaper to hire, EXCEPT:",opts:["they don't pay transport and housing","they don't require benefits","they receive lower wages","they are exempt from taxes"],ans:0},
+    {q:"According to the passage, what is TRUE about H-2B visas:",opts:["the number of H-2B visas varies annually","the minimum number of H-2B visas is fixed","H-2B visas are unlimited","the maximum number of H-2B visas granted per year is fixed"],ans:3},
+  ]
+},
+{
+  id:21, title:"The Olympic Games — Decathlon (VSTEP B1-C1)",
+  passage:`The Olympic Games have changed a lot since their origins in Ancient Greece. Today, athletes from countries all over the world take part and the Olympics are big business, watched by millions on television. Some things have stayed the same: athletes could make a lot of money from winning. In the ancient Games, a great champion might have received as much as a year's pay for winning a race.\n\nIn the ancient Olympics, athletes competed in the pentathlon: the long jump, the discus, the javelin, a running race and wrestling. The first winner, in 708 BC, was Lampis of Sparta. The Stockholm Olympics of 1912 brought back this tradition. The modern decathlon (ten events) was included, with the heptathlon (seven events) for women introduced later.\n\nBruce Thorpe says: "The way it works is you complete each event and get points. At the end of two days, the person with the most points is champion. We start with the 100 metres, the long jump, the shot put, the high jump and the 400 metres. The second day, it's the 110 metre hurdles, the discus, the javelin, the pole vault and the 1500 metres — the one we all dread."`,
+  questions:[
+    {q:"In the first paragraph, the writer says that athletes today:",opts:["Are more popular than in ancient times","Are much better than in ancient times","Treat the Olympics like a business","Can become wealthy through sport"],ans:3},
+    {q:"What does the word 'This' refer to?",opts:["The champion","The running race","Greece","The pentathlon"],ans:3},
+    {q:"The ancient pentathlon didn't test athletes' abilities to:",opts:["Throw things","Jump high","Run fast","Jump far"],ans:1},
+    {q:"Lampis of Sparta was:",opts:["The organizer of the first ancient Olympics","Emperor Theodosius of Rome","The first winner of the ancient Olympics","The greatest athlete in history"],ans:2},
+    {q:"According to the passage, the heptathlon for women:",opts:["Became an Olympic event after 1912","Is similar to the ancient pentathlon","Tests the ability to ride a horse","Is much easier than the decathlon"],ans:0},
+    {q:"How many events were in the modern decathlon of Stockholm Olympics?",opts:["Only one","Five","Seven","Ten"],ans:3},
+    {q:"What did Bruce Thorpe say about decathlon?",opts:["It is challenging and requires various skills","No need for participants to train hard","It has only seven events","It takes one day to decide winner"],ans:0},
+    {q:"What do you have to do to win a gold medal in the decathlon?",opts:["Score more points than all other competitors","Beat others in at least three events","Finish each event in top three","Complete events in right order"],ans:0},
+    {q:"What does Bruce say about the 1500 metres?",opts:["It should be on the first day","The first day is tougher","The 1500 metres is different from other events","It looks easier than it actually is"],ans:2},
+    {q:"What is Bruce's advice for people thinking of becoming decathletes?",opts:["Get a trainer to guide you","Get up early to start training","Take up the heptathlon instead","Try to have a good time"],ans:0},
+  ]
+},
+{
+  id:26, title:"Bangkok — Travel in Bangkok",
+  passage:`Bangkok might be noisy and polluted but it's also an exciting city with plenty of things to see and do. The Khao San Road was a famous traveler spot but for something more authentic, Phra Kanong offers an alternative place to stay, with its fantastic street markets. It's not as convenient for the main tourist sites, but it has a Skytrain station so you can be at the Grand Palace in 20 minutes.\n\nBangkok's traffic can be a nightmare. To explore the temples and historical sites, catch an express boat river taxi along the Chao Phraya River and the canals. For the modern part of the city, the Skytrain is a fast, cheap way to travel.\n\nThai street food is among the best in the world, and for around $5 you can eat a filling and delicious meal. Head for Chinatown — Yaowarat Street — and choose from many excellent Chinese and Thai restaurants.`,
+  questions:[
+    {q:"Which area is recommended for an authentic Bangkok experience?",opts:["Khao San Road","Phra Kanong","Grand Palace","Chatuchak"],ans:1},
+    {q:"What is the best way to explore Bangkok's temples?",opts:["By taxi","By river boat","By Skytrain","By bus"],ans:1},
+    {q:"Where is recommended for good food in Bangkok?",opts:["Khao San Road","Phra Kanong","Yaowarat Street (Chinatown)","Grand Palace"],ans:2},
+    {q:"What can visitors do at Wat Pho?",opts:["See the Giant Buddha","Shop at Chatuchak","Eat street food","Ride a boat"],ans:0},
+  ]
+},
+{
+  id:28, title:"As health care costs rise — Acupuncture",
+  passage:`As health care costs continually rise in most developed countries, many people are looking to alternative forms of health therapy. Two of the most popular are acupuncture and herbal medicine, both of which have been used for centuries in Asia and are rooted in ancient Chinese medicine.\n\nAcupuncture is based on ancient Chinese medicine and the importance of ki, a kind of life force that pulsates through every human's body. At times, these pathways might suffer blockage so ki is unable to flow smoothly through the body. Acupuncturists locate and stimulate certain areas on the surface of the body to relieve pressure and allow ki to flow freely.\n\nEar acupuncture is described as one of the most common and successful methods. The ear contains a strong, healthy flow of blood as well as numerous nerve points that connect it with the rest of the body.\n\nHerbal therapy involves special herbs prescribed to be taken in a hot liquid form, usually tea. Herbs boost the immune system and can aid in normalizing blood pressure.`,
+  questions:[
+    {q:"The word 'crux' in paragraph 1 mostly means:",opts:["Basis","Relief","Symptom","Application"],ans:0},
+    {q:"According to paragraph 2, which of the following is true of ki?",opts:["It constantly runs through the various blood vessels","It is the basis upon which acupuncture was devised","It is an invisible force that blocks pathways","It stimulates pathways and relieves pain"],ans:0},
+    {q:"The word 'solely' in paragraph 3 is CLOSEST in meaning to:",opts:["Safely","Barely","Intentionally","Exclusively"],ans:3},
+    {q:"The word 'it' in paragraph 3 refers to:",opts:["The ear","The activating point","The nerve point","The flow of blood"],ans:0},
+    {q:"The author's description of herbal therapy mentions all EXCEPT:",opts:["The reaction time is faster for acupuncture than herbal therapy","Herbs are excellent for increasing endurance","It is used as a preventative form of therapy","It is beneficial to the circulatory system"],ans:0},
+    {q:"What's main idea of the passage?",opts:["Acupuncture — the best therapy","People using plants for healing","Two forms of alternative therapies in the West","Western medical techniques are improved"],ans:2},
+    {q:"What method of acupuncture is described as effective and popular?",opts:["Nose acupuncture","Back acupuncture","Foot acupuncture","Ear acupuncture"],ans:3},
+    {q:"What is stated about the alternative therapies?",opts:["They get rid of symptoms","They treat the source of the health problem","They are flawed","They rooted from ancient Egypt"],ans:1},
+  ]
+},
+{
+  id:29, title:"There are two basic types of glaciers",
+  passage:`There are two basic types of glaciers: those that flow outward in all directions with little regard for underlying terrain (ice sheets and ice caps), and those that are confined by terrain to a particular path (mountain or alpine glaciers).\n\nThere must be over 50,000 square kilometres of land covered with ice for the glacier to qualify as an ice sheet. Now there are only two ice sheets left on Earth, covering Greenland and Antarctica.\n\nAny domelike body of ice that also flows out in all directions but covers less than 50,000 square kilometres is called an ice cap. Mountain glaciers are typically identified by the landform that controls their flow. The most common types of mountain glaciers are the cirque and valley glaciers. Cirque glaciers are found in depressions in the surface of the land.`,
+  questions:[
+    {q:"What does the passage mainly discuss?",opts:["Where major glaciers are located","How glaciers shape the land","How glaciers are formed","The different kinds of glaciers"],ans:3},
+    {q:"The word 'massive' in paragraph 2 is closest in meaning to:",opts:["Huge","Strange","Cold","Recent"],ans:0},
+    {q:"It can be inferred that ice sheets are so named because:",opts:["They are confined to mountain valleys","They cover large areas of land","They are thicker in some areas","They have a characteristic circular shape"],ans:1},
+    {q:"According to the passage, ice shelves can be found:",opts:["Covering an entire continent","Buried within mountains","Spreading into the ocean","Filling deep valleys"],ans:2},
+    {q:"According to the passage, where was the Cordillera Ice Sheet thickest?",opts:["Alaska","Greenland","Alberta","Antarctica"],ans:2},
+    {q:"The word 'rare' in the fourth paragraph is closest in meaning to:",opts:["Small","Unusual","Valuable","Widespread"],ans:1},
+    {q:"According to the passage, ice fields resemble ice caps in which way?",opts:["Their shape","Their flow","Their texture","Their location"],ans:1},
+    {q:"The word 'subtle' in the fifth paragraph is closest in meaning to:",opts:["Slight","Common","Important","Measurable"],ans:0},
+    {q:"All of the following are alpine glaciers EXCEPT:",opts:["Cirque glaciers","Ice caps","Valley glaciers","Ice fields"],ans:1},
+    {q:"Which types of glaciers illustrate the two basic types?",opts:["Ice fields and cirques","Cirque and alpine glaciers","Ice sheets and ice shelves","Ice sheets and mountain glaciers"],ans:3},
+  ]
+},
+{
+  id:30, title:"American Jazz",
+  passage:`American jazz is a mixture of sounds borrowed from American and African folk music, European classical music, and Christian gospel songs. One of the recognizable characteristics of jazz is its use of improvisation: certain parts are written out and played the same way, while improvised parts are created spontaneously during a performance.\n\nThe earliest form of jazz was ragtime, lively songs performed on the piano. The best-known of the ragtime performers was Scott Joplin. Born in 1868 to former slaves, Joplin earned his living from a very early age playing the piano in bars along the Mississippi. One of his regular jobs was at the Maple Leaf Club in Sedalia, Missouri, where he began writing over 500 compositions, the most famous being "The Maple Leaf Rag."`,
+  questions:[
+    {q:"This passage is about:",opts:["The life of Scott Joplin","The major characteristics of jazz","Jazz in general and one specific type of jazz","The various sources of jazz"],ans:2},
+    {q:"Which of the following is NOT a source of American jazz?",opts:["Christian gospel songs","European folk songs","European classical music","American and African folk music"],ans:1},
+    {q:"According to the passage, ragtime was:",opts:["Performed only at the Maple Leaf Club","Generally performed on a variety of instruments","The first type of jazz","Extremely soothing and sedate"],ans:2},
+    {q:"The word 'living' in paragraph 2 is closest in meaning to:",opts:["Money","Enjoyment","Life-style","Health"],ans:0},
+    {q:"The word 'which' in paragraph 2 refers to:",opts:["The Maple Leaf club","Regular jobs","Over 500 compositions","Sedalia, Missouri"],ans:2},
+    {q:"The passage is about Scott Joplin's:",opts:["Compositions","Childhood","Life","Career in music"],ans:2},
+  ]
+},
+{
+  id:31, title:"Millions of people are using cellphones today",
+  passage:`Millions of people are using cellphones today. In many countries, cellphones are very popular with young people. They find that the phones are more than a means of communication — having a mobile phone shows that they are cool and connected.\n\nSome doctors are concerned that in the future many people may suffer health problems from the use of mobile phones. Medical studies have shown changes in the brain cells of some people who use mobile phones. In one case, a travelling salesman had to retire at a young age because of serious memory loss. He used to talk on his mobile phone for about six hours a day.\n\nWhat makes mobile phones potentially harmful? The answer is radiation. Mobile phone companies agree that there is some radiation, but say the amount is too small to worry about.\n\nAs the discussion about their safety continues, it appears that it's best to use mobile phones less often.`,
+  questions:[
+    {q:"According to the passage, cellphones are especially popular with young people because:",opts:["They are indispensable in everyday communications","They make them look more stylish","They keep the users alert","They cannot be replaced by regular phones"],ans:1},
+    {q:"The changes possibly caused by the cellphones are mainly concerned with:",opts:["The mobility of the mind and the body","The smallest units of the brain","The arteries of the brain","The resident memory"],ans:1},
+    {q:"The word 'means' in the passage most closely means:",opts:["Meanings","Expression","Method","Transmission"],ans:2},
+    {q:"The word 'potentially' in the passage most closely means:",opts:["Obviously","Possibly","Certainly","Privately"],ans:1},
+    {q:"'Negative publicity' in the passage most likely means:",opts:["Information on the lethal effects of cellphones","Widespread opinion about bad effects of cellphones","The negative public use of cellphones","Poor ideas about the effects of cellphones"],ans:1},
+    {q:"The man mentioned in the passage who used cellphone too often:",opts:["Suffered serious loss of mental ability","Could no longer think lucidly","Abandoned his family","Had a problem with memory"],ans:3},
+    {q:"According to the passage, what makes mobile phones potentially harmful?",opts:["Their radiant light","Their power of attraction","Their raiding power","Their invisible rays (radiation)"],ans:3},
+    {q:"According to the writer, people should:",opts:["Only use mobile phones in urgent cases","Only use mobile phones in medical emergencies","Keep off mobile phones regularly","Never use mobile phones in all cases"],ans:0},
+    {q:"The most suitable title for the passage could be:",opts:["The Reasons Why Mobile Phones Are Popular","Technological Innovations and Their Price","The Way Mobile Phones Work","Mobile Phones: A Must of Our Time"],ans:1},
+  ]
+},
+{
+  id:32, title:"Reality television",
+  passage:`Reality television is a genre of television programming which, it is claimed, presents unscripted dramatic or humorous situations, documents actual events and features ordinary people rather than professional actors. It could be described as a form of artificial or "heightened" documentary. Although the genre has existed since the early years of television, the current explosion of popularity dates from around 2000.\n\nCritics say that the term "reality television" is somewhat of a misnomer and that such shows frequently portray a modified form of reality, with participants put in exotic locations or abnormal situations, sometimes coached to act in certain ways.\n\nPart of reality television's appeal is due to its ability to place ordinary people in extraordinary situations. Reality television also has the potential to turn its participants into national celebrities.\n\nMark Burnett, creator of Survivor, has said: "I tell good stories. It really is not reality TV. It really is unscripted drama."`,
+  questions:[
+    {q:"In the first line, the writer says 'it is claimed' because:",opts:["He wants to distance himself from the statement","He totally disagrees with the statement","Everybody except the writer agrees","He wants to emphasize it is his own claim"],ans:0},
+    {q:"The word 'demeaning' in paragraph 2 is closest in meaning to:",opts:["Valueless","Humiliating","Despising","Diminishing"],ans:1},
+    {q:"According to the passage, Reality TV appeals to some because:",opts:["It uses exotic locations","It shows eligible men dating women","It can turn ordinary people into celebrities","It shows average people in exceptional circumstances"],ans:3},
+    {q:"According to the passage, the program 'Pop Idol':",opts:["Is more likely to turn participants into celebrities than Big Brother","Turns all participants into celebrities","Is a dating show","Is less likely to turn participants into celebrities"],ans:0},
+    {q:"Producers choose the participants:",opts:["To make an imaginary world","On the ground of talent","To create conflict among other things","Only for special-living-environment shows"],ans:2},
+    {q:"The term 'reality television' is inaccurate:",opts:["For talent and performance programs","For special-living-environment programs","Just for Big Brother and Survivor","For all programs"],ans:1},
+    {q:"The word 'fabricated' in paragraph 5 is closest in meaning to:",opts:["Real","Imaginative","Imaginary","Isolated"],ans:2},
+    {q:"Which of the following is NOT true?",opts:["Shows like Survivor have good narratives","Mark Burnett thinks the term is inaccurate","Reality television has been popular since well before 2000","Japan has produced demeaning TV shows"],ans:2},
+  ]
+},
+{
+  id:33, title:"The development of jazz",
+  passage:`The development of jazz can be seen as part of the larger continuum of American popular music, especially dance music. In the twenties, jazz became the hottest new thing in dance music, much as ragtime had at the turn of the century.\n\nTwo characteristics distinguish jazz from other dance music. The first is improvisation, the changing of a musical phrase according to the player's inspiration. Jazz musicians strive for an individual style, and the improvise or paraphrase is a jazz musician's main opportunity to display individuality.\n\nThe second distinguishing characteristic of jazz is a rhythmic drive that was initially called "hot" and later "swing". In playing hot, a musician consciously departs from strict meter to create a relaxed sense of phrasing that also emphasizes the underlying rhythms.`,
+  questions:[
+    {q:"The passage answers which of the following questions?",opts:["What are the differences between jazz and other forms of music?","Why is dancing related to popular music in the US?","Which early jazz musicians most influenced rhythm and blues?","What instruments comprised a typical jazz band?"],ans:0},
+    {q:"Which of the following appeared before jazz as popular music for dancing?",opts:["Rock","Ragtime","Rhythm and blues","Disco"],ans:1},
+    {q:"According to the passage, jazz musicians demonstrate their individual artistry mainly by:",opts:["Being able to play all types of popular music","Creating musical variations while performing","Preparing musical arrangements","Reading music with great skill"],ans:1},
+    {q:"Which of the following was the function of 'get-off' musicians?",opts:["Teach dance routines","Lead the band","Provide solo performances in a band or orchestra","Assist other band members in packing up"],ans:2},
+    {q:"The word 'consciously' is closest in meaning to:",opts:["Easily","Carelessly","Periodically","Purposely"],ans:3},
+    {q:"The word 'unadorned' is closest in meaning to:",opts:["Plain","Inexpensive","Lovely","Disorganized"],ans:0},
+    {q:"Which of the following terms is defined in the passage?",opts:["Multichorus","Polyphony","Improvisation","Cornet player"],ans:2},
+    {q:"The topic of the passage is developed primarily by means of:",opts:["Dividing the discussion into two major areas","Presenting contrasting points of views","Describing historical events in sequence","Providing biographies of famous musicians"],ans:0},
+  ]
+},
+{
+  id:35, title:"There are many theories about drama",
+  passage:`There are many theories about the beginning of drama in ancient Greece. The one most widely accepted today is based on the assumption that drama evolved from ritual. Those measures which appeared to bring the desired results were retained and repeated until they hardened into fixed rituals. Eventually stories arose which explained the mysteries of the rites. As time passed, some rituals were abandoned, but the stories, later called myths, persisted and provided material for art and drama.\n\nThose who believe that drama evolved out of ritual also argue that those rites contained the seed of theater because music, dance, masks, and costumes were almost always used. Performers often impersonated other people, animals, or supernatural beings.\n\nAnother theory traces the theater's origin from the human interest in storytelling. According to this view, tales are gradually elaborated, first through the use of impersonation, action, and dialogue by a narrator and then through the assumption of each role by a different person.`,
+  questions:[
+    {q:"What does the passage mainly discuss?",opts:["The origins of theater","The role of ritual in modern dance","The importance of storytelling","The variety of early religious activities"],ans:0},
+    {q:"The word 'they' in paragraph 1 refers to:",opts:["Seasonal changes","Natural forces","Theories","Human beings"],ans:3},
+    {q:"What aspect of drama does the author discuss in the first paragraph?",opts:["The reason drama is often unpredictable","The seasons in which dramas were performed","The connection between myths and dramatic plots","The importance of costumes in early drama"],ans:2},
+    {q:"Which of the following is NOT mentioned as a common element of theater and ritual?",opts:["Dance","Costumes","Music","Magic"],ans:3},
+    {q:"The word 'considerable' in paragraph 2 is closest in meaning to:",opts:["Thoughtful","Substantial","Relational","Ceremonial"],ans:1},
+    {q:"The word 'enactment' in paragraph 2 is closest in meaning to:",opts:["Establishment","Performance","Authorization","Season"],ans:1},
+    {q:"The word 'they' in paragraph 2 refers to:",opts:["Mistakes","Costumes","Animals","Performers"],ans:3},
+    {q:"According to the passage, what is the main difference between ritual and drama?",opts:["Ritual uses music whereas drama does not","Ritual is shorter than drama","Ritual requires fewer performers","Ritual has a religious purpose and drama does not"],ans:3},
+    {q:"The passage supports which of the following statements?",opts:["No one really knows how the theater began","Myths are no longer represented dramatically","Storytelling is an important part of dance","Dramatic activities require costumes"],ans:0},
+  ]
+},
+{
+  id:36, title:"Birds that feed in flocks",
+  passage:`Birds that feed in flocks commonly retire together into roosts. In winter, it is important for birds to keep warm at night and conserve precious food reserves. Solitary roosters shelter in dense vegetation or enter a cavity, but the effect of sheltering is magnified by several birds huddling together. Body contact reduces the surface area exposed to the cold air. Two kinglets huddling together were found to reduce their heat losses by a quarter, and three together saved a third of their heat.\n\nThe second possible benefit of communal roosts is that they act as "information centers". When birds return in the evening, those that did not feed well appear to follow those that did the next morning.\n\nFinally, there is safety in numbers at communal roosts since there will always be a few birds awake at any given moment to give the alarm. But this increased protection is partially counteracted by the fact that mass roosts attract predators.`,
+  questions:[
+    {q:"What does the passage mainly discuss?",opts:["How birds find and store food","How birds maintain body heat in winter","Why birds need to establish territory","Why some species of birds nest together"],ans:3},
+    {q:"The word 'conserve' in paragraph 1 is closest in meaning to:",opts:["Retain","Watch","Locate","Share"],ans:0},
+    {q:"The word 'magnified' in paragraph 1 is closest in meaning to:",opts:["Caused","Modified","Intensified","Combined"],ans:2},
+    {q:"The author mentions 'kinglets' as an example of birds that:",opts:["Protect themselves by nesting in holes","Nest with other species","Nest together for warmth","Usually feed and nest in pairs"],ans:2},
+    {q:"Which of the following is NOT mentioned as an advantage of birds that huddle together?",opts:["Some members warn others of dangers","Staying together provides more heat","Some birds act as information centers for food","Several members care for the young"],ans:3},
+    {q:"Which of the following is a disadvantage of communal roosts?",opts:["Diseases easily spread","Groups are more attractive to predators","Food supplies are quickly depleted","Some birds in the group attack others"],ans:1},
+    {q:"The word 'they' in paragraph 3 refers to:",opts:["A few birds","Mass roosts","Predators","Trees"],ans:1},
+  ]
+},
+{
+  id:37,
+  title:"Cities develop as a result of functions",
+  passage:`Cities develop as a result of functions that they can perform. Geographers often make a distinction between the situation and the site of a city. Situation refers to the general position in relation to the surrounding region, whereas site involves physical characteristics of the specific location. Situation is normally much more important to the continuing prosperity of a city.
+
+Chicago possesses an almost unparalleled situation: it is located at the southern end of a huge lake that forces east-west transportation lines to be compressed into its vicinity. New York City's importance stems from its early advantage of situation. Philadelphia and Boston both originated at about the same time as New York, but only New York possesses an easy-access functional connection to the vast Midwestern Hinterland.`,
+  
+  questions:[
+    {
+      q:"According to the passage, a city's situation is more important than its site in regard to:",
+      opts:[
+        "Long-term growth and prosperity",
+        "Ability to protect its citizens",
+        "Possession of favorable weather",
+        "Need to import food supplies"
+      ],
+      ans:0
+    },
+
+    {
+      q:"According to the passage, Philadelphia and Boston are similar to New York City in:",
+      opts:[
+        "Size of population",
+        "Age",
+        "Availability of rail transportation",
+        "Site"
+      ],
+      ans:1
+    },
+
+    {
+      q:"The passage suggests that a geographer would consider a city's soil type part of its ______.",
+      opts:[
+        "hinterland",
+        "situation",
+        "site",
+        "function"
+      ],
+      ans:2
+    },
+
+    {
+      q:"The author mentions each of the following as an advantage of Chicago's location EXCEPT its ______.",
+      opts:[
+        "hinterland",
+        "nearness to a large lake",
+        "position in regard to transport routes",
+        "flat terrain"
+      ],
+      ans:3
+    },
+
+    {
+      q:"The word 'characteristics' is closest in meaning to ______.",
+      opts:[
+        "choices",
+        "attitudes",
+        "qualities",
+        "inhabitants"
+      ],
+      ans:2
+    },
+
+    {
+      q:"According to the passage, Philadelphia and Boston are similar to New York City in ______.",
+      opts:[
+        "size of population",
+        "age",
+        "site",
+        "availability of rail transportation"
+      ],
+      ans:1
+    },
+
+    {
+      q:"The word 'ingenuity' in paragraph 1 is closest in meaning to:",
+      opts:[
+        "Traditions",
+        "Resourcefulness",
+        "Wealth",
+        "Organization"
+      ],
+      ans:1
+    },
+
+    {
+      q:"The word 'it' in paragraph 2 refers to:",
+      opts:[
+        "Hinterland",
+        "Primacy",
+        "Account",
+        "Connection"
+      ],
+      ans:2
+    },
+
+    {
+      q:"What does the passage mainly discuss?",
+      opts:[
+        "Historical differences among three US cities",
+        "Development of transportation systems",
+        "Contrasts in settlement patterns in US",
+        "Importance of geographical situation in growth of US cities"
+      ],
+      ans:3
+    }
+  ]
+  },
+{
+  id:38, title:"Basic to any understanding of Canada",
+  passage:`Basic to any understanding of Canada in the 20 years after the Second World War is the country's impressive population growth. For every three Canadians in 1945, there were over five in 1966. Most of this surging growth came from natural increase. The baby boom continued through the decade of the 1950s, producing a population increase of nearly fifteen percent in the five years from 1951 to 1956. In 1957 the Canadian birth rate stood at 28 per thousand, one of the highest in the world.\n\nAfter the peak year of 1957, the birth rate in Canada began to decline. Partly this decline reflected the low level of births during the depression and the war, but it was also caused by changes in Canadian society. Young people were staying at school longer; more women were working; young married couples were buying automobiles or houses before starting families.`,
+  questions:[
+    {q:"The phrase 'prior to' in the last paragraph is closest in meaning to:",opts:["During","Behind","Before","Since"],ans:2},
+    {q:"When was the birth rate in Canada at its lowest postwar level?",opts:["1957","1966","1951","1956"],ans:1},
+    {q:"It can be inferred from the passage that before the Industrial Revolution:",opts:["Population statistics were unreliable","The population grew steadily","Families were larger","Economic conditions were bad"],ans:2},
+    {q:"According to the passage, when did Canada's baby boom begin?",opts:["During the depression of the 1930s","After 1945","In 1966","In the decade after 1911"],ans:1},
+    {q:"What does the passage mainly discuss?",opts:["Educational changes in Canadian society","Canada during the Second World War","Population trends in postwar Canada","Standards of living in Canada"],ans:2},
+    {q:"The author suggests that in Canada during the 1950s:",opts:["The urban population decreased rapidly","Economic conditions were poor","Fewer people married","The birth rate was very high"],ans:3},
+    {q:"The word 'surging' is closest in meaning to:",opts:["Surprising","New","Accelerating","Extra"],ans:2},
+    {q:"The word 'trend' in paragraph 1 is closest in meaning to:",opts:["Aim","Growth","Tendency","Directive"],ans:2},
+    {q:"The author mentions all of the following as causes of decline EXCEPT:",opts:["Couples buying houses","People being better educated","People getting married earlier","Better standards of living"],ans:2},
+  ]
+},
+{
+  id:39, title:"Most people can remember a phone number",
+  passage:`Most people can remember a phone number for up to thirty seconds. Information that makes its way to the short term memory (STM) does so via the sensory storage area. The most accepted theory comes from George A. Miller, who suggested that humans can remember approximately seven chunks of information. A chunk is defined as a meaningful unit of information, such as a word or name.\n\nWhen making a conscious effort to memorize something, many people engage in "rote rehearsal". By repeating something over and over again, one is able to keep a memory alive. Unfortunately, this type of memory maintenance only succeeds if there are no interruptions.\n\nA better way is to practice "elaborate rehearsal". This involves assigning semantic meaning to a piece of information so that it can be filed along with other pre-existing long term memories. Encoding information semantically also makes it more retrievable.`,
+  questions:[
+    {q:"According to the passage, how do memories get transferred to the STM?",opts:["They revert from long term memory","They are filtered from the sensory storage area","They get chunked when they enter the brain","They enter via the nervous system"],ans:1},
+    {q:"The word 'elapses' in paragraph 1 is closest in meaning to:",opts:["Passes","Adds up","Appears","Continues"],ans:0},
+    {q:"All of the following are places memories are stored EXCEPT:",opts:["STM","Long term memory","Sensory storage area","Maintenance area"],ans:3},
+    {q:"Why does the author mention a dog's bark?",opts:["To give an example of a type of memory","To provide a type of interruption","To prove dogs have better memories","To compare another sound to a doorbell"],ans:1},
+    {q:"How do theorists believe a person can remember more information?",opts:["By organizing it","By repeating it","By giving it a name","By drawing it"],ans:0},
+    {q:"The author believes that rote retention is:",opts:["The best way to remember something","More efficient than chunking","Ineffective in the long run","An unnecessary interruption"],ans:2},
+    {q:"The word 'elaborate' in paragraph 3 is closest in meaning to:",opts:["Complex","Efficient","Pretty","Regular"],ans:0},
+    {q:"The word 'cues' in the passage is closest in meaning to:",opts:["Questions","Clues","Images","Tests"],ans:1},
+    {q:"Which of the following best provides the important information in the bold sentence from the passage?",opts:["Prompting is the easiest way to retrieve short term memory after an extended period of time.","A memory can be retrieved by prompting, in a case where it has been rarely used.","It's easier to remember short term memories than long term memories due to regular prompts.","Recalling a long term memory that is often used is easy, while forgotten memories often require prompting."],ans:3},
+    {q:"Which of the following is NOT supported by the passage?",opts:["The working memory is the same as the short term memory.","A memory is kept alive through constant repetition.","Cues help people to recognize information.","Multiple choice exams are the most difficult."],ans:3},
+  ]
+},
+{
+  id:41, title:"Before the mid-nineteenth century — Food preservation",
+  passage:`Before the mid-nineteenth century, people in the United States ate most foods only in season. In 1810, a French inventor named Nicolas Appert developed the cooking-and-sealing process of canning. In the 1850s, Gail Borden developed a means of condensing and preserving milk. By 1880, inventors had fashioned stamping and soldering machines that mass-produced cans from tinplate. Suddenly all kinds of food could be preserved and bought at all times of the year.\n\nRailroad refrigerator cars enabled growers and meat packers to ship perishables great distances. By the 1890's, northern city dwellers could enjoy southern and western strawberries, grapes, and tomatoes for up to six months of the year. As easy means of producing ice commercially had been invented in the 1870's, by 1900 the nation had more than two thousand commercial ice plants. The icebox was replaced by the mechanized refrigerator in the 1920's and 1930's.`,
+  questions:[
+    {q:"What does the passage mainly discuss?",opts:["Causes of food spoilage","Commercial production of ice","Population movements in the 19th century","Inventions that led to changes in the American diet"],ans:3},
+    {q:"The phrase 'in season' in line 1 refers to:",opts:["A particular time of year","A kind of weather","An official schedule","A method of flavoring"],ans:0},
+    {q:"During the 1860's, canned food products were:",opts:["Unavailable in rural areas","Available in limited quantities","Shipped in refrigerator cars","A staple part of the American diet"],ans:1},
+    {q:"The word 'them' in line 12 refers to:",opts:["Refrigerator cars","Growers","Perishables","Distances"],ans:2},
+    {q:"The word 'fixture' in line 16 is closest in meaning to:",opts:["A commonplace object","Substance","Luxury item","Mechanical device"],ans:0},
+    {q:"The author implies that in the 1920's and 1930's home deliveries of ice:",opts:["Increased in cost","Occurred only in summer","Decreased in number","Were on an irregular schedule"],ans:2},
+    {q:"The word 'Nevertheless' in line 19 is closest meaning to:",opts:["Occasionally","However","Therefore","Because"],ans:1},
+    {q:"Which of the following types of food preservation was NOT mentioned?",opts:["Drying","Chemical additives","Canning","Cold storage"],ans:1},
+    {q:"It can be inferred that railroad refrigerator cars came into use.....",opts:["before 1860","after 1900","before 1890","after 1920"],ans:2},
+    {q:"Which of the following statements is supported by the passage?",opts:["Most farmers in the United States raised only fruits and vegetables.","Tin cans and iceboxes helped to make many foods more widely available.","Commercial ice factories were developed by railroad owners.","People who lived in cities demanded home delivery of foods."],ans:1},
+  ]
+},
+{
+  id:43, title:"It is estimated that over 99% of all species",
+  passage:`It is estimated that over 99 percent of all species that have existed have become extinct. When a species is no longer adapted to a changed environment, it may perish. Rapid ecological change may render an environment hostile to a species. Food resources may be affected by environmental changes, which will then cause problems for a species requiring these resources.\n\nThe fossil record reveals that extinction has occurred throughout the history of Earth. One of the best-known examples of mass extinction occurred 65 million years ago with the demise of dinosaurs. Perhaps the largest mass extinction was the one that occurred 225 million years ago, when approximately 95 percent of all species died.\n\nOne interesting finding is that extinctions during the past 250 million years have tended to be more intensive every 26 million years. This periodic extinction might be due to the intersection of the Earth's orbit with a cloud of comets, but this theory is purely speculative.`,
+  questions:[
+    {q:"Which of the following is NOT mentioned in paragraph 1 as resulting from rapid ecological change?",opts:["Availability of food sources","Temperature changes","Introduction of new species","Competition among species"],ans:2},
+    {q:"According to paragraph 2, evidence from fossils suggests that:",opts:["Extinction has occurred throughout Earth's history","Dinosaurs became extinct much earlier than believed","Extinctions have generally been massive","There has been only one mass extinction"],ans:0},
+    {q:"The word 'ultimately' in paragraph 1 is closest in meaning to:",opts:["Exceptionally","Dramatically","Unfortunately","Eventually"],ans:3},
+    {q:"In paragraph 3, the author makes which statement about a species' survival?",opts:["It reflects the interrelationship of many species","It is associated with astronomical conditions","It doesn't vary greatly from species to species","It may depend on chance events"],ans:3},
+    {q:"The word 'demise' in paragraph 2 is closest in meaning to:",opts:["Recovery","Survival","Death","Change"],ans:2},
+    {q:"According to the passage, the largest extinction occurred:",opts:["26 million years ago","250 million years ago","225 million years ago","65 million years ago"],ans:2},
+    {q:"What does the author say in paragraph 1 regarding most species in Earth's history?",opts:["They adapted to ecological changes","They caused rapid changes in environment","They remained basically unchanged","They are no longer in existence"],ans:3},
+    {q:"Which of the following can be inferred from the theory of periodic extinction?",opts:["The theory is no longer considered","Many scientists disagree with it","Most scientists believe the theory","Evidence has recently been found"],ans:1},
+  ]
+},
+{
+  id:44, title:"Many folk cures",
+  passage:`Many folk cures which have been around for centuries may be more therapeutic than previously suspected. Alexander Fleming did not just randomly choose cheese molds to study when he discovered penicillin. Moldy cheese was frequently given to patients as a remedy for illness.\n\nIn parts of South America, a powder obtained from grinding sugar cane is used for healing infections. Ordinary sugar in high concentrations is lethal to bacteria. Its suction effect eliminates dead cells and generates a glass-like layer which protects the wound.\n\nAnother example is Arab fishermen who rub their wounds with a venomous catfish to quicken healing. This catfish excretes a gel-like slime which scientists found to contain antibiotics, coagulant that helps close injured blood vessels, and anti-inflammatory agents.`,
+  questions:[
+    {q:"This passage is mainly about:",opts:["Antibiotics in the field of medicine","The validity of folk remedies and their use for advances in modern medicine","Using folk medicines in place of modern medicines","Isolating antibiotics in cheese, sugar, and slime"],ans:1},
+    {q:"The word 'therapeutic' in paragraph 1 is closest in meaning to:",opts:["Psychological","Physiological","Traditional","Medicinal"],ans:3},
+    {q:"It can be inferred that Alexander Fleming:",opts:["Isolated infectious patients","Discovered moldy cheese","Suspected medicinal properties of mold","Enjoyed eating cheese"],ans:2},
+    {q:"The word 'eliminates' in paragraph 2 is closest in meaning to:",opts:["Excretes","Disposes of","Kills off","Cleanses"],ans:1},
+    {q:"According to the passage:",opts:["Sugar kills unhealthy cells","Bacteria feed on sugar","Sugar promotes healing","Glass is formed from sugar"],ans:2},
+    {q:"The gel-like substance which promotes healing comes from:",opts:["Arab fishermen","Coagulants","Catfish bodies","Catfish venom"],ans:2},
+    {q:"Which one of the following is NOT an important quality of the catfish slime?",opts:["It produces mold","It fights bacteria","It stops bleeding","It prohibits inflammation"],ans:0},
+    {q:"The word 'consumption' in the last paragraph is closest in meaning to:",opts:["Utilization","Destruction","Manipulation","Experimentation"],ans:0},
+  ]
+},
+{
+  id:45, title:"We are descendants of the ice age",
+  passage:`We are descendants of the ice age. Periods of glaciation have spanned the whole of human existence for the past 2 million years. The rapid melting of the continental glaciers at the end of the last ice age spurred one of the most dramatic climate changes in the history of the planet.\n\nAll living organisms pull carbon dioxide out of the atmosphere and eventually store it in sedimentary rocks within the Earth's crust. If too much carbon dioxide is lost, too much heat escapes out into the atmosphere. Man is upsetting the equation by burning fossil fuels and destroying tropical rain forests, both of which released stored carbon dioxide. This energizes the greenhouse effect and causes the Earth to warm.\n\nOver the past century, the global sea level has apparently risen upward of 6 inches, mainly because of the melting of glacial ice. If present warming trends continue, the seas could rise as much as 6 feet by the next century. This could flood coastal cities and fertile river deltas.`,
+  questions:[
+    {q:"According to the passage, carbon dioxide is stored in each of the following EXCEPT:",opts:["Polar ice caps","Sedimentary rocks","Rain forests","Fossil fuel"],ans:0},
+    {q:"What does the final paragraph mainly discuss?",opts:["The relationship between ocean and sun","The amount of sunlight reflected into space","A rise in global temperatures","The conditions that could lead to an ice age"],ans:3},
+    {q:"Which of the following does the author NOT mention as a consequence of rising sea level?",opts:["The destruction of wetlands","The flooding of cities","A more diverse marine population","Severe storms"],ans:2},
+    {q:"According to the passage, what is the relationship between carbon dioxide and the Earth's climate?",opts:["Carbon dioxide in glacial ice is released when ice melts","The greenhouse effect is a result of too much carbon stored in the Earth","Rain causes carbon dioxide to be washed into the ocean","An increase in atmospheric carbon dioxide results in warming"],ans:3},
+    {q:"The word 'beneficial' in the first paragraph is closest in meaning to:",opts:["Calm","Inviting","Thoughtful","Favorable"],ans:3},
+    {q:"The word 'massive' can be replaced by:",opts:["Wide","Huge","Dense","Thick"],ans:1},
+    {q:"The word 'inhospitable' is closest in meaning to:",opts:["Imperfect","Uninhabitable","Unlikable","Cruel"],ans:1},
+    {q:"What is the main topic of the passage?",opts:["The possibility that the polar ice caps will melt","The coming of another ice age","Man's effect on the carbon dioxide level","The climate of the Earth over the years"],ans:0},
+  ]
+},
+{
+  id:46, title:"Perhaps it was his own lack ",
+  passage:`Perhaps it was his own lack of adequate schooling that inspired Horace Mann to work so hard for the important reforms in education that he accomplished. While he was still a boy, his father and older brother died, and he became responsible for supporting his family. With the help of several teachers, he was able to study law.\n\nWhile serving in the Massachusetts legislature, he signed a historic education bill. He gave up his successful legal practice and political career to become the first secretary of the state board of education. Under his leadership, the curriculum was restructured, the school year was increased to a minimum of six months, and mandatory schooling was extended to age sixteen.\n\nMann's ideas about school reform were developed and distributed in twelve annual reports. Considered quite radical at the time, the Massachusetts reforms later served as a model for the nation. Mann was recognized as the father of public education.`,
+  questions:[
+    {q:"Which title best expresses the main topic of the passage?",opts:["The Father of American Public Education","Philosophy of Education","The Massachusetts State Board of Education","Politics of Educational Institutions"],ans:0},
+    {q:"Which describes Horace Mann's early life?",opts:["He attended school six months a year","He had to study alone","He supported his family after his father died","He was an only child"],ans:2},
+    {q:"The word 'struggles' in line 5 could best be replaced by:",opts:["Valuable experiences","Happy situations","Influential people","Difficult times"],ans:3},
+    {q:"What did Horace Mann advocate?",opts:["The state board school system","The district school system","The substitute school system","The graded school system"],ans:3},
+    {q:"How were Mann's educational reforms distributed?",opts:["In twelve annual reports to the state of Massachusetts","In reports for national distribution","In speeches throughout the country","In books in school libraries"],ans:0},
+    {q:"The word 'mandatory' in paragraph 2 is closest in meaning to:",opts:["Required","Equal","Excellent","Basic"],ans:0},
+    {q:"Horace Mann advocated all of the following EXCEPT:",opts:["A state board of education","A district school system","Classes for adults","Graded elementary schools"],ans:1},
+    {q:"The reforms that Horace Mann achieved:",opts:["Were not very radical for the time","Were used only by Massachusetts","Were later adopted by the nation as a model","Were enforced by the Massachusetts bar"],ans:2},
+    {q:"Among Mann's school reforms, which of the following is NOT mentioned?",opts:["Restructuring curriculum."," Schools for teacher training.","Lyceums for adult education.","Creating museums."],ans:2},
+  ]
+},
+{
+  id:47, title:"Around the year 1500 — Northern North America",
+  passage:`Around the year 1500, hunting people occupied the entire northern third of North America. They lived well from the animals with whom they shared these lands. Northern North America is part of a larger circumpolar ecological domain that continues across the Bering Strait into Siberia and northern Europe.\n\nGeographers divide the overall circumpolar domain into two zones, the Arctic and the Subarctic. They refer to the landforms of these areas as tundra and taiga, respectively. Subsurface soil in the Arctic's tundra remained permanently frozen — permafrost, as hard as rock.\n\nWhen water flowed upon the surface of permanently frozen tundra, it made overland travel extremely difficult. Clothing lost its thermal efficiency when it became damp. In the Arctic, people could haul food and supplies by dogsled while in the Subarctic, people could travel quickly by snowshoes and toboggan.`,
+  questions:[
+    {q:"What does the passage mainly discuss?",opts:["The circumpolar environment of the 16th century","The hunting people of North America","Animals that inhabit the Arctic coast","The geography of Canada and Greenland"],ans:0},
+    {q:"The word 'domain' in line 6 is closest in meaning to:",opts:["Process","Period","Region","Temperature"],ans:2},
+    {q:"Which term is used to describe the landforms of the Arctic region?",opts:["Taiga","Muskeg","Tundra","Subarctic"],ans:2},
+    {q:"For how many months of the year were temperatures below freezing?",opts:["6 months","12 months","8-9 months","4-5 months"],ans:2},
+    {q:"The word 'saturated' in line 16 is closest in meaning to:",opts:["Soaked","Enriched","Dissolved","Removed"],ans:0},
+    {q:"The word 'arduous' in line 20 is closest in meaning to:",opts:["Indirect","Difficult","Humid","Unnecessary"],ans:1},
+    {q:"The word 'standing' in line 22 is closest in meaning to:",opts:["Contaminated","Not flowing","Numerous","Very deep"],ans:1},
+    {q:"All of the following made travel in summer difficult EXCEPT:",opts:["Lack of supplies","Insects","Wet clothing","Swampy lands"],ans:0},
+    {q:"Where in the passage does the author mention a means by which people traveled in the northern lands?",opts:["Lines 2–4","Lines 20–21","Lines 6–7","Lines 27–29"],ans:3},
+    {q:"The subsurface soil in the Arctic's tundra is most comparable to which of the following?",opts:["Cement","A pond","A bog","Sand"],ans:0},
+  ]
+},
+{
+  id:48, title:"Social parasitism — Polyergus ants",
+  passage:`Social parasitism involves one species relying on another to raise its young. Among vertebrates, the best known social parasites are cuckoos and cowbirds; the female lay eggs in a nest belonging to another species and leaves it for the host to rear.\n\nThe dulotic species of ants are the supreme social parasites. Consider the unusual behavior of Polyergus ants. All species of this ant have lost the ability to care for themselves. The workers do not forage for food, feed their brood or queen, or even clean their own nest. Polyergus has become specialized in obtaining workers from the related genus Formica.\n\nIn a raid, several thousand Polyergus workers will travel up to 500 feet in search of a Formica nest, penetrate it, drive off the queen, capture the pupal brood, and transport it back to their nest. The captured brood is then reared by the resident Formica workers.`,
+  questions:[
+    {q:"Which statement best represents the main idea of the passage?",opts:["Ants belonging to Formica are incapable of certain tasks","Polyergus is quite similar to Formica","Polyergus have an unusual relationship with Formica ants","Polyergus ants frequently leave nests to build new colonies"],ans:2},
+    {q:"The word 'raise' in paragraph 1 is closest in meaning to:",opts:["Rear","Lift","Collect","Increase"],ans:0},
+    {q:"The author mentions 'cuckoos and cowbirds' because they:",opts:["Share their nests with each other","Are closely related species","Raise the young of other birds","Are social parasites"],ans:3},
+    {q:"The word 'it' in paragraph 1 refers to:",opts:["Species","Nest","Egg","Female"],ans:2},
+    {q:"What does the author mean by 'supreme social parasites'?",opts:["Polyergus are more highly developed than Formica","Formica have developed specialized roles","Polyergus are heavily dependent on Formica","Formica do not reproduce rapidly enough"],ans:2},
+    {q:"Which task might an ant of Polyergus genus do?",opts:["Look for food","Raid another nest","Care for the young","Clean its own nest"],ans:1},
+    {q:"The word 'excavate' in paragraph 3 is closest in meaning to:",opts:["Find","Clean","Repair","Dig"],ans:3},
+    {q:"The word 'recruit' in paragraph 4 is closest in meaning to:",opts:["Create","Enlist","Endure","Capture"],ans:1},
+    {q:"What happens when a mixed colony becomes too large?",opts:["Polyergus workers enlarge the existing nest","Captured Formica workers return to original nest","Polyergus and Formica build separate nests","Polyergus and Formica move to a new nest"],ans:3},
+  ]
+},
+{
+  id:49, title:"The Winterthur Museum",
+  passage:`The Winterthur Museum is a collection and a house. There are many museums devoted to the decorative arts and many house museums, but rarely in the United States is a great collection displayed in a great country house. Passing through successive generations of a single family, Winterthur has been a private estate for more than a century. The impression of a lived-in house is apparent to the visitor; the rooms look as if they were vacated only a short while ago.\n\nWinterthur remains a house in which a collection of furniture and architectural elements has been assembled. Like an English country house, it is an organic structure; the house has changed over the years coinciding with developing concepts of the American arts.\n\nThe concept of a period room as a display technique has developed gradually in an effort to present works of art in a context that would show them to greater effect. The period room represents the decorative arts in a lively and interesting manner and provides an opportunity to assemble objects related by style, date, or place of manufacture.`,
+  questions:[
+    {q:"What does the passage mainly discuss?",opts:["The reason Winterthur was redesigned","Elements that make Winterthur an unusual museum","How Winterthur compares to English country houses","Historical furniture contained in Winterthur"],ans:1},
+    {q:"The phrase 'devoted to' in line 1 is closest in meaning to:",opts:["Surrounded by","Specializing in","Successful with","Sentimental about"],ans:1},
+    {q:"What happened at Winterthur between 1929 and 1931?",opts:["The owners moved out","The house was repaired","The old furniture was replaced","The estate became a museum"],ans:1},
+    {q:"What does the author mean by 'The impression of a lived-in house is apparent to the visitor'?",opts:["Winterthur is very old","Few people visit Winterthur","Winterthur does not look like a typical museum","The furniture at Winterthur looks comfortable"],ans:2},
+    {q:"The word 'assembled' in line 9 is closest in meaning to:",opts:["Summoned","Appreciate","Brought together","Fundamentally changed"],ans:2},
+    {q:"The word 'developing' is closest in meaning to:",opts:["Traditional","Exhibiting","Informative","Evolving"],ans:3},
+    {q:"According to the passage, objects in a period room are related by all EXCEPT:",opts:["Date","Style","Place of manufacture","Past ownership"],ans:3},
+    {q:"What is the relationship between the two paragraphs in the passage?",opts:["The second explains a term mentioned in the first","Each paragraph describes a different approach to museum display","The second explains a philosophy contrasting with the first","Each paragraph describes a different historical period"],ans:0},
+  ]
+},
+];
+
+let progress=JSON.parse(localStorage.getItem('b1quiz_v2')||'{}');
+let currentExam=null,currentQs=[],currentIdx=0,answers=[],reviewMode=false;
+
+function shuffle(arr){let a=[...arr];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function buildHome(){
+  let totalQ=EXAMS.reduce((s,e)=>s+e.questions.length,0);
+  document.getElementById('totalExams').textContent=EXAMS.length;
+  document.getElementById('totalQs').textContent=totalQ;
+  let doneArr=Object.values(progress).filter(p=>p.done);
+  document.getElementById('doneExams').textContent=doneArr.length;
+  let scores=doneArr.map(p=>p.score);
+  document.getElementById('avgScore').textContent=scores.length?Math.round(scores.reduce((a,b)=>a+b,0)/scores.length)+'%':'—';
+  renderGrid(EXAMS);
+}
+
+function renderGrid(exams){
+  const g=document.getElementById('examGrid');
+  g.innerHTML=exams.map(e=>{
+    const p=progress[e.id]||{};
+    let sb='';
+    if(p.done&&p.score!==undefined){
+      let cls=p.score>=80?'high':p.score>=60?'mid':'low';
+      sb=`<span class="score-badge ${cls}">${p.score}%</span>`;
+    }
+    return `<div class="exam-card ${p.done?'done':''}" onclick="startExam(${e.id})">
+      <div class="exam-num">ĐỀ ${e.id}</div>
+      <div class="exam-title">${e.title}</div>
+      <div class="exam-meta">
+        <span class="badge ${p.done?'done':''}">${e.questions.length} câu</span>
+        ${sb}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterExams(){
+  let q=document.getElementById('searchInput').value.toLowerCase();
+  renderGrid(EXAMS.filter(e=>e.title.toLowerCase().includes(q)||('đề '+e.id).includes(q)));
+}
+
+function startRandom(){
+  const overlay=document.getElementById('spinnerOverlay');
+  const spinNum=document.getElementById('spinNum');
+  const spinTitle=document.getElementById('spinTitle');
+  overlay.classList.add('show');
+  let count=0, total=25;
+  let chosen=EXAMS[Math.floor(Math.random()*EXAMS.length)];
+  let interval=setInterval(()=>{
+    let fake=EXAMS[Math.floor(Math.random()*EXAMS.length)];
+    spinNum.textContent='ĐỀ '+fake.id;
+    spinTitle.textContent=fake.title;
+    count++;
+    if(count>total){
+      clearInterval(interval);
+      spinNum.textContent='ĐỀ '+chosen.id;
+      spinNum.style.color='#ef4444';
+      spinTitle.textContent=chosen.title;
+      setTimeout(()=>{
+        overlay.classList.remove('show');
+        spinNum.style.color='#6366f1';
+        startExam(chosen.id);
+      },900);
+    }
+  },80);
+}
+
+function startExam(id,review=false){
+  currentExam=EXAMS.find(e=>e.id===id);
+  reviewMode=review;
+  let qs=currentExam.questions.map(q=>{
+    let opts=[...q.opts];
+    let correct=opts[q.ans];
+    if(!review) opts=shuffle(opts);
+    return{...q,opts,ans:opts.indexOf(correct)};
+  });
+  currentQs=review?qs:shuffle(qs);
+  currentIdx=0;
+  answers=new Array(currentQs.length).fill(null);
+  document.getElementById('homeScreen').style.display='none';
+  document.getElementById('resultScreen').style.display='none';
+  document.getElementById('quizScreen').style.display='block';
+  document.getElementById('quizTitleBar').textContent=`ĐỀ ${currentExam.id}: ${currentExam.title}`;
+  renderQ();
+}
+
+function renderQ(){
+  const q=currentQs[currentIdx];
+  const total=currentQs.length;
+  document.getElementById('progressBar').style.width=((currentIdx/total)*100)+'%';
+  document.getElementById('qCounter').textContent=`Câu ${currentIdx+1} / ${total} — ${Math.round(currentIdx/total*100)}% hoàn thành`;
+
+  let passHTML='';
+  if(currentExam.passage){
+    passHTML=`<div>
+      <span class="passage-toggle" id="passToggle" onclick="togglePassage()">📄 Ẩn đoạn văn</span>
+      <div id="passageBox" class="passage-box">${currentExam.passage.replace(/\n/g,'<br>')}</div>
+    </div>`;
+  }
+  document.getElementById('passageArea').innerHTML=passHTML;
+
+  const userAns=answers[currentIdx];
+  const labels=['A','B','C','D'];
+  let optsHTML=q.opts.map((opt,i)=>{
+    let cls='opt-btn';
+    if(userAns!==null){
+      if(i===q.ans) cls+=' correct';
+      else if(i===userAns) cls+=' wrong';
+    }
+    if(reviewMode&&i===q.ans) cls='opt-btn reveal';
+    return `<button class="${cls}" onclick="selectOpt(${i})" ${userAns!==null||reviewMode?'disabled':''}>
+      <span class="opt-label">${labels[i]}</span>${opt}
+    </button>`;
+  }).join('');
+
+  let resultHTML='';
+  if(userAns!==null&&!reviewMode){
+    if(userAns===q.ans){
+      resultHTML=`<div class="result-row ok"><span class="result-icon">✅</span> Chính xác! Rất tốt!</div>`;
+    } else {
+      resultHTML=`<div class="result-row err"><span class="result-icon">❌</span> Sai rồi! Đáp án đúng: <strong>${labels[q.ans]}. ${q.opts[q.ans]}</strong></div>`;
+    }
+  }
+
+  document.getElementById('questionArea').innerHTML=`
+    <div class="question-card">
+      <div class="q-text">${currentIdx+1}. ${q.q}</div>
+      <div class="options">${optsHTML}</div>
+      ${resultHTML}
+    </div>`;
+
+  document.getElementById('prevBtn').style.visibility=currentIdx>0?'visible':'hidden';
+  const nb=document.getElementById('nextBtn');
+  if(currentIdx===currentQs.length-1&&!reviewMode){
+    nb.textContent='Nộp bài ✓';nb.onclick=finishExam;
+  } else {
+    nb.textContent=currentIdx===currentQs.length-1?'Hoàn thành ✓':'Câu tiếp →';
+    nb.onclick=nextQ;
+  }
+}
+
+function togglePassage(){
+  const b=document.getElementById('passageBox');
+  const t=document.getElementById('passToggle');
+  if(b.style.display==='none'){b.style.display='block';t.textContent='📄 Ẩn đoạn văn';}
+  else{b.style.display='none';t.textContent='📄 Hiện đoạn văn';}
+}
+function selectOpt(i){if(answers[currentIdx]!==null||reviewMode)return;answers[currentIdx]=i;renderQ();}
+function nextQ(){if(currentIdx<currentQs.length-1){currentIdx++;renderQ();}else if(reviewMode)goHome();}
+function prevQ(){if(currentIdx>0){currentIdx--;renderQ();}}
+
+function finishExam(){
+  let correct=0;
+  answers.forEach((a,i)=>{if(a===currentQs[i].ans)correct++;});
+  let total=currentQs.length;
+  let score=Math.round(correct/total*100);
+  progress[currentExam.id]={done:true,score,correct,total};
+  localStorage.setItem('b1quiz_v2',JSON.stringify(progress));
+  document.getElementById('quizScreen').style.display='none';
+  document.getElementById('resultScreen').style.display='block';
+  document.getElementById('resScore').textContent=score+'%';
+  document.getElementById('resTotal').textContent=`${correct}/${total} câu đúng`;
+  let msg,sub,color;
+  if(score>=90){msg='🎉 Xuất sắc!';sub='Em đã nắm vững bài đọc này rồi!';color='#059669';}
+  else if(score>=70){msg='👍 Khá tốt!';sub='Ôn luyện thêm để đạt điểm cao hơn nhé!';color='#d97706';}
+  else if(score>=50){msg='📚 Cần cố gắng thêm';sub='Đọc lại bài và thử lại sẽ tốt hơn!';color='#6366f1';}
+  else{msg='💪 Cố lên nào!';sub='Xem đáp án để hiểu bài rồi làm lại nhé!';color='#ef4444';}
+  document.getElementById('resMsg').textContent=msg;
+  document.getElementById('resSub').textContent=sub;
+  document.querySelector('.result-circle').style.borderColor=color;
+  document.querySelector('.big-num').style.color=color;
+}
+
+function retryExam(){startExam(currentExam.id);}
+function reviewExam(){startExam(currentExam.id,true);}
+function goHome(){
+  document.getElementById('quizScreen').style.display='none';
+  document.getElementById('resultScreen').style.display='none';
+  document.getElementById('homeScreen').style.display='block';
+  buildHome();
+}
+
+buildHome();
+</script>
+</body>
+</html>
